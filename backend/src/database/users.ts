@@ -1,4 +1,5 @@
 import sql from '../db.js'
+import bcrypt from 'bcrypt'
 
 //Return all users in database
 const getAllUsers = async () => {
@@ -30,9 +31,13 @@ interface userObject {
 
 //Create a new user using provided user object
 const createNewUser = async (newUser: userObject) => {
+  //Hash the password so not stored directly to database
+  const saltRounds = 10
+  const passwordHash = await bcrypt.hash(newUser.password, saltRounds)
+
   const user = await sql
     `insert into users (is_admin, password, fname, lname, dob, date_employed, email, phone)
-    VALUES (${newUser.is_admin}, ${newUser.password}, ${newUser.fname}, ${newUser.lname}, ${newUser.dob}, ${newUser.date_employed}, ${newUser.email}, ${newUser.phone});`
+    VALUES (${newUser.is_admin}, ${passwordHash}, ${newUser.fname}, ${newUser.lname}, ${newUser.dob}, ${newUser.date_employed}, ${newUser.email}, ${newUser.phone});`
 
   return user
 }
