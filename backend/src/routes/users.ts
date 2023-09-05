@@ -17,4 +17,25 @@ usersRouter.get('/:id', async (req, res) => {
   res.send(user)
 })
 
+interface userObject {
+  is_admin: boolean
+  password: string
+  fname: string
+  lname: string
+  dob: Date
+  date_employed: Date
+  email: string
+  phone: string
+}
+
+usersRouter.post('/', async (req, res) => {
+  const user: userObject = req.body
+
+  console.log(user)
+  const newUser = await db.createNewUser(user) 
+
+  res.send(newUser)
+})
+
+
 export default usersRouter

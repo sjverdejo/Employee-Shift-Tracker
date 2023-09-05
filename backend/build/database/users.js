@@ -20,8 +20,8 @@ const getUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
 });
 //Create a new user using provided user object
 const createNewUser = (newUser) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield sql `insert into users (isAdmin, password, fName, lName, dob, dateEmployed, email, phone)
-    VALUES (${newUser.isAdmin}, ${newUser.password}, ${newUser.fName}, ${newUser.lName}, ${newUser.dob}, ${newUser.dateEmployed}, ${newUser.email}, ${newUser.phone});`;
+    const user = yield sql `insert into users (is_admin, password, fname, lname, dob, date_employed, email, phone)
+    VALUES (${newUser.is_admin}, ${newUser.password}, ${newUser.fname}, ${newUser.lname}, ${newUser.dob}, ${newUser.date_employed}, ${newUser.email}, ${newUser.phone});`;
     return user;
 });
 export default { getAllUsers, getUser, createNewUser };

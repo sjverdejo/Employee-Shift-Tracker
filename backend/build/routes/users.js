@@ -20,4 +20,10 @@ usersRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function
     const user = yield db.getUser(req.params.id);
     res.send(user);
 }));
+usersRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.body;
+    console.log(user);
+    const newUser = yield db.createNewUser(user);
+    res.send(newUser);
+}));
 export default usersRouter;

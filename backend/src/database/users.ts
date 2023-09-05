@@ -18,21 +18,21 @@ const getUser = async (id: string) => {
 
 //Interface for user object type
 interface userObject {
-  isAdmin: boolean
+  is_admin: boolean
   password: string
-  fName: string
-  lName: string
+  fname: string
+  lname: string
   dob: Date
-  dateEmployed: Date
+  date_employed: Date
   email: string
-  phone: number
+  phone: string
 }
 
 //Create a new user using provided user object
 const createNewUser = async (newUser: userObject) => {
   const user = await sql
-    `insert into users (isAdmin, password, fName, lName, dob, dateEmployed, email, phone)
-    VALUES (${newUser.isAdmin}, ${newUser.password}, ${newUser.fName}, ${newUser.lName}, ${newUser.dob}, ${newUser.dateEmployed}, ${newUser.email}, ${newUser.phone});`
+    `insert into users (is_admin, password, fname, lname, dob, date_employed, email, phone)
+    VALUES (${newUser.is_admin}, ${newUser.password}, ${newUser.fname}, ${newUser.lname}, ${newUser.dob}, ${newUser.date_employed}, ${newUser.email}, ${newUser.phone});`
 
   return user
 }
