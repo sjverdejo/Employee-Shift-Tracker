@@ -43,7 +43,7 @@ const createNewUser = async (newUser: userObject) => {
 }
 
 //Update a user using a provided user object
-const updateUser = async (updateUser: userObject) => {
+const updateUser = async (id: string, updateUser: userObject) => {
   //Hash the password so not stored directly to database
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(updateUser.password, saltRounds)
@@ -51,8 +51,17 @@ const updateUser = async (updateUser: userObject) => {
   const updated = await sql
     `UPDATE users
     SET is_admin = ${updateUser.is_admin}, password = ${passwordHash}, fname = ${updateUser.fname}, lname = ${updateUser.lname}, 
-    dob = ${updateUser.dob}, date_employed = ${updateUser.date_employed}, email = ${updateUser.email}, phone = ${updateUser.phone} `
+    dob = ${updateUser.dob}, date_employed = ${updateUser.date_employed}, email = ${updateUser.email}, phone = ${updateUser.phone} 
+    WHERE id = ${id}`
 
   return updated
 }
-export default { getAllUsers, getUser, createNewUser, updateUser }
+
+const deleteUser = async (id: string) => {
+  const deleted = await sql
+    `DELETE FROM users where id = ${id}`
+
+  return deleted
+}
+
+export default { getAllUsers, getUser, createNewUser, updateUser, deleteUser }

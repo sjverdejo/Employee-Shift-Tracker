@@ -29,13 +29,18 @@ const createNewUser = (newUser) => __awaiter(void 0, void 0, void 0, function* (
     return user;
 });
 //Update a user using a provided user object
-const updateUser = (updateUser) => __awaiter(void 0, void 0, void 0, function* () {
+const updateUser = (id, updateUser) => __awaiter(void 0, void 0, void 0, function* () {
     //Hash the password so not stored directly to database
     const saltRounds = 10;
     const passwordHash = yield bcrypt.hash(updateUser.password, saltRounds);
     const updated = yield sql `UPDATE users
     SET is_admin = ${updateUser.is_admin}, password = ${passwordHash}, fname = ${updateUser.fname}, lname = ${updateUser.lname}, 
-    dob = ${updateUser.dob}, date_employed = ${updateUser.date_employed}, email = ${updateUser.email}, phone = ${updateUser.phone} `;
+    dob = ${updateUser.dob}, date_employed = ${updateUser.date_employed}, email = ${updateUser.email}, phone = ${updateUser.phone} 
+    WHERE id = ${id}`;
     return updated;
 });
-export default { getAllUsers, getUser, createNewUser, updateUser };
+const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const deleted = yield sql `DELETE FROM users where id = ${id}`;
+    return deleted;
+});
+export default { getAllUsers, getUser, createNewUser, updateUser, deleteUser };

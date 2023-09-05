@@ -13,17 +13,28 @@ const usersRouter = express.Router();
 //GET route to return all users
 usersRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield db.getAllUsers();
-    res.send(users);
+    res.json(users);
 }));
 //GET route to return specific user
 usersRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield db.getUser(req.params.id);
-    res.send(user);
+    res.json(user);
 }));
+//POST route to create a new user
 usersRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //passed user object in request
     const user = req.body;
-    console.log(user);
     const newUser = yield db.createNewUser(user);
-    res.send(newUser);
+    res.json(newUser);
+}));
+usersRouter.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //passed user object in request
+    const user = req.body;
+    const updatedUser = yield db.updateUser(req.params.id, user);
+    res.json(updatedUser);
+}));
+usersRouter.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const deletedUser = yield db.deleteUser(req.params.id);
+    res.json(deletedUser);
 }));
 export default usersRouter;

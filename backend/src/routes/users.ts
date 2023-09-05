@@ -7,16 +7,17 @@ const usersRouter = express.Router()
 usersRouter.get('/', async (req, res) => {
   const users = await db.getAllUsers()
 
-  res.send(users)
+  res.json(users)
 })
 
 //GET route to return specific user
 usersRouter.get('/:id', async (req, res) => {
   const user = await db.getUser(req.params.id)
 
-  res.send(user)
+  res.json(user)
 })
 
+//Interface for user object type
 interface userObject {
   is_admin: boolean
   password: string
@@ -28,13 +29,29 @@ interface userObject {
   phone: string
 }
 
+//POST route to create a new user
 usersRouter.post('/', async (req, res) => {
+  //passed user object in request
   const user: userObject = req.body
 
-  console.log(user)
   const newUser = await db.createNewUser(user) 
 
-  res.send(newUser)
+  res.json(newUser)
+})
+
+usersRouter.put('/:id', async (req, res) => {
+  //passed user object in request
+  const user: userObject = req.body
+
+  const updatedUser = await db.updateUser(req.params.id, user)
+
+  res.json(updatedUser)
+})
+
+usersRouter.delete('/:id', async (req, res) => {
+  const deletedUser = await db.deleteUser(req.params.id)
+
+  res.json(deletedUser)
 })
 
 
