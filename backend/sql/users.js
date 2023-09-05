@@ -14,8 +14,12 @@ const getUser = async (id) => {
   return user
 }
 
-const createNewUser = async () => {
+const createNewUser = async (newUser) => {
+  const user = await sql
+    `insert into users (isAdmin, password, fName, lName, dob, dateEmployed, email, phone)
+    VALUES (${newUser.isAdmin}, ${newUser.password}, ${newUser.fName}, ${newUser.lName}, ${newUser.dob}, ${newUser.dateEmployed}, ${newUser.email}, ${newUser.phone});`
 
+  return user
 }
 
 
