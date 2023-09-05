@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 //Return all users in database
 const getAllUsers = async () => {
   const users = await sql
-  `select * from users;`
+    `SELECT * FROM users;`
 
   return users
 }
@@ -12,7 +12,7 @@ const getAllUsers = async () => {
 //Return one user with matching ID
 const getUser = async (id: string) => {
   const user = await sql
-  `select * from users where id = ${id};`
+    `SELECT * FROM users WHERE id = ${id};`
 
   return user
 }
@@ -36,10 +36,23 @@ const createNewUser = async (newUser: userObject) => {
   const passwordHash = await bcrypt.hash(newUser.password, saltRounds)
 
   const user = await sql
-    `insert into users (is_admin, password, fname, lname, dob, date_employed, email, phone)
+    `INSERT INTO users (is_admin, password, fname, lname, dob, date_employed, email, phone)
     VALUES (${newUser.is_admin}, ${passwordHash}, ${newUser.fname}, ${newUser.lname}, ${newUser.dob}, ${newUser.date_employed}, ${newUser.email}, ${newUser.phone});`
 
   return user
 }
 
-export default { getAllUsers, getUser, createNewUser }
+//Update a user using a provided user object
+const updateUser = async (updateUser: userObject) => {
+  //Hash the password so not stored directly to database
+  const saltRounds = 10
+  const passwordHash = await bcrypt.hash(updateUser.password, saltRounds)
+
+  const updated = await sql
+    `UPDATE users
+    SET is_admin = ${updateUser.is_admin}, password = ${passwordHash}, fname = ${updateUser.fname}, lname = ${updateUser.lname}, 
+    dob = ${updateUser.dob}, date_employed = ${updateUser.date_employed}, email = ${updateUser.email}, phone = ${updateUser.phone} `
+
+  return updated
+}
+export default { getAllUsers, getUser, createNewUser, updateUser }
