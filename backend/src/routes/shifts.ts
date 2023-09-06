@@ -4,25 +4,25 @@ import db from '../database/shifts.js'
 
 const shiftsRouter = express.Router()
 
-//GET route for all shifts
+//GET route for all shifts, admin only
 shiftsRouter.get('/', authCheck, async (req, res) => {
   const shifts = await db.getAllShifts()
 
-  return shifts
+  res.json(shifts)
 })
 
-//GET route for specific shift
+//GET route for specific shift, admin only
 shiftsRouter.get('/:id', authCheck, async (req, res) => {
   const shift = await db.getShift(req.params.id)
 
-  return shift
+  res.json(shift)
 })
 
 //GET route for all shifts for certain employee
 shiftsRouter.get('/employee/:id', authCheck, async (req, res) => {
   const shifts = await db.getAllUserShifts(req.params.id)
 
-  return shifts
+  res.json(shifts)
 })
 
 //Interface for new shift
@@ -35,12 +35,40 @@ interface shiftObj {
   clocked_hours: number
 }
 
+//Create shift, admin only
 shiftsRouter.post('/employee/:id', authCheck, async (req, res) => {
   const shift: shiftObj = req.body
 
   const newShift = await db.createShift(req.params.id, shift)
 
-  return newShift
+  res.json(newShift)
 })
+
+//Update shift, ALL fields - Admin only
+shiftsRouter.put('/:id', authCheck, async (req, res) => {
+  const shift: shiftObj = req.body
+
+  const updated = await db.updateShift(req.params.id, shift)
+
+  res.json(updated)
+})
+
+shiftsRouter.put('/clockin/:id', authCheck, async (req, res) => {
+  const in_time: Date = req.body
+
+  const clock_in = await db.updateClockIn(req.params.id, in_time)
+
+  return clock_in
+})
+
+shiftsRouter.put('/clockout/:id', authCheck, async (req, res) => {
+  const out_time: Date = req.body
+
+  const clock_out = await db.updateClockIn(req.params.id, out_time)
+
+  return clock_out
+})
+
+
 
 export default shiftsRouter

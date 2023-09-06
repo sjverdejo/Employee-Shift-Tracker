@@ -26,19 +26,14 @@ const getShift = (id) => __awaiter(void 0, void 0, void 0, function* () {
 //Create a new shift for an employee, only for scheduled start, scheduled end, and scheduled hours + employee assigned
 const createShift = (id, newShift) => __awaiter(void 0, void 0, void 0, function* () {
     const create = yield sql `INSERT INTO shifts (scheduled_start, scheduled_end, scheduled_hours, employee)
-    VALUES (${newShift.scheduled_start}, ${newShift.scheduled_end}, ${newShift.scheduled_hours}), (SELECT id FROM users WHERE id = ${id});`;
+    VALUES (${newShift.scheduled_start}, ${newShift.scheduled_end}, ${newShift.scheduled_hours}), 
+    (SELECT id FROM users WHERE id = ${id});`;
     return create;
-});
-const updateScheduledShift = (id, newShift) => __awaiter(void 0, void 0, void 0, function* () {
-    const update = yield sql `UPDATE shifts
-    SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, scheduled_hours = ${newShift.scheduled_hours}
-    WHERE id = ${id};`;
-    return update;
 });
 //Update Whole Shift - after clock in and clock out
 const updateShift = (id, newShift) => __awaiter(void 0, void 0, void 0, function* () {
     const update = yield sql `UPDATE shifts
-    SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, scheduled_hours = ${newShift.scheduled_hours}, \
+    SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, scheduled_hours = ${newShift.scheduled_hours},
     clock_in = ${newShift.clock_in}, clock_out = ${newShift.clock_out}, clocked_hours = ${newShift.clocked_hours}
     WHERE id = ${id};`;
     return update;
@@ -63,7 +58,6 @@ const deleteShift = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return deleted;
 });
 export default {
-    getAllShifts, getAllUserShifts, getShift,
-    createShift, updateScheduledShift, updateShift,
-    updateClockIn, updateClockOut, deleteShift
+    getAllShifts, getAllUserShifts, getShift, createShift,
+    updateShift, updateClockIn, updateClockOut, deleteShift
 };

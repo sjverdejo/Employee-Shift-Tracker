@@ -11,24 +11,41 @@ import express from 'express';
 import authCheck from '../utils/authCheck.js';
 import db from '../database/shifts.js';
 const shiftsRouter = express.Router();
-//GET route for all shifts
+//GET route for all shifts, admin only
 shiftsRouter.get('/', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const shifts = yield db.getAllShifts();
-    return shifts;
+    res.json(shifts);
 }));
-//GET route for specific shift
+//GET route for specific shift, admin only
 shiftsRouter.get('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const shift = yield db.getShift(req.params.id);
-    return shift;
+    res.json(shift);
 }));
 //GET route for all shifts for certain employee
 shiftsRouter.get('/employee/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const shifts = yield db.getAllUserShifts(req.params.id);
-    return shifts;
+    res.json(shifts);
 }));
+//Create shift, admin only
 shiftsRouter.post('/employee/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const shift = req.body;
     const newShift = yield db.createShift(req.params.id, shift);
-    return newShift;
+    res.json(newShift);
+}));
+//Update shift, ALL fields - Admin only
+shiftsRouter.put('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const shift = req.body;
+    const updated = yield db.updateShift(req.params.id, shift);
+    res.json(updated);
+}));
+shiftsRouter.put('/clockin/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const in_time = req.body;
+    const clock_in = yield db.updateClockIn(req.params.id, in_time);
+    return clock_in;
+}));
+shiftsRouter.put('/clockout/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const out_time = req.body;
+    const clock_out = yield db.updateClockIn(req.params.id, out_time);
+    return clock_out;
 }));
 export default shiftsRouter;
