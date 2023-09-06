@@ -14,7 +14,7 @@ usersRouter.get('/', async (req, res) => {
 usersRouter.get('/:id', async (req, res) => {
   const user = await db.getUser(req.params.id)
 
-  res.json(user)
+  res.json(user[0])
 })
 
 //Interface for user object type
@@ -39,6 +39,7 @@ usersRouter.post('/', async (req, res) => {
   res.json(newUser)
 })
 
+//PUT route to update user
 usersRouter.put('/:id', async (req, res) => {
   //passed user object in request
   const user: userObject = req.body
@@ -48,6 +49,7 @@ usersRouter.put('/:id', async (req, res) => {
   res.json(updatedUser)
 })
 
+//DELETE route to delete user
 usersRouter.delete('/:id', async (req, res) => {
   const deletedUser = await db.deleteUser(req.params.id)
 

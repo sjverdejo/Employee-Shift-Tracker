@@ -18,7 +18,7 @@ usersRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* (
 //GET route to return specific user
 usersRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield db.getUser(req.params.id);
-    res.json(user);
+    res.json(user[0]);
 }));
 //POST route to create a new user
 usersRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,12 +27,14 @@ usersRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const newUser = yield db.createNewUser(user);
     res.json(newUser);
 }));
+//PUT route to update user
 usersRouter.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //passed user object in request
     const user = req.body;
     const updatedUser = yield db.updateUser(req.params.id, user);
     res.json(updatedUser);
 }));
+//DELETE route to delete user
 usersRouter.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const deletedUser = yield db.deleteUser(req.params.id);
     res.json(deletedUser);
