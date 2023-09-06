@@ -26,4 +26,9 @@ shiftsRouter.get('/employee/:id', authCheck, (req, res) => __awaiter(void 0, voi
     const shifts = yield db.getAllUserShifts(req.params.id);
     return shifts;
 }));
+shiftsRouter.post('/employee/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const shift = req.body;
+    const newShift = yield db.createShift(req.params.id, shift);
+    return newShift;
+}));
 export default shiftsRouter;

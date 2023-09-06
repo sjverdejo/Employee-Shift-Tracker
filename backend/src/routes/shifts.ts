@@ -25,5 +25,22 @@ shiftsRouter.get('/employee/:id', authCheck, async (req, res) => {
   return shifts
 })
 
+//Interface for new shift
+interface shiftObj {
+  scheduled_start: Date
+  scheduled_end: Date
+  scheduled_hours: number
+  clock_in: Date
+  clock_out: Date
+  clocked_hours: number
+}
+
+shiftsRouter.post('/employee/:id', authCheck, async (req, res) => {
+  const shift: shiftObj = req.body
+
+  const newShift = await db.createShift(req.params.id, shift)
+
+  return newShift
+})
 
 export default shiftsRouter
