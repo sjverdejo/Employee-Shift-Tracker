@@ -47,14 +47,23 @@ const updateShift = (id, newShift) => __awaiter(void 0, void 0, void 0, function
 const updateClockIn = (id, in_time) => __awaiter(void 0, void 0, void 0, function* () {
     const clockIn = yield sql `UPDATE shifts
     SET clock_in = ${in_time}
-    WHERE id = ${id}`;
+    WHERE id = ${id};`;
     return clockIn;
 });
 //FOR non-admins to clock out
 const updateClockOut = (id, out_time) => __awaiter(void 0, void 0, void 0, function* () {
     const clockOut = yield sql `UPDATE shifts
     SET clock_out = ${out_time}
-    WHERE id = ${id}`;
+    WHERE id = ${id};`;
     return clockOut;
 });
-export default { getAllShifts, getAllUserShifts, getShift, createShift, updateScheduledShift, updateShift, updateClockIn, updateClockOut };
+const deleteShift = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const deleted = yield sql `DELETE FROM shifts
+  WHERE id = ${id};`;
+    return deleted;
+});
+export default {
+    getAllShifts, getAllUserShifts, getShift,
+    createShift, updateScheduledShift, updateShift,
+    updateClockIn, updateClockOut, deleteShift
+};

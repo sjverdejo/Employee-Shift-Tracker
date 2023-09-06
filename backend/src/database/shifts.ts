@@ -68,7 +68,7 @@ const updateClockIn = async (id: string, in_time: Date) => {
   const clockIn = await sql
     `UPDATE shifts
     SET clock_in = ${in_time}
-    WHERE id = ${id}`
+    WHERE id = ${id};`
 
   return clockIn
 }
@@ -78,10 +78,20 @@ const updateClockOut = async (id: string, out_time: Date) => {
   const clockOut = await sql
     `UPDATE shifts
     SET clock_out = ${out_time}
-    WHERE id = ${id}`
+    WHERE id = ${id};`
 
   return clockOut
-
 }
 
-export default { getAllShifts, getAllUserShifts, getShift, createShift, updateScheduledShift, updateShift, updateClockIn, updateClockOut }
+const deleteShift = async (id: string) => {
+  const deleted = await sql
+  `DELETE FROM shifts
+  WHERE id = ${id};`
+
+  return deleted
+}
+
+export default { 
+  getAllShifts, getAllUserShifts, getShift, 
+  createShift, updateScheduledShift, updateShift, 
+  updateClockIn, updateClockOut, deleteShift }
