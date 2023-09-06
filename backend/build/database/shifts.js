@@ -29,4 +29,32 @@ const createShift = (id, newShift) => __awaiter(void 0, void 0, void 0, function
     VALUES (${newShift.scheduled_start}, ${newShift.scheduled_end}, ${newShift.scheduled_hours}), (SELECT id FROM users WHERE id = ${id});`;
     return create;
 });
-export default { getAllShifts, getShift, createShift };
+const updateScheduledShift = (id, newShift) => __awaiter(void 0, void 0, void 0, function* () {
+    const update = yield sql `UPDATE shifts
+    SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, scheduled_hours = ${newShift.scheduled_hours}
+    WHERE id = ${id};`;
+    return update;
+});
+//Update Whole Shift - after clock in and clock out
+const updateShift = (id, newShift) => __awaiter(void 0, void 0, void 0, function* () {
+    const update = yield sql `UPDATE shifts
+    SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, scheduled_hours = ${newShift.scheduled_hours}, \
+    clock_in = ${newShift.clock_in}, clock_out = ${newShift.clock_out}, clocked_hours = ${newShift.clocked_hours}
+    WHERE id = ${id};`;
+    return update;
+});
+//FOR non-admins to clock in
+const updateClockIn = (id, in_time) => __awaiter(void 0, void 0, void 0, function* () {
+    const clockIn = yield sql `UPDATE shifts
+    SET clock_in = ${in_time}
+    WHERE id = ${id}`;
+    return clockIn;
+});
+//FOR non-admins to clock out
+const updateClockOut = (id, out_time) => __awaiter(void 0, void 0, void 0, function* () {
+    const clockOut = yield sql `UPDATE shifts
+    SET clock_out = ${out_time}
+    WHERE id = ${id}`;
+    return clockOut;
+});
+export default { getAllShifts, getAllUserShifts, getShift, createShift, updateScheduledShift, updateShift, updateClockIn, updateClockOut };

@@ -29,6 +29,9 @@ interface shiftObj {
   scheduled_start: Date
   scheduled_end: Date
   scheduled_hours: number
+  clock_in: Date
+  clock_out: Date
+  clocked_hours: number
 }
 
 //Create a new shift for an employee, only for scheduled start, scheduled end, and scheduled hours + employee assigned
@@ -40,4 +43,45 @@ const createShift = async (id: string, newShift: shiftObj) => {
   return create
 }
 
-export default { getAllShifts, getShift, createShift }
+const updateScheduledShift = async (id: string, newShift: shiftObj) => {
+  const update = await sql
+    `UPDATE shifts
+    SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, scheduled_hours = ${newShift.scheduled_hours}
+    WHERE id = ${id};`
+
+  return update
+}
+
+//Update Whole Shift - after clock in and clock out
+const updateShift = async (id: string, newShift: shiftObj) => {
+  const update = await sql
+    `UPDATE shifts
+    SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, scheduled_hours = ${newShift.scheduled_hours}, \
+    clock_in = ${newShift.clock_in}, clock_out = ${newShift.clock_out}, clocked_hours = ${newShift.clocked_hours}
+    WHERE id = ${id};`
+
+  return update
+}
+
+//FOR non-admins to clock in
+const updateClockIn = async (id: string, in_time: Date) => {
+  const clockIn = await sql
+    `UPDATE shifts
+    SET clock_in = ${in_time}
+    WHERE id = ${id}`
+
+  return clockIn
+}
+
+//FOR non-admins to clock out
+const updateClockOut = async (id: string, out_time: Date) => {
+  const clockOut = await sql
+    `UPDATE shifts
+    SET clock_out = ${out_time}
+    WHERE id = ${id}`
+
+  return clockOut
+
+}
+
+export default { getAllShifts, getAllUserShifts, getShift, createShift, updateScheduledShift, updateShift, updateClockIn, updateClockOut }
