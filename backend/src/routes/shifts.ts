@@ -53,22 +53,28 @@ shiftsRouter.put('/:id', authCheck, async (req, res) => {
   res.json(updated)
 })
 
+//Clock in - for employees
 shiftsRouter.put('/clockin/:id', authCheck, async (req, res) => {
   const in_time: Date = req.body
 
   const clock_in = await db.updateClockIn(req.params.id, in_time)
 
-  return clock_in
+  res.json(clock_in)
 })
 
+//Clock out - for employees
 shiftsRouter.put('/clockout/:id', authCheck, async (req, res) => {
   const out_time: Date = req.body
 
   const clock_out = await db.updateClockIn(req.params.id, out_time)
 
-  return clock_out
+  res.json(clock_out)
 })
 
+shiftsRouter.delete('/:id', authCheck, async (req, res) => {
+  const deleted = await db.deleteShift(req.params.id)
 
+  res.json(deleted)
+})
 
 export default shiftsRouter

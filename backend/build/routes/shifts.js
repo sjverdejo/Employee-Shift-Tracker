@@ -38,14 +38,20 @@ shiftsRouter.put('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void
     const updated = yield db.updateShift(req.params.id, shift);
     res.json(updated);
 }));
+//Clock in - for employees
 shiftsRouter.put('/clockin/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const in_time = req.body;
     const clock_in = yield db.updateClockIn(req.params.id, in_time);
-    return clock_in;
+    res.json(clock_in);
 }));
+//Clock out - for employees
 shiftsRouter.put('/clockout/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const out_time = req.body;
     const clock_out = yield db.updateClockIn(req.params.id, out_time);
-    return clock_out;
+    res.json(clock_out);
+}));
+shiftsRouter.delete('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const deleted = yield db.deleteShift(req.params.id);
+    res.json(deleted);
 }));
 export default shiftsRouter;
