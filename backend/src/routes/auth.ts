@@ -11,24 +11,33 @@ passport.use(new LocalStrategy({
   passwordField: 'password',
   passReqToCallback: true
 },
-  function(req, id, password, done) {
+  (req, id, password, done) => {
     db.getUser(id)
       .then(res => {
-        console.log(res[0])
-      bcrypt.compare(password, res[0].password)
-      .then((res) => {
-        console.log(password)
-        console.log(res)
-        return done(null, res)
-      })
+        bcrypt.compare(password, res[0].password)
+          .then((res) => {
+            return done(null, res)
+          })
       .catch(err => { return done(err) })
     })
-    .catch((err) => { console.log(err); return done(err) })
+    .catch((err) => { return done(err) })
   }
 ))
 
+passport.serializeUser((user: Express.User, cb) => {
+  process.nextTick(() => {
+    cb(null, user)
+  })
+})
+
+passport.deserializeUser((user: Express.User, cb) => {
+  process.nextTick(() => {
+    return cb(null, user)
+  })
+})
+
 authRouter.get('/login', async (req, res, next) => {
-  res.send('200')
+  res.send('please login')
 })
 
 authRouter.post('/login/password', passport.authenticate('local', {
@@ -36,6 +45,13 @@ authRouter.post('/login/password', passport.authenticate('local', {
   failureRedirect: '/login'
   }),
   (req, res, next) => {
+})
+
+authRouter.post('/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) { return next(err) }
+    res.redirect('/login')
   })
+})
 
 export default authRouter

@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import express from 'express';
 import db from '../database/users.js';
+import authCheck from '../utils/authCheck.js';
 const usersRouter = express.Router();
 //GET route to return all users
-usersRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+usersRouter.get('/', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield db.getAllUsers();
     res.json(users);
 }));

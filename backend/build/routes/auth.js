@@ -17,26 +17,41 @@ passport.use(new LocalStrategy({
     usernameField: 'id',
     passwordField: 'password',
     passReqToCallback: true
-}, function (req, id, password, done) {
+}, (req, id, password, done) => {
     db.getUser(id)
         .then(res => {
-        console.log(res[0]);
         bcrypt.compare(password, res[0].password)
             .then((res) => {
-            console.log(password);
-            console.log(res);
             return done(null, res);
         })
             .catch(err => { return done(err); });
     })
-        .catch((err) => { console.log(err); return done(err); });
+        .catch((err) => { return done(err); });
 }));
+passport.serializeUser((user, cb) => {
+    process.nextTick(() => {
+        cb(null, user);
+    });
+});
+passport.deserializeUser((user, cb) => {
+    process.nextTick(() => {
+        return cb(null, user);
+    });
+});
 authRouter.get('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send('200');
+    res.send('please login');
 }));
 authRouter.post('/login/password', passport.authenticate('local', {
     successRedirect: '/api/users',
     failureRedirect: '/login'
 }), (req, res, next) => {
+});
+authRouter.post('/logout', (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/login');
+    });
 });
 export default authRouter;

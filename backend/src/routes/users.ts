@@ -1,10 +1,11 @@
 import express from 'express'
 import db from '../database/users.js'
+import authCheck from '../utils/authCheck.js'
 
 const usersRouter = express.Router()
 
 //GET route to return all users
-usersRouter.get('/', async (req, res) => {
+usersRouter.get('/', authCheck, async (req, res) => {
   const users = await db.getAllUsers()
 
   res.json(users)
