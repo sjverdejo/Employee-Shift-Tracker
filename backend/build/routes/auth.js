@@ -13,6 +13,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcrypt';
 import db from '../database/users.js';
 const authRouter = express.Router();
+//Initialize strategy for passport authentication
 passport.use(new LocalStrategy({
     usernameField: 'id',
     passwordField: 'password',
@@ -41,9 +42,10 @@ passport.deserializeUser((user, cb) => {
 authRouter.get('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     res.send('please login');
 }));
+//login route, redirect to login if failure to authenticate otherwise redirect
 authRouter.post('/login/password', passport.authenticate('local', {
     successRedirect: '/api/users',
-    failureRedirect: '/login'
+    failureRedirect: '/auth/login'
 }), (req, res, next) => {
 });
 authRouter.post('/logout', (req, res, next) => {

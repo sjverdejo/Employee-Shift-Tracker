@@ -12,7 +12,7 @@ usersRouter.get('/', authCheck, async (req, res) => {
 })
 
 //GET route to return specific user
-usersRouter.get('/:id', async (req, res) => {
+usersRouter.get('/:id', authCheck, async (req, res) => {
   const user = await db.getUser(req.params.id)
 
   res.json(user[0])
@@ -31,7 +31,7 @@ interface userObject {
 }
 
 //POST route to create a new user
-usersRouter.post('/', async (req, res) => {
+usersRouter.post('/', authCheck, async (req, res) => {
   //passed user object in request
   const user: userObject = req.body
 
@@ -41,7 +41,7 @@ usersRouter.post('/', async (req, res) => {
 })
 
 //PUT route to update user
-usersRouter.put('/:id', async (req, res) => {
+usersRouter.put('/:id', authCheck, async (req, res) => {
   //passed user object in request
   const user: userObject = req.body
 
@@ -51,7 +51,7 @@ usersRouter.put('/:id', async (req, res) => {
 })
 
 //DELETE route to delete user
-usersRouter.delete('/:id', async (req, res) => {
+usersRouter.delete('/:id', authCheck, async (req, res) => {
   const deletedUser = await db.deleteUser(req.params.id)
 
   res.json(deletedUser)

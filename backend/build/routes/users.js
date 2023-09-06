@@ -17,26 +17,26 @@ usersRouter.get('/', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, 
     res.json(users);
 }));
 //GET route to return specific user
-usersRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+usersRouter.get('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield db.getUser(req.params.id);
     res.json(user[0]);
 }));
 //POST route to create a new user
-usersRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+usersRouter.post('/', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //passed user object in request
     const user = req.body;
     const newUser = yield db.createNewUser(user);
     res.json(newUser);
 }));
 //PUT route to update user
-usersRouter.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+usersRouter.put('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //passed user object in request
     const user = req.body;
     const updatedUser = yield db.updateUser(req.params.id, user);
     res.json(updatedUser);
 }));
 //DELETE route to delete user
-usersRouter.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+usersRouter.delete('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const deletedUser = yield db.deleteUser(req.params.id);
     res.json(deletedUser);
 }));

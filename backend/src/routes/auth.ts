@@ -6,6 +6,7 @@ import db from '../database/users.js'
 
 const authRouter = express.Router()
 
+//Initialize strategy for passport authentication
 passport.use(new LocalStrategy({
   usernameField: 'id',
   passwordField: 'password',
@@ -40,9 +41,10 @@ authRouter.get('/login', async (req, res, next) => {
   res.send('please login')
 })
 
+//login route, redirect to login if failure to authenticate otherwise redirect
 authRouter.post('/login/password', passport.authenticate('local', {
   successRedirect: '/api/users',
-  failureRedirect: '/login'
+  failureRedirect: '/auth/login'
   }),
   (req, res, next) => {
 })

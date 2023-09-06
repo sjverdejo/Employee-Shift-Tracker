@@ -8,10 +8,11 @@ import authRouter from './routes/auth.js';
 app.use(session({
     secret: config.SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { maxAge: 900000 }
 }));
 app.use(passport.authenticate('session'));
 app.use(express.json());
 app.use('/api/users', usersRouter);
-app.use('/', authRouter);
+app.use('/api/auth', authRouter);
 export default app;
