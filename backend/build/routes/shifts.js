@@ -17,20 +17,35 @@ shiftsRouter.get('/', authCheck, (req, res) => __awaiter(void 0, void 0, void 0,
     res.json(shifts);
 }));
 //GET route for specific shift, admin only
-shiftsRouter.get('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const shift = yield db.getShift(req.params.id);
-    res.json(shift);
+shiftsRouter.get('/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const shift = yield db.getShift(req.params.id);
+        res.json(shift);
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 //GET route for all shifts for certain employee
-shiftsRouter.get('/employee/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const shifts = yield db.getAllUserShifts(req.params.id);
-    res.json(shifts);
+shiftsRouter.get('/employee/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const shifts = yield db.getAllUserShifts(req.params.id);
+        res.json(shifts);
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 //Create shift, admin only
-shiftsRouter.post('/employee/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.post('/employee/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const shift = req.body;
-    const newShift = yield db.createShift(req.params.id, shift);
-    res.json(newShift);
+    try {
+        yield db.createShift(req.params.id, shift);
+        res.status(201).json();
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 //Update shift, ALL fields - Admin only
 shiftsRouter.put('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {

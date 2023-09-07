@@ -12,17 +12,23 @@ shiftsRouter.get('/', authCheck, async (req, res) => {
 })
 
 //GET route for specific shift, admin only
-shiftsRouter.get('/:id', authCheck, async (req, res) => {
-  const shift = await db.getShift(req.params.id)
-
-  res.json(shift)
+shiftsRouter.get('/:id', authCheck, async (req, res, next) => {
+  try {
+    const shift = await db.getShift(req.params.id)
+    res.json(shift)
+  } catch (error) {
+    next(error)
+  }
 })
 
 //GET route for all shifts for certain employee
-shiftsRouter.get('/employee/:id', authCheck, async (req, res) => {
-  const shifts = await db.getAllUserShifts(req.params.id)
-
-  res.json(shifts)
+shiftsRouter.get('/employee/:id', authCheck, async (req, res, next) => {
+  try {
+    const shifts = await db.getAllUserShifts(req.params.id)
+    res.json(shifts)
+  } catch (error) {
+    next(error)
+  }
 })
 
 //Interface for new shift
@@ -36,12 +42,15 @@ interface shiftObj {
 }
 
 //Create shift, admin only
-shiftsRouter.post('/employee/:id', authCheck, async (req, res) => {
+shiftsRouter.post('/employee/:id', authCheck, async (req, res, next) => {
   const shift: shiftObj = req.body
 
-  const newShift = await db.createShift(req.params.id, shift)
-
-  res.json(newShift)
+  try {
+    await db.createShift(req.params.id, shift)
+    res.status(201).json()
+  } catch (error) {
+    next(error)
+  }
 })
 
 //Update shift, ALL fields - Admin only

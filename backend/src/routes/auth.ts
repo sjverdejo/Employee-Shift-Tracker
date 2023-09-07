@@ -44,7 +44,7 @@ authRouter.get('/login', async (req, res, next) => {
 //login route, redirect to login if failure to authenticate otherwise redirect
 authRouter.post('/login/password', passport.authenticate('local', {
   successRedirect: '/api/users',
-  failureRedirect: '/auth/login'
+  failureRedirect: '/api/auth/login'
   }),
   (req, res, next) => {
 })
