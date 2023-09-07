@@ -40,33 +40,53 @@ shiftsRouter.get('/employee/:id', authCheck, (req, res, next) => __awaiter(void 
 shiftsRouter.post('/employee/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const shift = req.body;
     try {
-        yield db.createShift(req.params.id, shift);
-        res.status(201).json();
+        const newShift = yield db.createShift(req.params.id, shift);
+        res.status(201).json(newShift);
     }
     catch (error) {
         next(error);
     }
 }));
 //Update shift, ALL fields - Admin only
-shiftsRouter.put('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.put('/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const shift = req.body;
-    const updated = yield db.updateShift(req.params.id, shift);
-    res.json(updated);
+    try {
+        yield db.updateShift(req.params.id, shift);
+        res.status(200).send();
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 //Clock in - for employees
-shiftsRouter.put('/clockin/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.put('/clockin/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const in_time = req.body;
-    const clock_in = yield db.updateClockIn(req.params.id, in_time);
-    res.json(clock_in);
+    try {
+        yield db.updateClockIn(req.params.id, in_time);
+        res.status(200).send();
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 //Clock out - for employees
-shiftsRouter.put('/clockout/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.put('/clockout/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const out_time = req.body;
-    const clock_out = yield db.updateClockIn(req.params.id, out_time);
-    res.json(clock_out);
+    try {
+        yield db.updateClockIn(req.params.id, out_time);
+        res.status(200).send();
+    }
+    catch (error) {
+        next(error);
+    }
 }));
-shiftsRouter.delete('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const deleted = yield db.deleteShift(req.params.id);
-    res.json(deleted);
+shiftsRouter.delete('/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield db.deleteShift(req.params.id);
+        res.status(200).send();
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 export default shiftsRouter;

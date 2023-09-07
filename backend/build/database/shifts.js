@@ -26,7 +26,7 @@ const getShift = (id) => __awaiter(void 0, void 0, void 0, function* () {
 //Create a new shift for an employee, only for scheduled start, scheduled end, and scheduled hours + employee assigned
 const createShift = (id, newShift) => __awaiter(void 0, void 0, void 0, function* () {
     const create = yield sql `INSERT INTO shifts (scheduled_start, scheduled_end, scheduled_hours, employee)
-    VALUES (${newShift.scheduled_start}, ${newShift.scheduled_end}, ${newShift.scheduled_hours}, ${id});`;
+    VALUES (${newShift.scheduled_start}, ${newShift.scheduled_end}, ${newShift.scheduled_hours}, ${id}) RETURNING id;`;
     return create;
 });
 //Update Whole Shift - after clock in and clock out

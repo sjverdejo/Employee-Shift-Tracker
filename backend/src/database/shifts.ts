@@ -38,7 +38,7 @@ interface shiftObj {
 const createShift = async (id: string, newShift: shiftObj) => {
   const create = await sql
     `INSERT INTO shifts (scheduled_start, scheduled_end, scheduled_hours, employee)
-    VALUES (${newShift.scheduled_start}, ${newShift.scheduled_end}, ${newShift.scheduled_hours}, ${id});`
+    VALUES (${newShift.scheduled_start}, ${newShift.scheduled_end}, ${newShift.scheduled_hours}, ${id}) RETURNING id;`
 
   return create
 }

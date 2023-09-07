@@ -46,44 +46,55 @@ shiftsRouter.post('/employee/:id', authCheck, async (req, res, next) => {
   const shift: shiftObj = req.body
 
   try {
-    await db.createShift(req.params.id, shift)
-    res.status(201).json()
+    const newShift = await db.createShift(req.params.id, shift)
+    res.status(201).json(newShift)
   } catch (error) {
     next(error)
   }
 })
 
 //Update shift, ALL fields - Admin only
-shiftsRouter.put('/:id', authCheck, async (req, res) => {
+shiftsRouter.put('/:id', authCheck, async (req, res, next) => {
   const shift: shiftObj = req.body
 
-  const updated = await db.updateShift(req.params.id, shift)
-
-  res.json(updated)
+  try {
+    await db.updateShift(req.params.id, shift)
+    res.status(200).send()
+  } catch (error) {
+    next(error)
+  }
 })
 
 //Clock in - for employees
-shiftsRouter.put('/clockin/:id', authCheck, async (req, res) => {
+shiftsRouter.put('/clockin/:id', authCheck, async (req, res, next) => {
   const in_time: Date = req.body
 
-  const clock_in = await db.updateClockIn(req.params.id, in_time)
-
-  res.json(clock_in)
+  try {
+    await db.updateClockIn(req.params.id, in_time)
+    res.status(200).send()
+  } catch (error) {
+    next(error)
+  } 
 })
 
 //Clock out - for employees
-shiftsRouter.put('/clockout/:id', authCheck, async (req, res) => {
+shiftsRouter.put('/clockout/:id', authCheck, async (req, res, next) => {
   const out_time: Date = req.body
 
-  const clock_out = await db.updateClockIn(req.params.id, out_time)
-
-  res.json(clock_out)
+  try {
+    await db.updateClockIn(req.params.id, out_time)
+    res.status(200).send()
+  } catch (error) {
+    next(error)
+  }
 })
 
-shiftsRouter.delete('/:id', authCheck, async (req, res) => {
-  const deleted = await db.deleteShift(req.params.id)
-
-  res.json(deleted)
-})
+shiftsRouter.delete('/:id', authCheck, async (req, res, next) => {
+  try {
+    await db.deleteShift(req.params.id)
+    res.status(200).send()
+  } catch (error) {
+    next(error)
+}})
 
 export default shiftsRouter
