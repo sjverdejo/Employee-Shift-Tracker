@@ -12,32 +12,52 @@ import db from '../database/users.js';
 import authCheck from '../utils/authCheck.js';
 const usersRouter = express.Router();
 //GET route to return all users
-usersRouter.get('/', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+usersRouter.get('/', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield db.getAllUsers();
     res.json(users);
 }));
 //GET route to return specific user
-usersRouter.get('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield db.getUser(req.params.id);
-    res.json(user[0]);
+usersRouter.get('/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield db.getUser(req.params.id);
+        res.json(user[0]);
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 //POST route to create a new user
-usersRouter.post('/', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+usersRouter.post('/', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     //passed user object in request
     const user = req.body;
-    const newUser = yield db.createNewUser(user);
-    res.json(newUser);
+    try {
+        const newUser = yield db.createNewUser(user);
+        res.status(201).json(newUser);
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 //PUT route to update user
-usersRouter.put('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+usersRouter.put('/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     //passed user object in request
     const user = req.body;
-    const updatedUser = yield db.updateUser(req.params.id, user);
-    res.json(updatedUser);
+    try {
+        yield db.updateUser(req.params.id, user);
+        res.status(200).send();
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 //DELETE route to delete user
-usersRouter.delete('/:id', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const deletedUser = yield db.deleteUser(req.params.id);
-    res.json(deletedUser);
+usersRouter.delete('/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield db.deleteUser(req.params.id);
+        res.status(200).send();
+    }
+    catch (error) {
+        next(error);
+    }
 }));
 export default usersRouter;

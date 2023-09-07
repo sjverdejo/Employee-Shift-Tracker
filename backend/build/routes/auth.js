@@ -29,14 +29,14 @@ passport.use(new LocalStrategy({
     })
         .catch((err) => { return done(err); });
 }));
-passport.serializeUser((user, cb) => {
+passport.serializeUser((user, next) => {
     process.nextTick(() => {
-        cb(null, user);
+        next(null, user);
     });
 });
-passport.deserializeUser((user, cb) => {
+passport.deserializeUser((user, next) => {
     process.nextTick(() => {
-        return cb(null, user);
+        return next(null, user);
     });
 });
 authRouter.get('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

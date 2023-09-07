@@ -25,7 +25,8 @@ const createNewUser = (newUser) => __awaiter(void 0, void 0, void 0, function* (
     const saltRounds = 10;
     const passwordHash = yield bcrypt.hash(newUser.password, saltRounds);
     const user = yield sql `INSERT INTO users (is_admin, password, fname, lname, dob, date_employed, email, phone)
-    VALUES (${newUser.is_admin}, ${passwordHash}, ${newUser.fname}, ${newUser.lname}, ${newUser.dob}, ${newUser.date_employed}, ${newUser.email}, ${newUser.phone});`;
+    VALUES (${newUser.is_admin}, ${passwordHash}, ${newUser.fname}, ${newUser.lname}, ${newUser.dob}, 
+      ${newUser.date_employed}, ${newUser.email}, ${newUser.phone}) RETURNING id;`;
     return user;
 });
 //Update a user using a provided user object

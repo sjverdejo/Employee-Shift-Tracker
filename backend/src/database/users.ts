@@ -37,7 +37,8 @@ const createNewUser = async (newUser: userObject) => {
 
   const user = await sql
     `INSERT INTO users (is_admin, password, fname, lname, dob, date_employed, email, phone)
-    VALUES (${newUser.is_admin}, ${passwordHash}, ${newUser.fname}, ${newUser.lname}, ${newUser.dob}, ${newUser.date_employed}, ${newUser.email}, ${newUser.phone});`
+    VALUES (${newUser.is_admin}, ${passwordHash}, ${newUser.fname}, ${newUser.lname}, ${newUser.dob}, 
+      ${newUser.date_employed}, ${newUser.email}, ${newUser.phone}) RETURNING id;`
 
   return user
 }

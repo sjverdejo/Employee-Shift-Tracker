@@ -12,7 +12,7 @@ import authCheck from '../utils/authCheck.js';
 import db from '../database/shifts.js';
 const shiftsRouter = express.Router();
 //GET route for all shifts, admin only
-shiftsRouter.get('/', authCheck, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.get('/', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const shifts = yield db.getAllShifts();
     res.json(shifts);
 }));
@@ -20,7 +20,7 @@ shiftsRouter.get('/', authCheck, (req, res) => __awaiter(void 0, void 0, void 0,
 shiftsRouter.get('/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const shift = yield db.getShift(req.params.id);
-        res.json(shift);
+        res.json(shift[0]);
     }
     catch (error) {
         next(error);

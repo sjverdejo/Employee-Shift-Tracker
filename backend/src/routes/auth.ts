@@ -25,15 +25,15 @@ passport.use(new LocalStrategy({
   }
 ))
 
-passport.serializeUser((user: Express.User, cb) => {
+passport.serializeUser((user: Express.User, next) => {
   process.nextTick(() => {
-    cb(null, user)
+    next(null, user)
   })
 })
 
-passport.deserializeUser((user: Express.User, cb) => {
+passport.deserializeUser((user: Express.User, next) => {
   process.nextTick(() => {
-    return cb(null, user)
+    return next(null, user)
   })
 })
 

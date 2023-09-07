@@ -5,7 +5,7 @@ import db from '../database/shifts.js'
 const shiftsRouter = express.Router()
 
 //GET route for all shifts, admin only
-shiftsRouter.get('/', authCheck, async (req, res) => {
+shiftsRouter.get('/', authCheck, async (req, res, next) => {
   const shifts = await db.getAllShifts()
 
   res.json(shifts)
@@ -15,7 +15,7 @@ shiftsRouter.get('/', authCheck, async (req, res) => {
 shiftsRouter.get('/:id', authCheck, async (req, res, next) => {
   try {
     const shift = await db.getShift(req.params.id)
-    res.json(shift)
+    res.json(shift[0])
   } catch (error) {
     next(error)
   }
