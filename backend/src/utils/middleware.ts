@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 
+//unknown endpoint middleware
 const unknownEndpoint = (request: Request, response: Response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
+//error handler endpoint
 const errorHandler = (error: any, request: Request, response: Response, next: NextFunction) => {
   console.error(error.name)
 
