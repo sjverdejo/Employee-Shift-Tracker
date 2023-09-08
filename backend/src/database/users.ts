@@ -14,7 +14,7 @@ const getUser = async (id: string) => {
   const user = await sql
     `SELECT * FROM users WHERE id = ${id};`
 
-  return user
+  return user[0]
 }
 
 //Interface for user object type

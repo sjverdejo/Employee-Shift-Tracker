@@ -12,7 +12,8 @@ passport.use(new LocalStrategy({
 }, (req, id, password, done) => {
     db.getUser(id)
         .then(res => {
-        bcrypt.compare(password, res[0].password)
+        // console.log('HERE')
+        bcrypt.compare(password, res.password)
             .then((res) => {
             return done(null, res);
         })
@@ -30,9 +31,11 @@ passport.deserializeUser((user, next) => {
         return next(null, user);
     });
 });
+//CHANGE this to wrong login eventually
 authRouter.get('/login', async (req, res, next) => {
-    res.send('please login');
+    res.status(404).send('please login');
 });
+//change route to just login eventually
 //login route, redirect to login if failure to authenticate otherwise redirect
 authRouter.post('/login/password', passport.authenticate('local', {
     successRedirect: '/api/users',
@@ -44,7 +47,7 @@ authRouter.post('/logout', (req, res, next) => {
         if (err) {
             return next(err);
         }
-        res.redirect('/login');
+        res.redirect('/api/auth/login');
     });
 });
 export default authRouter;

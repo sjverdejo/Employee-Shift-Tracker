@@ -8,7 +8,9 @@
     "start:build": "tsc -w",
     "start:run": "NODE_ENV=production nodemon build/index.js",
     "start": "concurrently npm:start:*",
-    "test": "NODE_ENV=development NODE_OPTIONS=--experimental-vm-modules jest --verbose --runInBand --forceExit"
+    "test:build": "tsc",
+    "test:run": "NODE_ENV=development NODE_OPTIONS=--experimental-vm-modules jest --verbose --runInBand --forceExit",
+    "test": "concurrently npm:test:*"
   },
   "keywords": [],
   "author": "Sam Verdejo",
