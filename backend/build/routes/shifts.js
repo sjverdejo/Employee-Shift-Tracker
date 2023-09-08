@@ -1,92 +1,85 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import express from 'express';
 import authCheck from '../utils/authCheck.js';
 import db from '../database/shifts.js';
 const shiftsRouter = express.Router();
 //GET route for all shifts, admin only
-shiftsRouter.get('/', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const shifts = yield db.getAllShifts();
+shiftsRouter.get('/', authCheck, async (req, res, next) => {
+    const shifts = await db.getAllShifts();
     res.json(shifts);
-}));
+});
 //GET route for specific shift, admin only
-shiftsRouter.get('/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.get('/:id', authCheck, async (req, res, next) => {
     try {
-        const shift = yield db.getShift(req.params.id);
+        const shift = await db.getShift(req.params.id);
         res.json(shift[0]);
     }
     catch (error) {
         next(error);
     }
-}));
+});
 //GET route for all shifts for certain employee
-shiftsRouter.get('/employee/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.get('/employee/:id', authCheck, async (req, res, next) => {
     try {
-        const shifts = yield db.getAllUserShifts(req.params.id);
+        const shifts = await db.getAllUserShifts(req.params.id);
         res.json(shifts);
     }
     catch (error) {
         next(error);
     }
-}));
+});
 //Create shift, admin only
-shiftsRouter.post('/employee/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.post('/employee/:id', async (req, res, next) => {
     const shift = req.body;
+    console.log(typeof req.params.id);
     try {
-        const newShift = yield db.createShift(req.params.id, shift);
+        const newShift = await db.createShift(req.params.id, shift);
         res.status(201).json(newShift);
     }
     catch (error) {
         next(error);
     }
-}));
+});
 //Update shift, ALL fields - Admin only
-shiftsRouter.put('/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.put('/:id', authCheck, async (req, res, next) => {
     const shift = req.body;
     try {
-        yield db.updateShift(req.params.id, shift);
+        await db.updateShift(req.params.id, shift);
         res.status(200).send();
     }
     catch (error) {
         next(error);
     }
-}));
+});
 //Clock in - for employees
-shiftsRouter.put('/clockin/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.put('/clockin/:id', authCheck, async (req, res, next) => {
     const in_time = req.body;
     try {
-        yield db.updateClockIn(req.params.id, in_time);
+        await db.updateClockIn(req.params.id, in_time);
         res.status(200).send();
     }
     catch (error) {
         next(error);
     }
-}));
+});
 //Clock out - for employees
-shiftsRouter.put('/clockout/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+shiftsRouter.put('/clockout/:id', authCheck, async (req, res, next) => {
     const out_time = req.body;
     try {
-        yield db.updateClockIn(req.params.id, out_time);
+        await db.updateClockIn(req.params.id, out_time);
         res.status(200).send();
     }
     catch (error) {
         next(error);
     }
-}));
-shiftsRouter.delete('/:id', authCheck, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+});
+//Detele route for shift
+shiftsRouter.delete('/:id', authCheck, async (req, res, next) => {
     try {
-        yield db.deleteShift(req.params.id);
+        await db.deleteShift(req.params.id);
         res.status(200).send();
     }
     catch (error) {
         next(error);
     }
-}));
+});
 export default shiftsRouter;

@@ -5,14 +5,14 @@ import authCheck from '../utils/authCheck.js'
 const usersRouter = express.Router()
 
 //GET route to return all users
-usersRouter.get('/', authCheck, async (req, res, next) => {
+usersRouter.get('/', async (req, res, next) => {
   const users = await db.getAllUsers()
 
-  res.json(users)
+  res.status(200).json(users)
 })
 
 //GET route to return specific user
-usersRouter.get('/:id', authCheck, async (req, res, next) => {
+usersRouter.get('/:id', async (req, res, next) => {
   try {
     const user = await db.getUser(req.params.id)
     res.json(user[0])
@@ -34,7 +34,7 @@ interface userObject {
 }
 
 //POST route to create a new user
-usersRouter.post('/', authCheck, async (req, res, next) => {
+usersRouter.post('/', async (req, res, next) => {
   //passed user object in request
   const user: userObject = req.body
 

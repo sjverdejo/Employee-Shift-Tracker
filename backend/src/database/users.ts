@@ -40,7 +40,7 @@ const createNewUser = async (newUser: userObject) => {
     VALUES (${newUser.is_admin}, ${passwordHash}, ${newUser.fname}, ${newUser.lname}, ${newUser.dob}, 
       ${newUser.date_employed}, ${newUser.email}, ${newUser.phone}) RETURNING id;`
 
-  return user
+  return user[0]
 }
 
 //Update a user using a provided user object

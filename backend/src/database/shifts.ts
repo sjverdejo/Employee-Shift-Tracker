@@ -29,9 +29,14 @@ interface shiftObj {
   scheduled_start: Date
   scheduled_end: Date
   scheduled_hours: number
+}
+
+interface updateShiftObj {
+  scheduled_start: Date
+  scheduled_end: Date
+  scheduled_hours: number
   clock_in: Date
   clock_out: Date
-  clocked_hours: number
 }
 
 //Create a new shift for an employee, only for scheduled start, scheduled end, and scheduled hours + employee assigned
@@ -44,11 +49,11 @@ const createShift = async (id: string, newShift: shiftObj) => {
 }
 
 //Update Whole Shift - after clock in and clock out
-const updateShift = async (id: string, newShift: shiftObj) => {
+const updateShift = async (id: string, newShift: updateShiftObj) => {
   const update = await sql
     `UPDATE shifts
-    SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, scheduled_hours = ${newShift.scheduled_hours},
-    clock_in = ${newShift.clock_in}, clock_out = ${newShift.clock_out}, clocked_hours = ${newShift.clocked_hours}
+    SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, 
+    scheduled_hours = ${newShift.scheduled_hours}, clock_in = ${newShift.clock_in}, clock_out = ${newShift.clock_out}
     WHERE id = ${id};`
 
   return update

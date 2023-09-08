@@ -1,6 +1,8 @@
+//unknown endpoint middleware
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' });
 };
+//error handler endpoint
 const errorHandler = (error, request, response, next) => {
     console.error(error.name);
     if (error.name === 'CastError') {

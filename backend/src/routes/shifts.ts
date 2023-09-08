@@ -36,15 +36,21 @@ interface shiftObj {
   scheduled_start: Date
   scheduled_end: Date
   scheduled_hours: number
+}
+
+interface updateShiftObj {
+  scheduled_start: Date
+  scheduled_end: Date
+  scheduled_hours: number
   clock_in: Date
   clock_out: Date
-  clocked_hours: number
 }
 
 //Create shift, admin only
-shiftsRouter.post('/employee/:id', authCheck, async (req, res, next) => {
+shiftsRouter.post('/employee/:id', async (req, res, next) => {
   const shift: shiftObj = req.body
 
+  console.log(typeof req.params.id)
   try {
     const newShift = await db.createShift(req.params.id, shift)
     res.status(201).json(newShift)
@@ -55,7 +61,7 @@ shiftsRouter.post('/employee/:id', authCheck, async (req, res, next) => {
 
 //Update shift, ALL fields - Admin only
 shiftsRouter.put('/:id', authCheck, async (req, res, next) => {
-  const shift: shiftObj = req.body
+  const shift: updateShiftObj = req.body
 
   try {
     await db.updateShift(req.params.id, shift)
@@ -89,6 +95,7 @@ shiftsRouter.put('/clockout/:id', authCheck, async (req, res, next) => {
   }
 })
 
+//Detele route for shift
 shiftsRouter.delete('/:id', authCheck, async (req, res, next) => {
   try {
     await db.deleteShift(req.params.id)
