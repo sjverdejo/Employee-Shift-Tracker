@@ -1,6 +1,7 @@
 import express from 'express';
 import db from '../database/users.js';
 import authCheck from '../utils/authCheck.js';
+import helper from '../utils/helper.js';
 const usersRouter = express.Router();
 //GET route to return all users
 usersRouter.get('/', authCheck, async (req, res, next) => {
@@ -25,13 +26,20 @@ usersRouter.get('/:id', authCheck, async (req, res, next) => {
 //POST route to create a new user
 usersRouter.post('/', authCheck, async (req, res, next) => {
     //passed user object in request
+    // const { is_admin, password, fname, lname, dob, date_employed, email, phone } = req.body
     const user = req.body;
-    try {
-        const newUser = await db.createNewUser(user);
-        res.status(201).json(newUser);
+    if (helper.validUser(user)) {
+        try {
+            const newUser = await db.createNewUser(user);
+            res.status(201).json(newUser);
+        }
+        catch (error) {
+            next(error);
+        }
     }
-    catch (error) {
-        next(error);
+    else {
+        res.status(404).end();
+        return;
     }
 });
 //PUT route to update user

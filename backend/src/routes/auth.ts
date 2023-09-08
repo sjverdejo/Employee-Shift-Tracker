@@ -40,7 +40,7 @@ passport.deserializeUser((user: Express.User, next) => {
 
 //CHANGE this to wrong login eventually
 authRouter.get('/login', async (req, res, next) => {
-  res.status(404).send('please login')
+  res.status(401).send('please login')
 })
 
 //change route to just login eventually

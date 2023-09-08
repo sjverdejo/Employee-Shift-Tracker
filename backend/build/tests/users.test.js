@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import app from '../app.js';
 const api = supertest(app);
+import sql from '../db.js';
 import testHelper from './testHelper.js';
 let cookie = null;
 //POPULATE DATABASE WITH 2 USERS
@@ -14,12 +15,11 @@ beforeEach(async () => {
     const login = await api.post('/api/auth/login/password')
         .send(user);
     cookie = login.header['set-cookie'];
-    // console.log(login.header)
 });
 //TESTS
 //GET ROUTES
-//GET returns all users
 describe('GET route tests...', () => {
+    //GET returns all users
     test('Returning all users', async () => {
         const result = await api
             .get('/api/users')
@@ -51,21 +51,79 @@ describe('GET route tests...', () => {
     });
     //GET route without auth
     test('Attempt without cookie header set', async () => {
-        await api.get('/api/users')
-            .expect(400);
+        const result = await api.get('/api/users');
+        expect(result.header['location']).toEqual('/api/auth/login');
     });
 });
 //POST ROUTES
-//POST valid user
-//POST invalid input
-//UPDATE ROUTES
-//UPDATE with valid update and valid id
-//UPDATE with invalid update and valid id
-//UPDATE with valid update and invalid id
-//UPDATE with invalid update and invalid id
+describe('POST route tests...', () => {
+    //POST valid user
+    test('Creating a new valid user', async () => {
+        const getUsers = await sql `SELECT * FROM users;`; //GET ALL USERS (should have 3 TOTAL)
+        const newUser = {
+            is_admin: false,
+            password: 'test',
+            fname: 'New',
+            lname: 'User',
+            dob: new Date('1993-03-03'),
+            date_employed: new Date('2003-02-03'),
+            email: 'testemail@gmail.com',
+            phone: '3930203321'
+        };
+        const addUser = await api
+            .post('/api/users')
+            .send(newUser)
+            .set('Cookie', cookie)
+            .expect(201)
+            .expect('Content-Type', /application\/json/);
+        expect(addUser.body.id).toEqual('4');
+        const getUsersAgain = await sql `SELECT * FROM users;`;
+        expect(getUsersAgain.length).toEqual(getUsers.length + 1); //Should be 1 size bigger now
+    });
+    //POST invalid input
+    test('Attempt to create with an invalid user object', async () => {
+        const getUsers = await sql `SELECT * FROM users;`; //GET ALL USERS (should have 3 TOTAL)
+        const invalidUser = {
+            password: 'test',
+            fname: 'No Admin or Dob',
+            lname: 'Wew',
+            date_employed: new Date('2003-02-03'),
+            email: 'testemail@gmail.com',
+            phone: '3930203321'
+        };
+        await api
+            .post('/api/users')
+            .set('Cookie', cookie)
+            .send(invalidUser)
+            .expect(404);
+        const getUsersAgain = await sql `SELECT * FROM users;`;
+        console.log(typeof getUsers.length);
+        console.log(typeof getUsersAgain.length);
+        expect(getUsersAgain.length).toEqual(getUsers.length); //should be same size
+    });
+    //POST without authentication
+    test('Attempt to create with no authentication', async () => {
+        const result = await api.post('/api/users')
+            .send('Payload does not matter');
+        expect(result.header['location']).toEqual('/api/auth/login');
+    });
+});
+//PUT ROUTES
+describe('PUT route tests...', () => {
+});
+//PUT with valid update and valid id
+//PUT with invalid update and valid id
+//PUT with valid update and invalid id
+//PUT with invalid update and invalid id
+//PUT user who doesn't exist
+//PUT without authentication
 //DELETE ROUTES
+describe('DELETE route tests...', () => {
+});
 //DELETE with valid id
 //DELETE with invalid id
+//DELETE with id that doesn't exist
+//DELETE without authentication
 // AFTERALL CLEAR DATABASE
 afterAll(async () => {
     // await testHelper.clearTestDatabase()
