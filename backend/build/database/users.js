@@ -28,11 +28,11 @@ const updateUser = async (id, updateUser) => {
     const updated = await sql `UPDATE users
     SET is_admin = ${updateUser.is_admin}, password = ${passwordHash}, fname = ${updateUser.fname}, lname = ${updateUser.lname}, 
     dob = ${updateUser.dob}, date_employed = ${updateUser.date_employed}, email = ${updateUser.email}, phone = ${updateUser.phone} 
-    WHERE id = ${id}`;
+    WHERE id = ${id} returning id;`;
     return updated;
 };
 const deleteUser = async (id) => {
-    const deleted = await sql `DELETE FROM users where id = ${id}`;
+    const deleted = await sql `DELETE FROM users where id = ${id} returning id;`;
     return deleted;
 };
 export default { getAllUsers, getUser, createNewUser, updateUser, deleteUser };

@@ -90,7 +90,7 @@ describe('GET route tests...', () => {
 describe('POST route tests...', () => {
   //POST valid user
   test('Creating a new valid user', async () => {
-    const getUsers = await sql`SELECT * FROM users;` //GET ALL USERS (should have 3 TOTAL)
+    const count_before = await sql`SELECT * FROM users;` //GET ALL USERS (should have 3 TOTAL)
     
     const newUser: userObj = {
       is_admin: false,
@@ -111,14 +111,14 @@ describe('POST route tests...', () => {
     
     expect(addUser.body.id).toEqual('4')
 
-    const getUsersAgain = await sql`SELECT * FROM users;`
+    const count_after = await sql`SELECT * FROM users;`
 
-    expect(getUsersAgain.length).toEqual(getUsers.length + 1) //Should be 1 size bigger now
+    expect(count_after.length).toEqual(count_before.length + 1) //Should be 1 size bigger now
   })
 
   //POST invalid input
   test('Attempt to create with an invalid user object', async () => {
-    const getUsers = await sql`SELECT * FROM users;` //GET ALL USERS (should have 3 TOTAL)
+    const count_before = await sql`SELECT * FROM users;` //GET ALL USERS (should have 3 TOTAL)
     
     const invalidUser = {
       password: 'test',
@@ -135,9 +135,9 @@ describe('POST route tests...', () => {
       .send(invalidUser)
       .expect(404)
 
-    const getUsersAgain = await sql`SELECT * FROM users;`
-    
-    expect(getUsersAgain.length).toEqual(getUsers.length) //should be same size
+    const count_after = await sql`SELECT * FROM users;`
+
+    expect(count_after.length).toEqual(count_before.length) //should be same size
   })
 
   //POST without authentication
@@ -151,23 +151,118 @@ describe('POST route tests...', () => {
 
 //PUT ROUTES
 describe('PUT route tests...', () => {
-  
+  const valid_update: userObj = {
+    is_admin: true,
+    password: 'testpw',
+    fname: 'Johnathon',
+    lname: 'Cena',
+    dob: new Date('1977-04-23'),
+    date_employed: new Date('2022-09-22'),
+    email: 'johnathoncena@gmail.com',
+    phone: '9056434424'
+  }
+
+  //missing fname
+  const invalid_update = {
+    is_admin: true,
+    password: 'testpw',
+    lname: 'Cena',
+    dob: new Date('1977-04-23'),
+    date_employed: new Date('2022-09-22'),
+    email: 'johnathoncena@gmail.com',
+    phone: '9056434424'
+  }
+
+  //PUT with valid update and valid id
+  test('Updating with valid id and user', async () => {
+    await api.put('/api/users/1') //modify first id (John Cena)
+      .set('Cookie', cookie)
+      .send(valid_update) //Update name and email
+      .expect(204)
+
+    const update = await sql`SELECT fname, email FROM users where id = 1;` //check user
+
+    expect(update[0].fname).toContain('Johnathon') //check if name updated
+    expect(update[0].email).toContain('johnathoncena@gmail.com') //check if email updated
+  })
+
+  //PUT with invalid update and valid id
+  test('Updating with invalid update user and valid id', async () => {
+    await api.put('/api/users/1')
+      .set('Cookie', cookie)
+      .send(invalid_update) //invalid user
+      .expect(400)
+  })
+
+  //PUT with valid update and invalid id
+  test('Updating with valid update user and invalid id', async () => {
+    await api.put('/api/users/words') //invalid id
+      .set('Cookie', cookie)
+      .send(valid_update)
+      .expect(400)
+  })
+
+  //PUT with invalid update and invalid id
+  test('Updating with invalid update user and invalid id', async () => {
+    await api.put('/api/users/words') //invalid id
+      .set('Cookie', cookie)
+      .send(invalid_update) //invalid user
+      .expect(400)
+  })
+
+  //PUT with user who doesn't exist
+  test('Updating with user id that does not exist', async () => {
+    await api.put('/api/users/5') //only 3 inside users database
+      .set('Cookie', cookie)
+      .send(valid_update)
+      .expect(400)
+  })
+  //PUT without authentication
+  test('Updating with no authentication', async () => {
+    const result = await api.put('/api/users/2')
+      .send('Payload does not matter')
+
+    expect(result.header['location']).toEqual('/api/auth/login')
+  })
 })
-//PUT with valid update and valid id
-//PUT with invalid update and valid id
-//PUT with valid update and invalid id
-//PUT with invalid update and invalid id
-//PUT user who doesn't exist
-//PUT without authentication
 
 //DELETE ROUTES
 describe('DELETE route tests...', () => {
-  
+  //DELETE with valid id
+  test('Deleting a user with valid id', async () => {
+    const count_before = await sql`SELECT * FROM users;`
+    await api.delete('/api/users/1')
+      .set('Cookie', cookie)
+      .expect(204)
+
+    const count_after = await sql`SELECT * FROM users;`
+
+    expect(count_after.length).toEqual(count_before.length - 1)
+  })
+
+  //DELETE with invalid id
+  test('Attempt to delete with invalid id', async () => {
+    await api.delete('/api/users/string') //id should be valid format
+      .set('Cookie', cookie)
+      .expect(400)
+  })
+
+  //DELETE with id that doesn't exist
+  test('Attempt to delete with an id that is out of range', async () => {
+    await api.delete('/api/users/5') //5 should not exist
+      .set('Cookie', cookie)
+      .expect(400)
+  })
+
+  //DELETE without authentication
+  test('Deleting without authentication', async () => {
+    const result = await api.delete('/api/users/2')
+      .send('Payload does not matter')
+
+    expect(result.header['location']).toEqual('/api/auth/login')
+  })
+
 })
-//DELETE with valid id
-//DELETE with invalid id
-//DELETE with id that doesn't exist
-//DELETE without authentication
 
 // AFTERALL CLEAR DATABASE
 afterAll(async () => {

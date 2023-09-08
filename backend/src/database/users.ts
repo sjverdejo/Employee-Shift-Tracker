@@ -53,14 +53,14 @@ const updateUser = async (id: string, updateUser: userObject) => {
     `UPDATE users
     SET is_admin = ${updateUser.is_admin}, password = ${passwordHash}, fname = ${updateUser.fname}, lname = ${updateUser.lname}, 
     dob = ${updateUser.dob}, date_employed = ${updateUser.date_employed}, email = ${updateUser.email}, phone = ${updateUser.phone} 
-    WHERE id = ${id}`
+    WHERE id = ${id} returning id;`
 
   return updated
 }
 
 const deleteUser = async (id: string) => {
   const deleted = await sql
-    `DELETE FROM users where id = ${id}`
+    `DELETE FROM users where id = ${id} returning id;`
 
   return deleted
 }

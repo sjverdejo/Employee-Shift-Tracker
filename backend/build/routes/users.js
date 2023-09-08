@@ -39,26 +39,40 @@ usersRouter.post('/', authCheck, async (req, res, next) => {
     }
     else {
         res.status(404).end();
-        return;
     }
 });
 //PUT route to update user
 usersRouter.put('/:id', authCheck, async (req, res, next) => {
     //passed user object in request
     const user = req.body;
-    try {
-        await db.updateUser(req.params.id, user);
-        res.status(200).send();
+    if (helper.validUser(user)) {
+        try {
+            const id = await db.updateUser(req.params.id, user);
+            if (id[0]) {
+                res.status(204).send();
+            }
+            else {
+                res.status(400).end();
+            }
+        }
+        catch (error) {
+            next(error);
+        }
     }
-    catch (error) {
-        next(error);
+    else {
+        res.status(400).end();
     }
 });
 //DELETE route to delete user
 usersRouter.delete('/:id', authCheck, async (req, res, next) => {
     try {
-        await db.deleteUser(req.params.id);
-        res.status(200).send();
+        const id = await db.deleteUser(req.params.id);
+        if (id[0]) {
+            res.status(204).send();
+        }
+        else {
+            res.status(400).end();
+        }
     }
     catch (error) {
         next(error);
