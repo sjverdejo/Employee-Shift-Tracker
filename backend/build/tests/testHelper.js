@@ -48,12 +48,12 @@ const initializeTestDatabase = async () => {
     const secondShift = {
         scheduled_start: new Date(),
         scheduled_end: new Date(),
-        scheduled_hours: 8
+        scheduled_hours: 9
     };
     const thirdShift = {
         scheduled_start: new Date(),
         scheduled_end: new Date(),
-        scheduled_hours: 8
+        scheduled_hours: 10
     };
     const firstId = await usersDB.createNewUser(firstUser);
     const secondId = await usersDB.createNewUser(secondUser);

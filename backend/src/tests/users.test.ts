@@ -34,6 +34,7 @@ beforeEach(async () => {
     password: 'testpw'
   }
 
+  //login to database and set authentication
   const login = await api.post('/api/auth/login/password')
     .send(user)
 
@@ -266,5 +267,5 @@ describe('DELETE route tests...', () => {
 
 // AFTERALL CLEAR DATABASE
 afterAll(async () => {
-  // await testHelper.clearTestDatabase()
+  await testHelper.clearTestDatabase()
 })

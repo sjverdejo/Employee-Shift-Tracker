@@ -1,33 +1,45 @@
 import express from 'express';
 import db from '../database/shifts.js';
+import authCheck from '../utils/authCheck.js';
 const shiftsRouter = express.Router();
 //GET route for all shifts, admin only
-shiftsRouter.get('/', async (req, res, next) => {
+shiftsRouter.get('/', authCheck, async (req, res, next) => {
     const shifts = await db.getAllShifts();
     res.json(shifts);
 });
 //GET route for specific shift, admin only
-shiftsRouter.get('/:id', async (req, res, next) => {
+shiftsRouter.get('/:id', authCheck, async (req, res, next) => {
     try {
         const shift = await db.getShift(req.params.id);
-        res.json(shift[0]);
+        if (shift[0]) {
+            res.json(shift[0]);
+        }
+        else {
+            res.status(400).end();
+        }
     }
     catch (error) {
         next(error);
     }
 });
 //GET route for all shifts for certain employee
-shiftsRouter.get('/employee/:id', async (req, res, next) => {
+shiftsRouter.get('/employee/:id', authCheck, async (req, res, next) => {
     try {
         const shifts = await db.getAllUserShifts(req.params.id);
-        res.json(shifts);
+        if (shifts) {
+            console.log(`${req.params.id}`, shifts);
+            res.json(shifts);
+        }
+        else {
+            res.status(400).end();
+        }
     }
     catch (error) {
         next(error);
     }
 });
 //Create shift, admin only
-shiftsRouter.post('/employee/:id', async (req, res, next) => {
+shiftsRouter.post('/employee/:id', authCheck, async (req, res, next) => {
     const shift = req.body;
     console.log(typeof req.params.id);
     try {
@@ -39,7 +51,7 @@ shiftsRouter.post('/employee/:id', async (req, res, next) => {
     }
 });
 //Update shift, ALL fields - Admin only
-shiftsRouter.put('/:id', async (req, res, next) => {
+shiftsRouter.put('/:id', authCheck, async (req, res, next) => {
     const shift = req.body;
     try {
         await db.updateShift(req.params.id, shift);
@@ -50,7 +62,7 @@ shiftsRouter.put('/:id', async (req, res, next) => {
     }
 });
 //Clock in - for employees
-shiftsRouter.put('/clockin/:id', async (req, res, next) => {
+shiftsRouter.put('/clockin/:id', authCheck, async (req, res, next) => {
     const in_time = req.body;
     try {
         await db.updateClockIn(req.params.id, in_time);
@@ -61,7 +73,7 @@ shiftsRouter.put('/clockin/:id', async (req, res, next) => {
     }
 });
 //Clock out - for employees
-shiftsRouter.put('/clockout/:id', async (req, res, next) => {
+shiftsRouter.put('/clockout/:id', authCheck, async (req, res, next) => {
     const out_time = req.body;
     try {
         await db.updateClockIn(req.params.id, out_time);
@@ -72,7 +84,7 @@ shiftsRouter.put('/clockout/:id', async (req, res, next) => {
     }
 });
 //Detele route for shift
-shiftsRouter.delete('/:id', async (req, res, next) => {
+shiftsRouter.delete('/:id', authCheck, async (req, res, next) => {
     try {
         await db.deleteShift(req.params.id);
         res.status(200).send();
