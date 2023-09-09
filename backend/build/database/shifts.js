@@ -25,26 +25,26 @@ const updateShift = async (id, newShift) => {
     const update = await sql `UPDATE shifts
     SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, 
     scheduled_hours = ${newShift.scheduled_hours}, clock_in = ${newShift.clock_in}, clock_out = ${newShift.clock_out}
-    WHERE id = ${id};`;
+    WHERE id = ${id} returning id;`;
     return update;
 };
 //FOR non-admins to clock in
 const updateClockIn = async (id, in_time) => {
     const clockIn = await sql `UPDATE shifts
     SET clock_in = ${in_time}
-    WHERE id = ${id};`;
+    WHERE id = ${id} returning id;`;
     return clockIn;
 };
 //FOR non-admins to clock out
 const updateClockOut = async (id, out_time) => {
     const clockOut = await sql `UPDATE shifts
     SET clock_out = ${out_time}
-    WHERE id = ${id};`;
+    WHERE id = ${id} returning id;`;
     return clockOut;
 };
 const deleteShift = async (id) => {
     const deleted = await sql `DELETE FROM shifts
-  WHERE id = ${id};`;
+  WHERE id = ${id} returning id;`;
     return deleted;
 };
 export default {

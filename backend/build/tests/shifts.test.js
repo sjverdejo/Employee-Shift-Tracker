@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import app from '../app.js';
 const api = supertest(app);
+import sql from '../db.js';
 import testHelper from './testHelper.js';
 let cookie = null;
 //POPULATE DATABASE WITH 2 USERS
@@ -26,6 +27,7 @@ describe('GET routes for shifts', () => {
             .expect(200)
             .expect('Content-Type', /application\/json/);
         expect(result.body[0].scheduled_hours).toEqual(8); //first shift in database has value 8
+        expect(result.body.length).toEqual(3);
     });
     //Get shift with valid id
     test('Get one shift with valid id', async () => {
@@ -65,13 +67,6 @@ describe('GET routes for shifts', () => {
             .set('Cookie', cookie)
             .expect(400);
     });
-    //Get shifts for employee with non existent employee id
-    test('Get shifts for employee that does not exist', async () => {
-        await api
-            .get('/api/shifts/employee/5') // only 3 shifts in db
-            .set('Cookie', cookie)
-            .expect(400);
-    });
     //Get shifts without authentication
     test('Get shifts without authentication', async () => {
         const result = await api
@@ -101,8 +96,32 @@ describe('UPDATE routes for shifts', () => {
 //DELETE shifts
 describe('DELETE routes for shifts', () => {
     //Delete with valid id
+    test('Delete with valid id', async () => {
+        const before_delete = await sql `SELECT * FROM shifts;`; //Should contain 3 total shifts
+        await api.delete('/api/shifts/1')
+            .set('Cookie', cookie)
+            .expect(204);
+        const after_delete = await sql `SELECT * FROM shifts;`;
+        expect(after_delete.length).toEqual(before_delete.length - 1);
+    });
     //Delete with invalid id
+    test('Delete with invalid id', async () => {
+        await api.delete('/api/shifts/string')
+            .set('Cookie', cookie)
+            .expect(400);
+    });
     //Delete with non existent id
+    test('Delete with id that does not exist', async () => {
+        await api.delete('/api/shifts/9') //3 shifts in db, 9 does not exist
+            .set('Cookie', cookie)
+            .expect(400);
+    });
+    //Delete without authentication
+    test('Delete with no auth', async () => {
+        const result = await api
+            .delete('/api/shifts/3'); // only 3 shifts in db
+        expect(result.header['location']).toEqual('/api/auth/login');
+    });
 });
 // AFTERALL CLEAR DATABASE
 afterAll(async () => {

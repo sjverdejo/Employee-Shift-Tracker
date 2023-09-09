@@ -54,7 +54,7 @@ const updateShift = async (id: string, newShift: updateShiftObj) => {
     `UPDATE shifts
     SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, 
     scheduled_hours = ${newShift.scheduled_hours}, clock_in = ${newShift.clock_in}, clock_out = ${newShift.clock_out}
-    WHERE id = ${id};`
+    WHERE id = ${id} returning id;`
 
   return update
 }
@@ -64,7 +64,7 @@ const updateClockIn = async (id: string, in_time: Date) => {
   const clockIn = await sql
     `UPDATE shifts
     SET clock_in = ${in_time}
-    WHERE id = ${id};`
+    WHERE id = ${id} returning id;`
 
   return clockIn
 }
@@ -74,7 +74,7 @@ const updateClockOut = async (id: string, out_time: Date) => {
   const clockOut = await sql
     `UPDATE shifts
     SET clock_out = ${out_time}
-    WHERE id = ${id};`
+    WHERE id = ${id} returning id;`
 
   return clockOut
 }
@@ -82,7 +82,7 @@ const updateClockOut = async (id: string, out_time: Date) => {
 const deleteShift = async (id: string) => {
   const deleted = await sql
   `DELETE FROM shifts
-  WHERE id = ${id};`
+  WHERE id = ${id} returning id;`
 
   return deleted
 }

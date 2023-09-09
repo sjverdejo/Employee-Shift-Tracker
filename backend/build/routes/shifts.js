@@ -27,7 +27,6 @@ shiftsRouter.get('/employee/:id', authCheck, async (req, res, next) => {
     try {
         const shifts = await db.getAllUserShifts(req.params.id);
         if (shifts) {
-            console.log(`${req.params.id}`, shifts);
             res.json(shifts);
         }
         else {
@@ -86,8 +85,13 @@ shiftsRouter.put('/clockout/:id', authCheck, async (req, res, next) => {
 //Detele route for shift
 shiftsRouter.delete('/:id', authCheck, async (req, res, next) => {
     try {
-        await db.deleteShift(req.params.id);
-        res.status(200).send();
+        const deleted = await db.deleteShift(req.params.id);
+        if (deleted[0]) {
+            res.status(204).send();
+        }
+        else {
+            res.status(400).end();
+        }
     }
     catch (error) {
         next(error);
