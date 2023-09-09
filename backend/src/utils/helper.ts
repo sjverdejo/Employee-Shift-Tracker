@@ -9,6 +9,19 @@ interface userObject {
   phone: string
 }
 
+interface shiftObj {
+  scheduled_start: Date
+  scheduled_end: Date
+  scheduled_hours: number
+}
+
+const validShift = (shift: shiftObj) => {
+  if (shift.scheduled_end && shift.scheduled_start && shift.scheduled_hours) {
+    return true
+  } else {
+    return false
+  }
+}
 //check if user is missing a field
 const validUser = (user: userObject) => {
   if ((user.is_admin !== null) && (user.password && user.fname && user.lname
@@ -19,4 +32,4 @@ const validUser = (user: userObject) => {
     }
 }
 
-export default { validUser }
+export default { validShift, validUser }

@@ -70,18 +70,62 @@ describe('GET routes for shifts', () => {
     //Get shifts without authentication
     test('Get shifts without authentication', async () => {
         const result = await api
-            .get('/api/shifts/3'); // only 3 shifts in db
+            .get('/api/shifts/3'); //Payload does not matter
         expect(result.header['location']).toEqual('/api/auth/login');
     });
 });
 //POST shifts
 describe('POST routes for shifts', () => {
+    const valid_post = {
+        scheduled_start: new Date(),
+        scheduled_end: new Date(),
+        scheduled_hours: 10
+    };
+    const invalid_post = {
+        scheduled_start: new Date('20002-002-02'),
+        scheduled_end: new Date(),
+        scheduled_hours: 0
+    };
+    const valid_id = 1;
+    const invalid_id = 'Five';
     //Post new valid shift with valid id
+    test('Post valid shift, valid id', async () => {
+        const before_post = await sql `SELECT * FROM shifts;`;
+        await api.post(`/api/shifts/employee/${valid_id}`)
+            .set('Cookie', cookie)
+            .send(valid_post)
+            .expect(201)
+            .expect('Content-Type', /application\/json/);
+        const after_post = await sql `SELECT * FROM shifts;`;
+        expect(after_post.length).toEqual(before_post.length + 1);
+    });
     //Post new invalid shift with valid id
+    test('Post invalid shift, valid id', async () => {
+        await api.post(`/api/shifts/employee/${valid_id}`)
+            .set('Cookie', cookie)
+            .send(invalid_post)
+            .expect(400);
+    });
     //Post new valid shift with invalid id
-    //Post new invalid shift with valid id
+    test('Post valid shift, invalid id', async () => {
+        await api.post(`/api/shifts/employee/${invalid_id}`)
+            .set('Cookie', cookie)
+            .send(valid_post)
+            .expect(400);
+    });
     //Post new valid shift with non existent id
+    test('Post valid shift, non existent id', async () => {
+        await api.post(`/api/shifts/employee/8`)
+            .set('Cookie', cookie)
+            .send(valid_post)
+            .expect(400);
+    });
     //Post new shift without authentication
+    test('Post valid shift, no auth', async () => {
+        const result = await api
+            .post('/api/shifts/employee/3'); //Payload does not matter
+        expect(result.header['location']).toEqual('/api/auth/login');
+    });
 });
 //PUT shifts
 describe('UPDATE routes for shifts', () => {
@@ -92,6 +136,11 @@ describe('UPDATE routes for shifts', () => {
     //Update with invalid shift and invalid id
     //Update with invalid shift and non existent id
     //Update without authentication
+    test('Update with no auth', async () => {
+        const result = await api
+            .put('/api/shifts/3'); //Payload does not matter
+        expect(result.header['location']).toEqual('/api/auth/login');
+    });
 });
 //DELETE shifts
 describe('DELETE routes for shifts', () => {
@@ -119,7 +168,7 @@ describe('DELETE routes for shifts', () => {
     //Delete without authentication
     test('Delete with no auth', async () => {
         const result = await api
-            .delete('/api/shifts/3'); // only 3 shifts in db
+            .delete('/api/shifts/3'); //payload does not matter
         expect(result.header['location']).toEqual('/api/auth/login');
     });
 });

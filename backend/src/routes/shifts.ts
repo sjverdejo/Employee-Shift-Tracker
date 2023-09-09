@@ -1,6 +1,7 @@
 import express from 'express'
 import db from '../database/shifts.js'
 import authCheck from '../utils/authCheck.js'
+import helper from '../utils/helper.js'
 
 const shiftsRouter = express.Router()
 
@@ -48,36 +49,41 @@ interface shiftObj {
   scheduled_hours: number
 }
 
-interface updateShiftObj {
-  scheduled_start: Date
-  scheduled_end: Date
-  scheduled_hours: number
-  clock_in: Date
-  clock_out: Date
-}
-
 //Create shift, admin only
 shiftsRouter.post('/employee/:id', authCheck, async (req, res, next) => {
   const shift: shiftObj = req.body
 
-  console.log(typeof req.params.id)
-  try {
-    const newShift = await db.createShift(req.params.id, shift)
-    res.status(201).json(newShift)
-  } catch (error) {
-    next(error)
+  if (helper.validShift(shift)) {
+    try {
+      const newShift = await db.createShift(req.params.id, shift)
+  
+      if (newShift[0]) {
+        res.status(201).json(newShift)
+      } else {
+        res.status(400).end()
+      }
+    } catch (error) {
+      next(error)
+    }
+  } else {
+    res.status(400).end()
   }
+  
 })
 
 //Update shift, ALL fields - Admin only
 shiftsRouter.put('/:id', authCheck, async (req, res, next) => {
-  const shift: updateShiftObj = req.body
+  const shift: shiftObj = req.body
 
-  try {
-    await db.updateShift(req.params.id, shift)
-    res.status(200).send()
-  } catch (error) {
-    next(error)
+  if (helper.validShift(shift)) {
+    try {
+      await db.updateShift(req.params.id, shift)
+      res.status(200).send()
+    } catch (error) {
+      next(error)
+    }
+  } else {
+    res.status(400).end()
   }
 })
 

@@ -24,8 +24,7 @@ const createShift = async (id, newShift) => {
 const updateShift = async (id, newShift) => {
     const update = await sql `UPDATE shifts
     SET scheduled_start = ${newShift.scheduled_start}, scheduled_end = ${newShift.scheduled_end}, 
-    scheduled_hours = ${newShift.scheduled_hours}, clock_in = ${newShift.clock_in}, clock_out = ${newShift.clock_out}
-    WHERE id = ${id} returning id;`;
+    scheduled_hours = ${newShift.scheduled_hours} WHERE id = ${id} returning id;`;
     return update;
 };
 //FOR non-admins to clock in
