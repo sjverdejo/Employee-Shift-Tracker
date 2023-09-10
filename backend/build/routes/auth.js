@@ -4,19 +4,20 @@ import db from '../database/users.js';
 const authRouter = express.Router();
 //Login Router 
 authRouter.post('/login', async (req, res) => {
-    const { id, password } = req.body;
+    const { employeeId, password } = req.body;
     if (req.session.authenticated) {
         res.status(404).json({ message: 'Already authenticated.' });
         return;
     }
     //user login info
-    const user = await db.getUser(id);
+    const user = await db.getUser(employeeId);
     const validPW = user === null
         ? false
         : await bcrypt.compare(password, user.password);
     //if both are valid
     if (user && validPW) {
         req.session.authenticated = true;
+        req.session.is_admin = user.is_admin;
         res.status(200).send(req.session);
     }
     else {
@@ -48,50 +49,4 @@ authRouter.post('/logout', async (req, res) => {
         res.status(401).json({ message: 'Not Logged In.' });
     }
 });
-//Initialize strategy for passport authentication
-// passport.use(new LocalStrategy({
-//   usernameField: 'id',
-//   passwordField: 'password',
-//   passReqToCallback: true
-// },
-//   (req, id, password, done) => {
-//     db.getUser(id)
-//       .then(res => {
-//         bcrypt.compare(password, res.password)
-//           .then((res) => {
-//             return done(null, res)
-//           })
-//       .catch(err => { return done(err) })
-//     })
-//     .catch((err) => { return done(err) })
-//   }
-// ))
-// passport.serializeUser((user: Express.User, next) => {
-//   process.nextTick(() => {
-//     next(null, user)
-//   })
-// })
-// passport.deserializeUser((user: Express.User, next) => {
-//   process.nextTick(() => {
-//     return next(null, user)
-//   })
-// })
-// //CHANGE this to wrong login eventually
-// authRouter.get('/login', async (req, res, next) => {
-//   res.status(401).send('please login')
-// })
-// //change route to just login eventually
-// //login route, redirect to login if failure to authenticate otherwise redirect
-// authRouter.post('/login/password', passport.authenticate('local', {
-//   successRedirect: '/api/users',
-//   failureRedirect: '/api/auth/login'
-//   }),
-//   (req, res, next) => {
-// })
-// authRouter.post('/logout', (req, res, next) => {
-//   req.logout((err) => {
-//     if (err) { return next(err) }
-//     res.redirect('/api/auth/login')
-//   })
-// })
 export default authRouter;

@@ -11,6 +11,7 @@ import shiftsRouter from './routes/shifts.js'
 import middleware from './utils/middleware.js'
 
 app.use(cors())
+app.use(express.json())
 
 app.use(session({
   secret: config.SECRET,
@@ -19,10 +20,6 @@ app.use(session({
   cookie: { maxAge: 900000 } 
 }))
 
-app.use(passport.authenticate('session')
-)
-
-app.use(express.json())
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/shifts', shiftsRouter)

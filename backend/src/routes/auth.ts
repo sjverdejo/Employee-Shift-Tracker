@@ -4,7 +4,8 @@ import db from '../database/users.js'
 
 declare module 'express-session' {
   interface Session {
-    authenticated: boolean
+    authenticated: boolean,
+    is_admin: boolean
   }
 }
 
@@ -12,7 +13,7 @@ const authRouter = express.Router()
 
 //Login Router 
 authRouter.post('/login', async (req, res) => {
-  const { id, password } = req.body
+  const { employeeId, password } = req.body
 
   if (req.session.authenticated) {
     res.status(404).json({ message: 'Already authenticated.' })
@@ -20,7 +21,7 @@ authRouter.post('/login', async (req, res) => {
   }
 
   //user login info
-  const user = await db.getUser(id)
+  const user = await db.getUser(employeeId)
   const validPW = user === null
     ? false
     : await bcrypt.compare(password, user.password)
@@ -28,6 +29,7 @@ authRouter.post('/login', async (req, res) => {
   //if both are valid
   if (user && validPW) {
     req.session.authenticated = true
+    req.session.is_admin = user.is_admin
     res.status(200).send(req.session)
   } else {
     res.status(404).json({ message: 'Invalid id or password.' })
