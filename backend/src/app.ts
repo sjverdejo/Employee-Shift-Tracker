@@ -3,10 +3,14 @@ const app = express()
 import config from './utils/config.js'
 import passport from 'passport'
 import session from 'express-session'
+import cors from 'cors'
+
 import usersRouter from './routes/users.js'
 import authRouter from './routes/auth.js'
 import shiftsRouter from './routes/shifts.js' 
 import middleware from './utils/middleware.js'
+
+app.use(cors())
 
 app.use(session({
   secret: config.SECRET,

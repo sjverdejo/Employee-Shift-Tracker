@@ -35,7 +35,7 @@ beforeEach(async () => {
   }
 
   //login to database and set authentication
-  const login = await api.post('/api/auth/login/password')
+  const login = await api.post('/api/auth/login')
     .send(user)
 
   cookie = login.header['set-cookie']

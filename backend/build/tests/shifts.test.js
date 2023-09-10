@@ -13,7 +13,7 @@ beforeEach(async () => {
         password: 'testpw'
     };
     //login to database and set authentication
-    const login = await api.post('/api/auth/login/password')
+    const login = await api.post('/api/auth/login')
         .send(user);
     cookie = login.header['set-cookie'];
 });
@@ -141,8 +141,6 @@ describe('UPDATE routes for shifts', () => {
     };
     const valid_id = 1;
     const invalid_id = 'Five';
-    const valid_date = new Date();
-    const invalid_date = new Date('Hello');
     //Update with valid shift and valid id
     test('Update with valid shift and valid id', async () => {
         const before_update = await sql `SELECT scheduled_hours FROM shifts WHERE id=${valid_id};`; //Schedule_hours should be 8
@@ -185,7 +183,6 @@ describe('UPDATE routes for shifts', () => {
         const clock_in = {
             in_time: new Date('2002-02-03')
         };
-        console.log('date', clock_in);
         await api.put(`/api/shifts/clockin/${valid_id}`)
             .set('Cookie', cookie)
             .send(clock_in)

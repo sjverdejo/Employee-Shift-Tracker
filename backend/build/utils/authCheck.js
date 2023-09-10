@@ -1,6 +1,6 @@
 //To protect routes with authenticated requirement
 const authCheck = (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (req.session.authenticated) {
         return next();
     }
     res.redirect('/api/auth/login');
