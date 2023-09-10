@@ -14,6 +14,9 @@ const errorHandler = (error, request, response, next) => {
     else if (error.name === 'UNDEFINED_VALUE') {
         return response.status(400).send({ error: 'Undefined Values' });
     }
+    else if (error.name === 'RangeError') {
+        return response.status(400).send({ error: 'Out of range value' });
+    }
     next(error);
 };
 export default { unknownEndpoint, errorHandler };

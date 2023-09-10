@@ -15,6 +15,7 @@ interface shiftObj {
   scheduled_hours: number
 }
 
+//check if shift is missing field
 const validShift = (shift: shiftObj) => {
   if (shift.scheduled_end && shift.scheduled_start && shift.scheduled_hours) {
     return true

@@ -77,8 +77,12 @@ shiftsRouter.put('/:id', authCheck, async (req, res, next) => {
 
   if (helper.validShift(shift)) {
     try {
-      await db.updateShift(req.params.id, shift)
-      res.status(200).send()
+     const updated = await db.updateShift(req.params.id, shift)
+      if (updated[0]) {
+        res.status(204).send()
+      } else {
+        res.status(400).end()
+      }
     } catch (error) {
       next(error)
     }
@@ -89,25 +93,42 @@ shiftsRouter.put('/:id', authCheck, async (req, res, next) => {
 
 //Clock in - for employees
 shiftsRouter.put('/clockin/:id', authCheck, async (req, res, next) => {
-  const in_time: Date = req.body
+  const { in_time } = req.body
 
-  try {
-    await db.updateClockIn(req.params.id, in_time)
-    res.status(200).send()
-  } catch (error) {
-    next(error)
-  } 
+  if (in_time) {
+    try {
+      const update = await db.updateClockIn(req.params.id, in_time)
+      if (update[0]) {
+        res.status(204).send()
+      } else {
+        res.status(400).end()
+      }
+    } catch (error) {
+      next(error)
+    } 
+  } else {
+    res.status(400).end()
+  }
+  
 })
 
 //Clock out - for employees
 shiftsRouter.put('/clockout/:id', authCheck, async (req, res, next) => {
-  const out_time: Date = req.body
+  const { out_time } = req.body
 
-  try {
-    await db.updateClockIn(req.params.id, out_time)
-    res.status(200).send()
-  } catch (error) {
-    next(error)
+  if (out_time) {
+    try {
+      const update = await db.updateClockOut(req.params.id, out_time)
+      if (update[0]) {
+        res.status(204).send()
+      } else {
+        res.status(400).end()
+      }
+    } catch (error) {
+      next(error)
+    }
+  } else {
+    res.status(400).end()
   }
 })
 

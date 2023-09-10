@@ -1,3 +1,4 @@
+//check if shift is missing field
 const validShift = (shift) => {
     if (shift.scheduled_end && shift.scheduled_start && shift.scheduled_hours) {
         return true;

@@ -172,13 +172,57 @@ describe('POST routes for shifts', () => {
 
 //PUT shifts
 describe('UPDATE routes for shifts', () => {
+  const valid_update: shiftObj = {
+    scheduled_start: new Date(),
+    scheduled_end: new Date(),
+    scheduled_hours: 10
+  }
+
+  const invalid_update: shiftObj = {
+    scheduled_start: new Date('20002-002-02'),
+    scheduled_end: new Date(),
+    scheduled_hours: 0
+  }
+
+  const valid_id = 1;
+  const invalid_id = 'Five';
+
   //Update with valid shift and valid id
+  test('Update with valid shift and valid id', async () => {
+    const before_update = await sql`SELECT scheduled_hours FROM shifts WHERE id=${valid_id};` //Schedule_hours should be 8
+
+    await api.put(`/api/shifts/${valid_id}`) //Update first shift in db
+      .set('Cookie', cookie)
+      .send(valid_update)
+      .expect(204)
+
+    const after_update = await sql`SELECT scheduled_hours FROM shifts WHERE id=${valid_id};` //Schedule_hours should be 10 after change
+    expect(after_update[0].scheduled_hours).toEqual(before_update[0].scheduled_hours + 2) //Should have gone from 8 hours before to 10 after
+  })
 
   //Update with valid shift and invalid id
+  test('Update with valid shift, invalid id', async () => {
+    await api.put(`/api/shifts/${invalid_id}`)
+      .set('Cookie', cookie)
+      .send(valid_update)
+      .expect(400)
+  })
+
   //Update with valid shift and non existent id
+  test('Update with valid shift, non existent id', async () => {
+    await api.put(`/api/shifts/9`) //only 3 shifts in the database, 9 does not exist
+      .set('Cookie', cookie)
+      .send(valid_update)
+      .expect(400)
+  })
+
   //Update with invalid shift and valid id
-  //Update with invalid shift and invalid id
-  //Update with invalid shift and non existent id
+  test('Update with invalid shift, valid id', async () => {
+    await api.put(`/api/shifts/${valid_id}`)
+      .set('Cookie', cookie)
+      .send(invalid_update)
+      .expect(400)
+  })
 
   //Update without authentication
   test('Update with no auth', async () => {
@@ -186,6 +230,80 @@ describe('UPDATE routes for shifts', () => {
       .put('/api/shifts/3') //Payload does not matter
 
     expect(result.header['location']).toEqual('/api/auth/login')
+  })
+
+  //Update clockin // valid/invalid/nonexistent id + valid/invalid date
+  test('Clock in with valid date, valid id', async () => {
+    const clock_in = {
+      in_time: new Date('2002-02-03')
+    }
+
+    await api.put(`/api/shifts/clockin/${valid_id}`)
+      .set('Cookie', cookie)
+      .send(clock_in)
+      .expect(204)
+
+    const after_update = await sql`SELECT clock_in FROM shifts WHERE id = ${valid_id}` //Get clock_in value after
+
+    expect(after_update[0].clock_in).not.toBeNull() //clock in will have default null value before update
+  })
+
+  test('Clock in with valid date, invalid id', async () => {
+    await api.put(`/api/shifts/clockin/${invalid_id}`)
+      .set('Cookie', cookie)
+      .send(new Date('2002-02-03'))
+      .expect(400)
+  })
+
+  test('Clock in with invalid date, valid id', async () => {
+    await api.put(`/api/shifts/clockin/${valid_id}`)
+      .set('Cookie', cookie)
+      .send(new Date('String'))
+      .expect(400)
+  })
+
+  test('Clock in with valid date, nonexistent id', async () => {
+    await api.put(`/api/shifts/clockin/9`) //9 does not exist
+      .set('Cookie', cookie)
+      .send(new Date('2002-02-03'))
+      .expect(400)
+  })
+
+  //Update clockout // valid/invalid id + valid/invalid date
+  test('Clock out with valid date, valid id', async () => {
+    const clock_out = {
+      out_time: new Date('2002-02-03')
+    }
+
+    await api.put(`/api/shifts/clockout/${valid_id}`)
+      .set('Cookie', cookie)
+      .send(clock_out)
+      .expect(204)
+
+    const after_update = await sql`SELECT clock_out FROM shifts WHERE id = ${valid_id}` //Get clock_in value after
+
+    expect(after_update[0].clock_out).not.toBeNull() //clock out will have default null value 
+  })
+
+  test('Clock out with valid date, invalid id', async () => {
+    await api.put(`/api/shifts/clockout/${invalid_id}`)
+      .set('Cookie', cookie)
+      .send(new Date('2002-02-03'))
+      .expect(400)
+  })
+
+  test('Clock out with invalid date, valid id', async () => {
+    await api.put(`/api/shifts/clockout/${valid_id}`)
+      .set('Cookie', cookie)
+      .send(new Date('String'))
+      .expect(400)
+  })
+
+  test('Clock out with valid date, nonexistent id', async () => {
+    await api.put(`/api/shifts/clockout/9`) //9 does not exist
+      .set('Cookie', cookie)
+      .send(new Date('2002-02-03'))
+      .expect(400)
   })
 })
 
