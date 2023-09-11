@@ -1,49 +1,46 @@
+import axios from 'axios'
+import { LoginInterface, UserInterface } from "../interfaces/users"
 
 const base_url: string = 'http://localhost:3001'
 
-interface loginInfo {
-  employeeId: string,
-  password: string
-}
+axios.defaults.withCredentials = true
 
 //Sign in service
 const sign_in = async (employeeId: string, password: string) => {
-  const login: loginInfo = {
+  const login: LoginInterface = {
     employeeId,
     password
   }
 
-  const response = await fetch(`${base_url}/api/auth/login`, {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(login),
-  })
+  const req = await axios.post(`${base_url}/api/auth/login`, login)
 
-  if (response) {
-    if (!response.ok) { throw new Error('Could not fetch.')}
-    console.log('response', await response.json())
-  } 
-  //set state here
+  if (req) {
+    const user: UserInterface = {
+      is_admin: req.data.is_admin,
+      e_ID: req.data.e_ID,
+      is_signed_in: req.data.authenticated
+    } 
+    return user
+  } else {
+    return null
+  }
 }
 
 //Check if signed in service
-const check_sign_in_status = async () => {
-  const response = await fetch(`${base_url}/api/auth/login`, {
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+const signed_in = async () => {
+  const req = await axios.get(`${base_url}/api/auth/logged_in`)
 
-  if (response) {
-    if (!response.ok) { throw new Error('Could not fetch.')}
-    //if response is logged in or not
-    //update state here if logged in or now
+  if (req && req.data.is_signed_in) {
+    
+    const user: UserInterface = {
+      is_admin: req.data.user.is_admin,
+      e_ID: req.data.user.e_ID,
+      is_signed_in: req.data.user.authenticated
+    } 
+
+    return user
+  } else {
+    return null
   }
 }
 
@@ -65,4 +62,4 @@ const sign_out = async () => {
   }
 }
 
-export default { sign_in, check_sign_in_status, sign_out }
+export default { sign_in, signed_in, sign_out }

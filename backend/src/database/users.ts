@@ -11,10 +11,15 @@ const getAllUsers = async () => {
 
 //Return one user with matching ID
 const getUser = async (id: string) => {
-  const user = await sql
+  try {
+    const user = await sql
     `SELECT * FROM users WHERE id = ${id};`
 
-  return user[0]
+    return user[0]
+  } catch (e) {
+    return null
+  }
+  
 }
 
 //Interface for user object type

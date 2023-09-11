@@ -11,26 +11,29 @@ authRouter.post('/login', async (req, res) => {
     }
     //user login info
     const user = await db.getUser(employeeId);
-    const validPW = user === null
-        ? false
-        : await bcrypt.compare(password, user.password);
+    let validPW = false;
+    if (user) {
+        validPW = await bcrypt.compare(password, user.password);
+    }
     //if both are valid
     if (user && validPW) {
         req.session.authenticated = true;
         req.session.is_admin = user.is_admin;
+        req.session.e_ID = user.id;
         res.status(200).send(req.session);
     }
     else {
-        res.status(404).json({ message: 'Invalid id or password.' });
+        res.status(404).send({ message: 'Invalid id or password.' });
+        return;
     }
 });
 //Check if LoggedIn Router
-authRouter.get('/login', async (req, res) => {
+authRouter.get('/logged_in', async (req, res) => {
     if (req.session.authenticated) {
-        res.status(200).send({ is_signed_in: true });
+        res.json({ is_signed_in: true, user: req.session });
     }
     else {
-        res.status(403).send({ is_signed_in: false });
+        res.json({ is_signed_in: false });
     }
 });
 //Logout Router

@@ -7,8 +7,13 @@ const getAllUsers = async () => {
 };
 //Return one user with matching ID
 const getUser = async (id) => {
-    const user = await sql `SELECT * FROM users WHERE id = ${id};`;
-    return user[0];
+    try {
+        const user = await sql `SELECT * FROM users WHERE id = ${id};`;
+        return user[0];
+    }
+    catch (e) {
+        return null;
+    }
 };
 //Create a new user using provided user object
 const createNewUser = async (newUser) => {
