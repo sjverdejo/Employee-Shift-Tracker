@@ -54,9 +54,11 @@ const signed_in = async () => {
 
 //Sign out service
 const sign_out = async () => {
-  const req = await axios.post(`${base_url}/api/auth/logout`)
-
-  console.log(req)
+  try {
+    await axios.post(`${base_url}/api/auth/logout`)
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export default { sign_in, signed_in, sign_out }

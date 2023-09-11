@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
@@ -14,11 +13,13 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    //Reducer for setting the user after sign in or after re-validation
     user_sign_in: (state, action: PayloadAction<UserInterface>) => {
       state.is_admin = action.payload.is_admin
       state.e_ID = action.payload.e_ID
       state.is_signed_in = action.payload.is_signed_in
     },
+    //Reducer for setting user back to initial state
     user_sign_out: (state) => {
       state.is_admin = initialState.is_admin
       state.e_ID = initialState.e_ID

@@ -9,6 +9,7 @@ const SignInForm = () => {
 
   const dispatch = useAppDispatch()
 
+  //Form submission handler, set user state if successful
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const response = await authentication.sign_in(employeeId, password)
