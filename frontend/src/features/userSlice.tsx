@@ -18,11 +18,16 @@ export const userSlice = createSlice({
       state.is_admin = action.payload.is_admin
       state.e_ID = action.payload.e_ID
       state.is_signed_in = action.payload.is_signed_in
-    }
+    },
+    user_sign_out: (state) => {
+      state.is_admin = initialState.is_admin
+      state.e_ID = initialState.e_ID
+      state.is_signed_in = initialState.is_signed_in
+    },
   }
 })
 
-export const { user_sign_in } = userSlice.actions
+export const { user_sign_in, user_sign_out } = userSlice.actions
 
 export const selectUser = (state: RootState) => state.user
 

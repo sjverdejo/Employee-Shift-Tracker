@@ -17,7 +17,7 @@ app.use(session({
     secret: config.SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 900000 }
+    cookie: { maxAge: 90000 }
 }));
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
