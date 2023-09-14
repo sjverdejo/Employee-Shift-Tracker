@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard'
 import AllShifts from './components/shifts/AllShifts'
 import EmployeeShifts from './components/shifts/EmployeeShifts'
 import EmployeeProfile from './components/users/EmployeeProfile'
+import CreateEmployee from './components/users/CreateEmployee'
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
           {
             path: 'employee/:id', //Specific employee profile - Employee can only view own
             element: <EmployeeProfile />
+          },
+          {
+            path: 'employee/new',
+            element: <CreateEmployee />
           }
         ]
       },

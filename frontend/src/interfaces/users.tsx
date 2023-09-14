@@ -21,3 +21,14 @@ export interface FullEmployeeInterface {
   email: string | null
   phone: string | null
 }
+
+export interface NewEmployee {
+  is_admin: boolean | null
+  password: string | null
+  fname: string | null
+  lname: string | null
+  dob: Date | null
+  date_employed: Date | null
+  email: string | null
+  phone: string | null
+}

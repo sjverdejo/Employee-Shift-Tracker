@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { NewEmployee } from '../interfaces/users'
 
 const base_url: string = 'http://localhost:3001'
 
@@ -18,6 +19,14 @@ const getUsers = async () => {
   return req.data
 }
 
+//Create new employee
+const createEmployee = async (newEmployee: NewEmployee) => {
+  const req = await axios.post(`${base_url}/api/shifts/employee`, newEmployee)
+
+  return req
+}
+
+
 export default {
-  getUser, getUsers
+  getUser, getUsers, createEmployee
 }

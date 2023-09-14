@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import usersAPI from '../../services/users'
 import { FullEmployeeInterface } from '../../interfaces/users'
@@ -49,7 +49,17 @@ const EmployeeProfile = () => {
   return (
     <>
       { employee.id &&
-        <h1>{employee.fname}</h1>
+        <>
+          <h1>{employee.fname}</h1>
+          <>
+            {user.is_admin &&
+              <>
+                <button><Link to=''>Edit Employee</Link></button>
+                <button><Link to=''>Delete Employee</Link></button>
+              </>
+            }
+          </>
+        </>
       }
     </>
     

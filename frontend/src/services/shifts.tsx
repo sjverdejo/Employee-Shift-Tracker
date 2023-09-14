@@ -26,11 +26,11 @@ const getEmployeeShifts = async (id: string) => {
   return req.data
 }
 
-//CREATE new employee - Admin
+//CREATE new shift - Admin
 
-//UPDATE employee - Admin
+//UPDATE shift - Admin
 
-//DELETE employee - Admin
+//DELETE shift - Admin
 
 //CLOCK IN - Employee
 //CLOCK IN - Employee

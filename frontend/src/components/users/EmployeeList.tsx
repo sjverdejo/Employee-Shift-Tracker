@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAppSelector } from "../../hooks/redux-hooks"
 import usersAPI from '../../services/users'
 import EmployeeListItem from './EmployeeListItem'
@@ -21,11 +21,13 @@ const EmployeeList = () => {
       })
       .catch(err => {
         console.log(err)
+        navigate('/dashboard')
       })
   })
 
   return (
     <>
+      <button><Link to=''>Create New Employee</Link></button>
       { allUsers && 
         allUsers.map((u) => <EmployeeListItem {...u} />)
       }
