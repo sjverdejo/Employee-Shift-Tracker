@@ -12,6 +12,7 @@ import EmployeeProfile from './components/users/EmployeeProfile'
 import CreateEmployee from './components/users/CreateEmployee'
 import EmployeeList from './components/users/EmployeeList'
 import UpdateEmployee from './components/users/UpdateEmployee'
+import CreateShift from './components/shifts/CreateShift'
 
 const router = createBrowserRouter([
   {
@@ -23,15 +24,7 @@ const router = createBrowserRouter([
         element: <Dashboard />,
         children: [
           {
-            path: 'employees-shifts', //All employees shifts - Admin only
-            element: <AllShifts />
-          },
-          {
-            path: 'employee-shifts/:id', //All shifts for certain employee - Admin and Employee
-            element: <EmployeeShifts />
-          },
-          {
-            path: 'employees',
+            path: 'employees', //All employees - Admin only
             element: <EmployeeList />
           },
           {
@@ -39,19 +32,27 @@ const router = createBrowserRouter([
             element: <EmployeeProfile />
           },
           {
-            path: 'employee/new',
+            path: 'employee/new', //Create new employee login - Admin Only
             element: <CreateEmployee />
           },
           {
-            path: 'employee/:id/update',
+            path: 'employee/:id/update', //Update employee - Admin only
             element: <UpdateEmployee />
+          },
+          {
+            path: 'shifts', //All employees shifts - Admin only
+            element: <AllShifts />
+          },
+          {
+            path: 'shifts/:id', //All shifts for certain employee - Admin and Employee
+            element: <EmployeeShifts />
+          },
+          {
+            path: 'shifts/new', //Create shift - Admin only
+            element: <CreateShift />
           }
         ]
       },
-      // {
-      //   path: 'profile',
-      //   element:
-      // }
     ]
   },
 ])

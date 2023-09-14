@@ -7,7 +7,7 @@ const EmployeeNav = () => {
   return (
     <>
       <CommonNav />
-      <Link to={`/dashboard/employee-shifts/${user.e_ID}`}>My Shifts</Link>
+      <Link to={`/dashboard/shifts/${user.e_ID}`}>My Shifts</Link>
     </>
   )
 }

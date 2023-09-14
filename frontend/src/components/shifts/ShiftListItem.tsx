@@ -6,7 +6,7 @@ import usersAPI from '../../services/users'
 
 import { ShiftInterface, PartialEmployeeInterface } from '../../interfaces/shifts'
 
-const Shift = (shift: ShiftInterface) => {
+const Shift = ({shift}:{shift: ShiftInterface}) => {
   const user = useAppSelector((state) => state.user)
 
   const emptyEmployee: PartialEmployeeInterface = {
@@ -35,7 +35,6 @@ const Shift = (shift: ShiftInterface) => {
           navigate('/dashboard')
         })
     } else {
-      console.log('here')
       navigate('/dashboard')
     }
   }, [])
@@ -43,7 +42,10 @@ const Shift = (shift: ShiftInterface) => {
   return (
     <>
       { (shift.id && employee.id) &&
-        <p>{`Employee: ${employee.fname} ${employee.lname} Employee ID: ${employee.id}`}</p>
+        <>
+          <p>{`Shift: ${shift.scheduled_start} - ${shift.scheduled_end} HOURS: ${shift.scheduled_hours}`}</p>
+          <p>{`${shift.id} = Employee: ${employee.fname} ${employee.lname} Employee ID: ${employee.id}`}</p>
+        </>
       }
     </>
   )

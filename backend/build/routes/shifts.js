@@ -41,6 +41,7 @@ shiftsRouter.get('/employee/:id', authCheck, async (req, res, next) => {
 //Create shift, admin only
 shiftsRouter.post('/employee/:id', authCheck, async (req, res, next) => {
     const shift = req.body;
+    console.log(shift);
     if (helper.validShift(shift)) {
         try {
             const newShift = await db.createShift(req.params.id, shift);

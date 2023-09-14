@@ -56,6 +56,7 @@ interface shiftObj {
 shiftsRouter.post('/employee/:id', authCheck, async (req, res, next) => {
   const shift: shiftObj = req.body
 
+  console.log(shift)
   if (helper.validShift(shift)) {
     try {
       const newShift = await db.createShift(req.params.id, shift)

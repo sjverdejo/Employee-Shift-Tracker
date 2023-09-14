@@ -9,6 +9,12 @@ export interface ShiftInterface {
   employee: string | null
 }
 
+export interface NewShift {
+  scheduled_start: Date
+  scheduled_end: Date
+  scheduled_hours: number
+}
+
 export interface PartialEmployeeInterface {
   id: string | null
   fname: string | null

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { NewShift } from '../interfaces/shifts'
 
 const base_url: string = 'http://localhost:3001'
 
@@ -27,6 +28,11 @@ const getEmployeeShifts = async (id: string) => {
 }
 
 //CREATE new shift - Admin
+const createNewShift = async (id: string, shift: NewShift) => {
+  const req = await axios.post(`${base_url}/api/shifts/employee/${id}`, shift)
+
+  return req.data
+}
 
 //UPDATE shift - Admin
 
@@ -37,4 +43,5 @@ const getEmployeeShifts = async (id: string) => {
 
 export default {
   getShift, getAllShifts, getEmployeeShifts,
+  createNewShift
 }

@@ -11,7 +11,7 @@ const EmployeeList = () => {
   const [allUsers, setAllUsers] = useState<FullEmployeeInterface[]>([])
 
   useEffect(() => {
-    if (!user.is_admin) {
+    if (!user.is_admin || !user.is_signed_in) {
       navigate('/dashboard')
     }
 
@@ -27,7 +27,7 @@ const EmployeeList = () => {
 
   return (
     <>
-      <button><Link to='/dashboard/employee/new'>Create New Employee</Link></button>
+      <Link to='/dashboard/employee/new'><button>Create New Employee</button></Link>
       { allUsers && 
         allUsers.map((u) => <div key={u.id}><EmployeeListItem {...u} /></div>)
       }

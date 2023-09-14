@@ -1,6 +1,6 @@
 //Admin View
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import shiftsAPI from '../../services/shifts'
 import ShiftList from './ShiftList'
@@ -12,17 +12,18 @@ const AllShifts = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!user.is_admin) {
+    if (!user.is_admin || !user.is_signed_in) {
       navigate('/dashboard')
     } 
 
     shiftsAPI.getAllShifts()
       .then(res => setShifts(shifts.concat(res)))
-      .catch(err => console.log(err))
+      .catch(err => {console.log(err); navigate('/')})
   }, [])
 
   return (
     <>
+      <Link to={`/dashboard/shifts/new`}><button>Post New Shift</button></Link>
       <ShiftList shifts={shifts}/>
     </>
   )

@@ -6,7 +6,7 @@ const CommonNav = () => {
   return (
     <>
       <Link to='/dashboard'>Home</Link>
-      <Link to={`/dashboard/profile/${user.e_ID}`}>My Profile</Link>
+      <Link to={`/dashboard/employee/${user.e_ID}`}>My Profile</Link>
     </>
   )
 }

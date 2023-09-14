@@ -11,7 +11,7 @@ const CreateEmployee = () => {
   const navigate = useNavigate()
   
   useEffect(() => {
-    if (!user.is_admin) {
+    if (!user.is_admin || !user.is_signed_in) {
       navigate('/dashboard')
     }
   }, [])

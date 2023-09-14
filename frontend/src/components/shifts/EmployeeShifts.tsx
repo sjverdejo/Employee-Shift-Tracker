@@ -13,7 +13,7 @@ const EmployeeShifts = () => {
   const navigate = useNavigate()
 
   useEffect(()=> {
-    if (user.is_admin || user.e_ID === id) {
+    if ((user.is_admin || user.e_ID === id) && user.is_signed_in) {
       shiftsAPI.getEmployeeShifts(id as string)
       .then(res => setShifts(shifts.concat(res)))
       .catch(err => console.log(err))

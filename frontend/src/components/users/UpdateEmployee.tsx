@@ -12,7 +12,7 @@ const UpdateEmployee = () => {
   const { id } = useParams()
 
   useEffect(() => {
-    if (!user.is_admin) {
+    if (!user.is_admin || !user.is_signed_in) {
        navigate('/dashboard')
     }
   }, [])

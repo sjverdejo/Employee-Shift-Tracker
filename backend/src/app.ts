@@ -21,7 +21,7 @@ app.use(session({
   secret: config.SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 90000 } 
+  cookie: { maxAge: 900000 } 
 }))
 
 app.use('/api/users', usersRouter)

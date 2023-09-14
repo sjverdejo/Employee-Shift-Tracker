@@ -24,7 +24,7 @@ const EmployeeProfile = () => {
   const [showDelete, setShowDelete] = useState(false)
 
   useEffect(() => {
-    if (user.is_admin || user.e_ID === id) {
+    if ((user.is_admin || user.e_ID === id) && user.is_signed_in) {
       usersAPI.getUser(id as string)
       .then(res => {
         const newEmployee: FullEmployeeInterface = {
