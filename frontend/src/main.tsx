@@ -5,12 +5,34 @@ import { Provider } from 'react-redux'
 
 import App from './App'
 import { store } from './store'
+import Dashboard from './pages/Dashboard'
+import AllShifts from './components/shifts/AllShifts'
+import EmployeeShifts from './components/shifts/EmployeeShifts'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children: []
+    children: [
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
+        children: [
+          {
+            path: 'allshifts',
+            element: <AllShifts />
+          },
+          {
+            path: 'employee-shifts/:id',
+            element: <EmployeeShifts />
+          }
+        ]
+      },
+      // {
+      //   path: 'profile',
+      //   element:
+      // }
+    ]
   },
 ])
 

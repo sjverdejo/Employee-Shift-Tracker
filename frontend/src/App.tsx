@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, Navigate, useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from './hooks/redux-hooks'
 import SignInPage from './pages/SignInPage'
 import auth from './services/authentication'
@@ -11,6 +11,7 @@ const App = () => {
 
   const user = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const logout = () => {
     auth.sign_out()
@@ -23,6 +24,7 @@ const App = () => {
       .then(res => {
         if (res) {
           dispatch(user_sign_in(res))
+          navigate('/dashboard')
         } else {
           dispatch(user_sign_out())
         }

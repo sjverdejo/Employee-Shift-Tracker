@@ -13,13 +13,13 @@ const EmployeeShifts = () => {
   const navigate = useNavigate()
 
   useEffect(()=> {
-    if (!user.is_admin || user.e_ID !== id) {
-      navigate('/')
-    }
-    
-    shiftsAPI.getEmployeeShifts(id as string)
+    if (user.is_admin || user.e_ID === id) {
+      shiftsAPI.getEmployeeShifts(id as string)
       .then(res => setShifts(shifts.concat(res)))
       .catch(err => console.log(err))
+    } else {
+      navigate('/dashboard')
+    }
   }, [])
 
   return (

@@ -13,7 +13,7 @@ const AllShifts = () => {
 
   useEffect(() => {
     if (!user.is_admin) {
-      navigate('/')
+      navigate('/dashboard')
     } 
 
     shiftsAPI.getAllShifts()

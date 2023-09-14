@@ -1,3 +1,4 @@
+import { Outlet } from 'react-router-dom'
 import { useAppSelector } from '../hooks/redux-hooks'
 
 const Dashboard = () => {
@@ -5,7 +6,8 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1>{user.is_admin}</h1>
+      <h1>{user.e_ID}</h1>
+      <Outlet />
     </>
   )
 }
