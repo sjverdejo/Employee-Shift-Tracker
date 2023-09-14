@@ -6,6 +6,7 @@ export interface ShiftInterface {
   scheduled_hours: number | null
   clock_in: Date | null
   clock_out: Date | null
+  employee: string | null
 }
 
 export interface PartialEmployeeInterface {
