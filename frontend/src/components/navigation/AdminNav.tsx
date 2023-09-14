@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
+import CommonNav from './CommonNav'
 
 const AdminNav = () => {
   return (
     <>
-      <Link to='/dashboard'>Home</Link>
-      <Link to='/'>Employees</Link>
-      <Link to={`dashboard/allshifts`}>All Shifts</Link>
-      <Link to='/'>My Profile</Link>
+      <CommonNav />
+      <Link to='/'>All Employees</Link>
+      <Link to={`dashboard/all-shifts`}>All Shifts</Link>
     </>
   )
 }

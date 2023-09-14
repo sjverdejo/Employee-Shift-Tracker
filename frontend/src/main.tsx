@@ -8,6 +8,7 @@ import { store } from './store'
 import Dashboard from './pages/Dashboard'
 import AllShifts from './components/shifts/AllShifts'
 import EmployeeShifts from './components/shifts/EmployeeShifts'
+import Profile from './components/users/Profile'
 
 const router = createBrowserRouter([
   {
@@ -19,12 +20,20 @@ const router = createBrowserRouter([
         element: <Dashboard />,
         children: [
           {
-            path: 'allshifts',
+            path: 'employees-shifts', //All employees shifts - Admin only
             element: <AllShifts />
           },
           {
-            path: 'employee-shifts/:id',
+            path: 'employee-shifts/:id', //All shifts for certain employee - Admin and Employee
             element: <EmployeeShifts />
+          },
+          // {
+          //   path: 'employees-profiles',
+          //   element: <Profile
+          // },
+          {
+            path: 'profile/:id', //Specific employee profile - Employee can only view own
+            element: <Profile />
           }
         ]
       },

@@ -9,6 +9,7 @@ import { ShiftInterface, PartialEmployeeInterface } from '../../interfaces/shift
 
 const Shift = ({shift_id}:{shift_id: string}) => {
   const user = useAppSelector((state) => state.user)
+  
   const emptyShift: ShiftInterface = {
     id: null,
     scheduled_start: null,

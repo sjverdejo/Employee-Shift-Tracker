@@ -12,7 +12,7 @@ const NavBar = () => {
     <>
       { isNotNull &&
         <nav>
-          {user.is_admin ? AdminNav() : EmployeeNav()}
+          {user.is_admin ? <AdminNav /> : <EmployeeNav />}
         </nav>
       }
     </>

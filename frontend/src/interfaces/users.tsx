@@ -10,3 +10,14 @@ export interface LoginInterface {
   employeeId: string,
   password: string
 }
+
+export interface FullEmployeeInterface {
+  id: string | null
+  is_admin: boolean | null
+  fname: string | null
+  lname: string | null
+  dob: Date | null
+  date_employed: Date | null
+  email: string | null
+  phone: string | null
+}

@@ -1,13 +1,13 @@
-import { useAppSelector } from '../../hooks/redux-hooks'
 import { Link } from 'react-router-dom'
+import { useAppSelector } from '../../hooks/redux-hooks'
+import CommonNav from './CommonNav'
 
 const EmployeeNav = () => {
   const user = useAppSelector((state) => state.user)
   return (
     <>
-      <Link to='/dashboard'>Home</Link>
+      <CommonNav />
       <Link to={`/dashboard/employee-shifts/${user.e_ID}`}>My Shifts</Link>
-      <Link to='/'>My Profile</Link>
     </>
   )
 }
