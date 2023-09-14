@@ -2,6 +2,7 @@ import express from 'express'
 import db from '../database/shifts.js'
 import authCheck from '../utils/authCheck.js'
 import helper from '../utils/helper.js'
+import shifts from '../database/shifts.js'
 
 const shiftsRouter = express.Router()
 
@@ -41,6 +42,8 @@ shiftsRouter.get('/employee/:id', authCheck, async (req, res, next) => {
     next(error)
   }
 })
+
+// shiftsRouter.get('/employee')
 
 //Interface for new shift
 interface shiftObj {

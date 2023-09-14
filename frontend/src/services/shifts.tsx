@@ -8,7 +8,6 @@ axios.defaults.withCredentials = true
 const getShift = async (id: string) => {
   const req = await axios.get(`${base_url}/api/shifts/${id}`)
 
-  console.log(req.data)
   return req.data
 }
 
@@ -16,7 +15,6 @@ const getShift = async (id: string) => {
 const getAllShifts = async () => {
   const req = await axios.get(`${base_url}/api/shifts`)
 
-  console.log(req.data)
   return req.data
 }
 

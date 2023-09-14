@@ -1,7 +1,6 @@
 import express from 'express'
 const app = express()
 import config from './utils/config.js'
-import passport from 'passport'
 import session from 'express-session'
 import cors from 'cors'
 
@@ -15,6 +14,7 @@ app.use(cors({
   origin:'http://localhost:5173',
   credentials: true
 }))
+
 app.use(express.json())
 
 app.use(session({

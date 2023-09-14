@@ -9,7 +9,7 @@ beforeEach(async () => {
     await testHelper.clearTestDatabase();
     await testHelper.initializeTestDatabase();
     const user = {
-        id: '3',
+        employeeId: '3',
         password: 'testpw'
     };
     //login to database and set authentication

@@ -20,7 +20,7 @@ authRouter.post('/login', async (req, res) => {
     res.status(404).json({ message: 'Already authenticated.' })
     return
   }
-
+  
   //user login info
   const user = await db.getUser(employeeId)
   
@@ -29,7 +29,6 @@ authRouter.post('/login', async (req, res) => {
   if (user) {
     validPW = await bcrypt.compare(password, user.password)
   }
-  
   
   //if both are valid
   if (user && validPW) {

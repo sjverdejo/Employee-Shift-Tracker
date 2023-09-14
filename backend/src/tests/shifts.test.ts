@@ -7,7 +7,7 @@ import sql from '../db.js'
 import testHelper from './testHelper.js'
 
 interface loginInfo {
-  id: string,
+  employeeId: string,
   password: string
 }
 
@@ -25,7 +25,7 @@ beforeEach(async () => {
   await testHelper.initializeTestDatabase()
 
   const user: loginInfo = {
-    id: '3',
+    employeeId: '3',
     password: 'testpw'
   }
 

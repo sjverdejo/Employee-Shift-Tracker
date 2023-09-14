@@ -9,7 +9,7 @@ import testHelper from './testHelper.js'
 let cookie: any = null
 
 interface loginInfo {
-  id: string,
+  employeeId: string,
   password: string
 }
 
@@ -30,7 +30,7 @@ beforeEach(async () => {
   await testHelper.initializeTestDatabase()
 
   const user: loginInfo = {
-    id: '3',
+    employeeId: '3',
     password: 'testpw'
   }
 
@@ -76,7 +76,7 @@ describe('GET route tests...', () => {
   test('Attempt with invalid ID', async () => {
     await api.get('/api/users/poop')
       .set('Cookie', cookie)
-      .expect(400)
+      .expect(404)
   })
 
   //GET route without auth

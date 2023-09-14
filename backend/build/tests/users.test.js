@@ -9,7 +9,7 @@ beforeEach(async () => {
     await testHelper.clearTestDatabase();
     await testHelper.initializeTestDatabase();
     const user = {
-        id: '3',
+        employeeId: '3',
         password: 'testpw'
     };
     //login to database and set authentication
@@ -48,7 +48,7 @@ describe('GET route tests...', () => {
     test('Attempt with invalid ID', async () => {
         await api.get('/api/users/poop')
             .set('Cookie', cookie)
-            .expect(400);
+            .expect(404);
     });
     //GET route without auth
     test('Attempt without cookie header set', async () => {

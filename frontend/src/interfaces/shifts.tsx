@@ -7,3 +7,9 @@ export interface ShiftInterface {
   clock_in: Date | null
   clock_out: Date | null
 }
+
+export interface PartialEmployeeInterface {
+  id: string | null
+  fname: string | null
+  lname: string | null
+}
