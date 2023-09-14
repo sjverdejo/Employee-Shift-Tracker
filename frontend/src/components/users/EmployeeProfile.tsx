@@ -4,7 +4,7 @@ import { useAppSelector } from '../../hooks/redux-hooks'
 import usersAPI from '../../services/users'
 import { FullEmployeeInterface } from '../../interfaces/users'
 
-const Profile = () => {
+const EmployeeProfile = () => {
   const user = useAppSelector((state) => state.user)
   const { id } = useParams()
   const navigate = useNavigate()
@@ -22,11 +22,8 @@ const Profile = () => {
   const [employee, setEmployee] = useState(emptyEmployee)
 
   useEffect(() => {
-    if (!user.is_admin && user.e_ID !== id) {
-      navigate('/dashboard')
-    }
-
-    usersAPI.getUser(id as string)
+    if (user.is_admin || user.e_ID === id) {
+      usersAPI.getUser(id as string)
       .then(res => {
         const newEmployee: FullEmployeeInterface = {
           id: res.id,
@@ -45,6 +42,9 @@ const Profile = () => {
         console.log(err)
         navigate('/dashboard')
       })
+    } else {
+      navigate('/dashboard')
+    }
   }, [])
   return (
     <>
@@ -56,4 +56,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default EmployeeProfile
