@@ -54,8 +54,8 @@ const EmployeeProfile = () => {
           <>
             {user.is_admin &&
               <>
-                <button><Link to=''>Edit Employee</Link></button>
-                <button><Link to=''>Delete Employee</Link></button>
+                <button><Link to={`/dashboard/employee/${employee.id}/update`}>Edit Employee</Link></button>
+                <button><Link to={`/dashboard`}>Remove Employee</Link></button>
               </>
             }
           </>

@@ -31,16 +31,16 @@ const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void})
   }
   return (
     <form onSubmit={handler}>
-      Admin: <input type='text' value={isAdmin} onChange={({target}) => setIsAdmin(target.value)} />
-      Password: <input type='text' value={password} onChange={({target}) => setPassword(target.value)} />
-      First Name: <input type='text' value={fname} onChange={({target}) => setFname(target.value)} />
-      Last Name: <input type='text' value={lname} onChange={({target}) => setLname(target.value)} />
-      Date of Birth: <input type='date' onChange={({target}) => setDob(new Date(target.value))} />
-      Date Employed: <input type='date' onChange={({target}) => setDateEmployed(new Date(target.value))} />
-      Email: <input type='email' value={email} onChange={({target}) => setEmail(target.value)} />
-      Phone: <input type='number' value={phone} onChange={({target}) => setPhone(target.value)} />
+      Admin: <input type='text' value={isAdmin} onChange={({target}) => setIsAdmin(target.value)} required/>
+      Password: <input type='text' value={password} onChange={({target}) => setPassword(target.value)} required/>
+      First Name: <input type='text' value={fname} onChange={({target}) => setFname(target.value)} required/>
+      Last Name: <input type='text' value={lname} onChange={({target}) => setLname(target.value)} required/>
+      Date of Birth: <input type='date' onChange={({target}) => setDob(new Date(target.value))} required/>
+      Date Employed: <input type='date' onChange={({target}) => setDateEmployed(new Date(target.value))} required/>
+      Email: <input type='email' value={email} onChange={({target}) => setEmail(target.value)} required/>
+      Phone: <input type='number' value={phone} onChange={({target}) => setPhone(target.value)} required/>
 
-      <input type='submit' value='Create Employee' />
+      <input type='submit' value='Submit' />
   </form>
   )
 }

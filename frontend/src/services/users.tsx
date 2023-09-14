@@ -20,13 +20,20 @@ const getUsers = async () => {
 }
 
 //Create new employee
-const createEmployee = async (newEmployee: NewEmployee) => {
-  const req = await axios.post(`${base_url}/api/users`, newEmployee)
+const createUser = async (newE: NewEmployee) => {
+  const req = await axios.post(`${base_url}/api/users`, newE)
   
+  return req.data
+}
+
+const updateUser = async (updatedE: NewEmployee, id: string) => {
+  const req = await axios.put(`${base_url}/api/users/${id}`, updatedE)
+
   return req.data
 }
 
 
 export default {
-  getUser, getUsers, createEmployee
+  getUser, getUsers, createUser,
+  updateUser
 }

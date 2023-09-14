@@ -11,6 +11,7 @@ import EmployeeShifts from './components/shifts/EmployeeShifts'
 import EmployeeProfile from './components/users/EmployeeProfile'
 import CreateEmployee from './components/users/CreateEmployee'
 import EmployeeList from './components/users/EmployeeList'
+import UpdateEmployee from './components/users/UpdateEmployee'
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
           {
             path: 'employee/new',
             element: <CreateEmployee />
+          },
+          {
+            path: 'employee/:id/update',
+            element: <UpdateEmployee />
           }
         ]
       },
