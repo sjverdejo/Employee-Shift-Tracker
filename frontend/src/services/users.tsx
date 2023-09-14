@@ -21,9 +21,9 @@ const getUsers = async () => {
 
 //Create new employee
 const createEmployee = async (newEmployee: NewEmployee) => {
-  const req = await axios.post(`${base_url}/api/shifts/employee`, newEmployee)
-
-  return req
+  const req = await axios.post(`${base_url}/api/users`, newEmployee)
+  
+  return req.data
 }
 
 

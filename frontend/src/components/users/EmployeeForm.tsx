@@ -1,11 +1,7 @@
 import { useState } from "react"
 import { NewEmployee } from "../../interfaces/users"
 
-interface PProps {
-  parentHandler: () => void
-  employeeSet: React.Dispatch<React.SetStateAction<NewEmployee>>
-}
-const EmployeeForm: React.FC<PProps> = ({parentHandler, employeeSet}) => {//({parentHandler}: {parentHandler: () => void}, {employeeSet}: {employeeSet: }) => {
+const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void}) => {//({parentHandler}: {parentHandler: () => void}, {employeeSet}: {employeeSet: }) => {
   const [isAdmin, setIsAdmin] = useState('')
   const [password, setPassword] = useState('')
   const [fname, setFname] = useState('')
@@ -15,7 +11,8 @@ const EmployeeForm: React.FC<PProps> = ({parentHandler, employeeSet}) => {//({pa
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
 
-  const handler = () => {
+  const handler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     const newEmployee: NewEmployee = {
       //Create validation for ALL inputs
       is_admin: isAdmin === 'yes',
@@ -27,22 +24,21 @@ const EmployeeForm: React.FC<PProps> = ({parentHandler, employeeSet}) => {//({pa
       email: email,
       phone: phone
     }
-    employeeSet(newEmployee)
 
     if (newEmployee) {
-      parentHandler()
+      parentHandler(newEmployee)
     }
   }
   return (
     <form onSubmit={handler}>
-      <input type='text' value={isAdmin} onChange={({target}) => setIsAdmin(target.value)} />
-      <input type='text' value={password} onChange={({target}) => setPassword(target.value)} />
-      <input type='text' value={fname} onChange={({target}) => setFname(target.value)} />
-      <input type='text' value={lname} onChange={({target}) => setLname(target.value)} />
-      <input type='date' onChange={({target}) => setDob(new Date(target.value))} />
-      <input type='date' onChange={({target}) => setDateEmployed(new Date(target.value))} />
-      <input type='email' value={email} onChange={({target}) => setEmail(target.value)} />
-      <input type='number' value={phone} onChange={({target}) => setPhone(target.value)} />
+      Admin: <input type='text' value={isAdmin} onChange={({target}) => setIsAdmin(target.value)} />
+      Password: <input type='text' value={password} onChange={({target}) => setPassword(target.value)} />
+      First Name: <input type='text' value={fname} onChange={({target}) => setFname(target.value)} />
+      Last Name: <input type='text' value={lname} onChange={({target}) => setLname(target.value)} />
+      Date of Birth: <input type='date' onChange={({target}) => setDob(new Date(target.value))} />
+      Date Employed: <input type='date' onChange={({target}) => setDateEmployed(new Date(target.value))} />
+      Email: <input type='email' value={email} onChange={({target}) => setEmail(target.value)} />
+      Phone: <input type='number' value={phone} onChange={({target}) => setPhone(target.value)} />
 
       <input type='submit' value='Create Employee' />
   </form>

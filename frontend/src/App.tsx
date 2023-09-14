@@ -24,7 +24,6 @@ const App = () => {
       .then(res => {
         if (res) {
           dispatch(user_sign_in(res))
-          navigate('/dashboard')
         } else {
           dispatch(user_sign_out())
         }

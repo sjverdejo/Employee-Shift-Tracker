@@ -5,8 +5,8 @@ const AdminNav = () => {
   return (
     <>
       <CommonNav />
-      <Link to='/'>All Employees</Link>
-      <Link to={`dashboard/all-shifts`}>All Shifts</Link>
+      <Link to='/dashboard/employees'>All Employees</Link>
+      <Link to={`/dashboard/employee-shifts`}>All Shifts</Link>
     </>
   )
 }

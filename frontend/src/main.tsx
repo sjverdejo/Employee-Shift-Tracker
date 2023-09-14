@@ -10,6 +10,7 @@ import AllShifts from './components/shifts/AllShifts'
 import EmployeeShifts from './components/shifts/EmployeeShifts'
 import EmployeeProfile from './components/users/EmployeeProfile'
 import CreateEmployee from './components/users/CreateEmployee'
+import EmployeeList from './components/users/EmployeeList'
 
 const router = createBrowserRouter([
   {
@@ -28,10 +29,10 @@ const router = createBrowserRouter([
             path: 'employee-shifts/:id', //All shifts for certain employee - Admin and Employee
             element: <EmployeeShifts />
           },
-          // {
-          //   path: 'employees-profiles',
-          //   element: <Profile
-          // },
+          {
+            path: 'employees',
+            element: <EmployeeList />
+          },
           {
             path: 'employee/:id', //Specific employee profile - Employee can only view own
             element: <EmployeeProfile />

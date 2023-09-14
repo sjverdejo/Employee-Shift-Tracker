@@ -23,13 +23,13 @@ const EmployeeList = () => {
         console.log(err)
         navigate('/dashboard')
       })
-  })
+  }, [])
 
   return (
     <>
-      <button><Link to=''>Create New Employee</Link></button>
+      <button><Link to='/dashboard/employee/new'>Create New Employee</Link></button>
       { allUsers && 
-        allUsers.map((u) => <EmployeeListItem {...u} />)
+        allUsers.map((u) => <div key={u.id}><EmployeeListItem {...u} /></div>)
       }
     </>
   )
