@@ -26,14 +26,21 @@ const createUser = async (newE: NewEmployee) => {
   return req.data
 }
 
+//Update employee
 const updateUser = async (updatedE: NewEmployee, id: string) => {
   const req = await axios.put(`${base_url}/api/users/${id}`, updatedE)
 
   return req.data
 }
 
+//Delete employee
+const deleteUser = async (id: string) => {
+  const req = await axios.delete(`${base_url}/api/users/${id}`)
+
+  return req.data
+}
 
 export default {
   getUser, getUsers, createUser,
-  updateUser
+  updateUser, deleteUser
 }

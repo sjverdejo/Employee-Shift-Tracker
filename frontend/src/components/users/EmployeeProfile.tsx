@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import usersAPI from '../../services/users'
 import { FullEmployeeInterface } from '../../interfaces/users'
+import DeleteEmployee from './DeleteEmployee'
 
 const EmployeeProfile = () => {
   const user = useAppSelector((state) => state.user)
@@ -20,6 +21,7 @@ const EmployeeProfile = () => {
   }
 
   const [employee, setEmployee] = useState(emptyEmployee)
+  const [showDelete, setShowDelete] = useState(false)
 
   useEffect(() => {
     if (user.is_admin || user.e_ID === id) {
@@ -46,6 +48,7 @@ const EmployeeProfile = () => {
       navigate('/dashboard')
     }
   }, [])
+
   return (
     <>
       { employee.id &&
@@ -55,7 +58,8 @@ const EmployeeProfile = () => {
             {user.is_admin &&
               <>
                 <button><Link to={`/dashboard/employee/${employee.id}/update`}>Edit Employee</Link></button>
-                <button><Link to={`/dashboard`}>Remove Employee</Link></button>
+                <button onClick={() => setShowDelete(!showDelete)}>Remove Employee</button>
+                {showDelete && <DeleteEmployee id={employee.id}/>}
               </>
             }
           </>
