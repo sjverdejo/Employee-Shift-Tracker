@@ -1,12 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 //Admin and Employee View
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import usersAPI from '../../services/users'
+import shiftsAPI from '../../services/shifts'
 
 import { ShiftInterface, PartialEmployeeInterface } from '../../interfaces/shifts'
+import ShiftHelper from '../../utils/ShiftHelper'
 
-const Shift = ({shift}:{shift: ShiftInterface}) => {
+const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
   const user = useAppSelector((state) => state.user)
 
   const emptyEmployee: PartialEmployeeInterface = {
@@ -39,16 +42,48 @@ const Shift = ({shift}:{shift: ShiftInterface}) => {
     }
   }, [])
 
+  const handleClockIn = () => {
+    shiftsAPI.clockIn(new Date(), shift.id as string)
+      .then(_res => navigate(`/dashboard/employee/${user.e_ID}`))
+      .catch(_err => {console.log(_err);navigate('/dashboard')})
+  }
+
+  const handleClockOut = () => {
+    shiftsAPI.clockOut(new Date(), shift.id as string)
+    .then(_res => navigate(`/dashboard/employee/${user.e_ID}`))
+    .catch(_err => navigate('/dashboard'))
+  }
+
+  //HIGHLIGHT SHIFT IF ITS IN PROGRESS search conditional css
   return (
     <>
       { (shift.id && employee.id) &&
         <>
-          <p>{`Shift: ${shift.scheduled_start} - ${shift.scheduled_end} HOURS: ${shift.scheduled_hours}`}</p>
+          <p>{`Shift: ${ShiftHelper.toYMD(shift.scheduled_start)} Hours: ${shift.scheduled_hours}`}</p>
           <p>{`${shift.id} = Employee: ${employee.fname} ${employee.lname} Employee ID: ${employee.id}`}</p>
+          {(user.e_ID === shift.employee && ShiftHelper.isShiftAvailable(shift.scheduled_start)) &&
+            <>
+              {shift.clock_in === null 
+                ? <button onClick={handleClockIn}>Clock In</button>
+                : <button>Clocked In</button>
+              }
+              {shift.clock_out === null 
+                ? <button onClick={handleClockOut}>Clock Out</button>
+                : <button>Clocked Out</button>
+
+              }
+            </>
+          }
+          {user.is_admin && 
+            <>
+              <Link to=''>Update Shift</Link>
+              <Link to=''>Delete Shift</Link>
+            </>
+          }
         </>
       }
     </>
   )
 }
 
-export default Shift
+export default ShiftListItem

@@ -5,6 +5,7 @@ import shiftsAPI from '../../services/shifts'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import ShiftList from './ShiftList'
 import { ShiftInterface } from '../../interfaces/shifts'
+import ShiftListItem from './ShiftListItem'
 
 const EmployeeShifts = () => {
   const user = useAppSelector((state) => state.user)
@@ -18,12 +19,15 @@ const EmployeeShifts = () => {
       .then(res => setShifts(shifts.concat(res)))
       .catch(err => console.log(err))
     } else {
+      console.log('none')
       navigate('/dashboard')
     }
   }, [])
 
   return (
     <>
+      {/* Current: show current shift by date start >new Date <end date end  */}
+      <ShiftListItem shift={shifts.find(s => s.scheduled_start < new Date() && s.scheduled_end > new Date()) as ShiftInterface}/>
       <ShiftList shifts={shifts}/>
     </>
   )

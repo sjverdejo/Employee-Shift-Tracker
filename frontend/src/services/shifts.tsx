@@ -39,9 +39,27 @@ const createNewShift = async (id: string, shift: NewShift) => {
 //DELETE shift - Admin
 
 //CLOCK IN - Employee
-//CLOCK IN - Employee
+const clockIn = async (in_time: Date, id: string) => {
+  const date = {
+    in_time
+  }
 
+  const req = await axios.put(`${base_url}/api/shifts/clockin/${id}`, date)
+
+  return req.data
+}
+
+//CLOCK OUT - Employee
+const clockOut = async (out_time: Date, id: string) => {
+  const date = {
+    out_time
+  }
+
+  const req = await axios.put(`${base_url}/api/shifts/clockout/${id}`, date)
+
+  return req.data
+}
 export default {
   getShift, getAllShifts, getEmployeeShifts,
-  createNewShift
+  createNewShift, clockIn, clockOut
 }
