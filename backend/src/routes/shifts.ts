@@ -139,7 +139,7 @@ shiftsRouter.put('/clockout/:id', authCheck, async (req, res, next) => {
 shiftsRouter.delete('/:id', authCheck, async (req, res, next) => {
   try {
     const deleted = await db.deleteShift(req.params.id)
-    
+    console.log(deleted)
     if (deleted[0]) {
       res.status(204).send()
     } else {

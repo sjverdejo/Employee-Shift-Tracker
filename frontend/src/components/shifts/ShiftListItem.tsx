@@ -8,6 +8,7 @@ import shiftsAPI from '../../services/shifts'
 
 import { ShiftInterface, PartialEmployeeInterface } from '../../interfaces/shifts'
 import ShiftHelper from '../../utils/ShiftHelper'
+import DeleteShift from './DeleteShift'
 
 const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
   const user = useAppSelector((state) => state.user)
@@ -19,6 +20,7 @@ const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
   }
 
   const [employee, setEmployee] = useState(emptyEmployee)
+  const [showDelete, setShowDelete] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -77,8 +79,11 @@ const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
           {user.is_admin && 
             <>
             {/* pass id and in pages and get shift */}
-              <Link to={`/dashboard/shifts/${shift.id}/update`}>Update Shift</Link>
-              <Link to={``}>Delete Shift</Link>
+              <Link to={`/dashboard/shifts/${shift.id}/update`}><button>Update Shift</button></Link>
+              <button onClick={() => setShowDelete(!showDelete)}>Delete Shift</button>
+              {showDelete && 
+                <DeleteShift id={shift.id} />
+              }
             </>
           }
         </>

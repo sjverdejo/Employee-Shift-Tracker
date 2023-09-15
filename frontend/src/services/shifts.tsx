@@ -62,9 +62,13 @@ const clockOut = async (out_time: Date, id: string) => {
 }
 
 //DELETE shift - Admin
+const deleteShift = async (id: string) => {
+  const req = await axios.delete(`${base_url}/api/shifts/${id}`)
 
+  return req.data
+}
 
 export default {
   getShift, getAllShifts, getEmployeeShifts,
-  createNewShift, updateShift, clockIn, clockOut
+  createNewShift, updateShift, clockIn, clockOut, deleteShift
 }

@@ -10,7 +10,7 @@ const DeleteEmployee = ({id}: {id: string}) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (user.e_ID === id) {
+    if (user.e_ID === id || !user.is_admin) {
       navigate('/dashboard')
       //update message to say cant delete your own
     }
