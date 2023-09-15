@@ -26,7 +26,6 @@ const App = () => {
           dispatch(user_sign_in(res))
         } else {
           dispatch(user_sign_out())
-          navigate('/')
         }
       })
       .catch(err => console.log(err))

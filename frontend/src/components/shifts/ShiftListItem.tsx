@@ -76,8 +76,9 @@ const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
           }
           {user.is_admin && 
             <>
-              <Link to=''>Update Shift</Link>
-              <Link to=''>Delete Shift</Link>
+            {/* pass id and in pages and get shift */}
+              <Link to={`/dashboard/shifts/${shift.id}/update`}>Update Shift</Link>
+              <Link to={``}>Delete Shift</Link>
             </>
           }
         </>

@@ -13,6 +13,7 @@ import CreateEmployee from './components/users/CreateEmployee'
 import EmployeeList from './components/users/EmployeeList'
 import UpdateEmployee from './components/users/UpdateEmployee'
 import CreateShift from './components/shifts/CreateShift'
+import UpdateShift from './components/shifts/UpdateShift'
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
           {
             path: 'shifts/new', //Create shift - Admin only
             element: <CreateShift />
+          },
+          {
+            path: 'shifts/:id/update',
+            element: <UpdateShift />
           }
         ]
       },

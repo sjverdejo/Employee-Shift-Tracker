@@ -2,7 +2,6 @@ import express from 'express'
 import db from '../database/shifts.js'
 import authCheck from '../utils/authCheck.js'
 import helper from '../utils/helper.js'
-import shifts from '../database/shifts.js'
 
 const shiftsRouter = express.Router()
 
