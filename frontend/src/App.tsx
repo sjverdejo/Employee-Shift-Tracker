@@ -42,8 +42,7 @@ const App = () => {
       <NavBar />
       {alert.show && <ShowAlert />}
       {user.is_signed_in ? <Outlet /> : <SignInPage />}
-      <button onClick={() => console.log(user)}>test</button>
-      <button onClick={logout}>Log out</button>
+      <button className='pb-2 fixed inset-x-0 bottom-0' onClick={logout}>Log out</button>
     </div>
   )
 }
