@@ -19,7 +19,7 @@ export interface FullEmployeeInterface {
   dob: Date | null
   date_employed: Date | null
   email: string | null
-  phone: string | null
+  phone: number | null
 }
 
 export interface NewEmployee {
@@ -30,5 +30,5 @@ export interface NewEmployee {
   dob: Date | null
   date_employed: Date | null
   email: string | null
-  phone: string | null
+  phone: number | null
 }

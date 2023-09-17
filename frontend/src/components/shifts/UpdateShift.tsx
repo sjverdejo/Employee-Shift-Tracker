@@ -39,24 +39,32 @@ const UpdateShift = () => {
       scheduled_end,
       scheduled_hours: ShiftHelper.getDifference(scheduled_start, scheduled_end)
     }
-    console.log(shift, id)
+    
     shiftsAPI.updateShift(id as string, shift)
       .then(_res => navigate(`/dashboard/shifts`)) //add message about update
       .catch(_err => console.log(_err))
   }
 
   const updateClockIn = () => {
+    if (clock_in > clock_out) {
+      return
+    }
+
     shiftsAPI.clockIn(clock_in, id as string)
       .then(_res => navigate(`/dashboard/shifts`)) //add message about update
       .catch(_err => console.log(_err))
   }
 
   const updateClockOut = () => {
+    if (clock_out < clock_in) {
+      return
+    }
+
     shiftsAPI.clockOut(clock_out, id as string)
       .then(_res => navigate(`/dashboard/shifts/${user.e_ID}`)) //add message about update
       .catch(_err => console.log(_err))
   }
-  //add validation for if clock in is before clock out
+
   return (
     <>
       <form onSubmit={updateShiftHandler}>

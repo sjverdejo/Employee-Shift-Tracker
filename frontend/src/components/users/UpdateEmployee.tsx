@@ -18,9 +18,6 @@ const UpdateEmployee = () => {
   }, [])
 
   const updateHandler = (employee: NewEmployee) => {
-    console.log(
-      'here', employee
-    )
     usersAPI.updateUser(employee, id as string)
       .then(_res => navigate('/dashboard/employees')) 
       .catch(_err => {console.log(_err); navigate('/dashboard')})

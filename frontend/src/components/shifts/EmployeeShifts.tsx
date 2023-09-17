@@ -19,7 +19,6 @@ const EmployeeShifts = () => {
       .then(res => setShifts(shifts.concat(res)))
       .catch(err => console.log(err))
     } else {
-      console.log('none')
       navigate('/dashboard')
     }
   }, [])

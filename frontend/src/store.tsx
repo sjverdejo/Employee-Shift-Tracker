@@ -3,7 +3,8 @@ import usersReducer from './features/userSlice'
 
 export const store = configureStore({
   reducer: {
-    user: usersReducer
+    user: usersReducer,
+    alertMsg: msgsReducer,
   },
 })
 

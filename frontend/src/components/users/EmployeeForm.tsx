@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { NewEmployee } from "../../interfaces/users"
+import { validEmployee } from "../../utils/EmployeeHelper"
 
 const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void}) => {//({parentHandler}: {parentHandler: () => void}, {employeeSet}: {employeeSet: }) => {
   const [isAdmin, setIsAdmin] = useState('')
@@ -9,10 +10,15 @@ const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void})
   const [dob, setDob] = useState(new Date())
   const [dateEmployed, setDateEmployed] = useState(new Date())
   const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
+  const [phone, setPhone] = useState(0)
 
   const handler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    if (!validEmployee(isAdmin, password, fname, lname, dob, dateEmployed, email, phone)) {
+      return
+    }
+
     const newEmployee: NewEmployee = {
       //Create validation for ALL inputs
       is_admin: isAdmin === 'yes',
@@ -38,7 +44,7 @@ const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void})
       Date of Birth: <input type='date' onChange={({target}) => setDob(new Date(target.value))} required/>
       Date Employed: <input type='date' onChange={({target}) => setDateEmployed(new Date(target.value))} required/>
       Email: <input type='email' value={email} onChange={({target}) => setEmail(target.value)} required/>
-      Phone: <input type='number' value={phone} onChange={({target}) => setPhone(target.value)} required/>
+      Phone: <input type='number' value={phone} onChange={({target}) => setPhone(Number(target.value))} required/>
 
       <input type='submit' value='Submit' />
   </form>

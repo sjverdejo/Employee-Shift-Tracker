@@ -31,13 +31,15 @@ const CreateShift = () => {
     //Validate that date is either for today or greater
     //time end can not be before start
     
+    if (!ShiftHelper.validShift(scheduled_start, scheduled_end, employee)) {
+      return
+    }
+
     const newShift: NewShift = {
       scheduled_start,
       scheduled_end,
       scheduled_hours: ShiftHelper.getDifference(scheduled_start, scheduled_end)
     }
-
-    console.log(newShift)
 
     shiftsAPI.createNewShift(employee, newShift)
       .then(_res => navigate('/dashboard/shifts'))

@@ -7,7 +7,6 @@ const ShiftList = ({shifts}: {shifts: ShiftInterface[]}) => { //change type to i
 
   return (
     <>
-      {/* add expand and edit button if admin */}
       {shifts.map((s) => <div key={s.id}><ShiftListItem shift={s}/></div> )}
     </>
   )

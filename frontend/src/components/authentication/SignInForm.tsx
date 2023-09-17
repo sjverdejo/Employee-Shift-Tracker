@@ -13,6 +13,8 @@ const SignInForm = () => {
   //Form submission handler, set user state if successful
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (employeeId === '' || password === '') { return }
+
     const response = await authentication.sign_in(employeeId, password)
 
     if (response) {
