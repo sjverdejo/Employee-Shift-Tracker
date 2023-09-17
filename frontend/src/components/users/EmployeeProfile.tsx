@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { useAppSelector } from '../../hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import usersAPI from '../../services/users'
 import { FullEmployeeInterface } from '../../interfaces/users'
 import DeleteEmployee from './DeleteEmployee'
+import { alert_message } from '../../features/alertMsgSlice'
 
 const EmployeeProfile = () => {
   const user = useAppSelector((state) => state.user)
   const { id } = useParams()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
   const emptyEmployee: FullEmployeeInterface = {
     id: null,
     is_admin: null,
@@ -40,11 +43,13 @@ const EmployeeProfile = () => {
 
         setEmployee(newEmployee)
       })
-      .catch(err => {
-        console.log(err)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .catch(_err => {
+        dispatch(alert_message('Something went wrong.'))
         navigate('/dashboard')
       })
     } else {
+      dispatch(alert_message('You are not permitted to view this page.'))
       navigate('/dashboard')
     }
   }, [])

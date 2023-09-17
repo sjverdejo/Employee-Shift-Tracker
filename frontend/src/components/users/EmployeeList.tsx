@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { useAppSelector } from "../../hooks/redux-hooks"
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks"
 import usersAPI from '../../services/users'
 import EmployeeListItem from './EmployeeListItem'
 import { FullEmployeeInterface } from '../../interfaces/users'
+import { alert_message } from '../../features/alertMsgSlice'
 
 const EmployeeList = () => {
   const user = useAppSelector((state) => state.user)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [allUsers, setAllUsers] = useState<FullEmployeeInterface[]>([])
 
   useEffect(() => {
     if (!user.is_admin || !user.is_signed_in) {
+      dispatch(alert_message('You are not permitted to view this page.'))
       navigate('/dashboard')
     }
 
@@ -19,8 +22,9 @@ const EmployeeList = () => {
       .then(res => {
         setAllUsers(allUsers.concat(res))
       })
-      .catch(err => {
-        console.log(err)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .catch(_err => {
+        dispatch(alert_message('Something went wrong.'))
         navigate('/dashboard')
       })
   }, [])

@@ -1,18 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppSelector } from '../../hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import usersAPI from '../../services/users'
+import { alert_message } from '../../features/alertMsgSlice'
 
 const DeleteEmployee = ({id}: {id: string}) => { 
   const user = useAppSelector((state) => state.user)
   const [confirm, setConfirm] = useState('')
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (user.e_ID === id || !user.is_admin) {
+      dispatch(alert_message('You are not permitted to view this page.'))
       navigate('/dashboard')
-      //update message to say cant delete your own
     }
   }, [])
 
@@ -20,8 +22,8 @@ const DeleteEmployee = ({id}: {id: string}) => {
     e.preventDefault()
     if (confirm === 'Confirm Remove') {
       usersAPI.deleteUser(id)
-        .then(_res => navigate('/dashboard/employees'))
-        .catch(_err => console.log(_err))
+        .then(_res => { dispatch(alert_message('Deleted successfully.')); navigate('/dashboard/employees')})
+        .catch(_err => dispatch(alert_message('Something went wrong.')))
     } else {
       return
     }

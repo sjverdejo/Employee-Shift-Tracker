@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { NewEmployee } from "../../interfaces/users"
 import { validEmployee } from "../../utils/EmployeeHelper"
+import { useAppDispatch } from "../../hooks/redux-hooks"
+import { alert_message } from "../../features/alertMsgSlice"
 
 const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void}) => {//({parentHandler}: {parentHandler: () => void}, {employeeSet}: {employeeSet: }) => {
   const [isAdmin, setIsAdmin] = useState('')
@@ -11,11 +13,13 @@ const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void})
   const [dateEmployed, setDateEmployed] = useState(new Date())
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState(0)
+  const dispatch = useAppDispatch()
 
   const handler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!validEmployee(isAdmin, password, fname, lname, dob, dateEmployed, email, phone)) {
+      dispatch(alert_message('Invalid input, try again.'))
       return
     }
 
