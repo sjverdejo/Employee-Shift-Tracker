@@ -2,13 +2,14 @@
 //Admin and Employee View
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAppSelector } from '../../hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import usersAPI from '../../services/users'
 import shiftsAPI from '../../services/shifts'
 
 import { ShiftInterface, PartialEmployeeInterface } from '../../interfaces/shifts'
 import ShiftHelper from '../../utils/ShiftHelper'
 import DeleteShift from './DeleteShift'
+import { alert_message } from '../../features/alertMsgSlice'
 
 const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
   const user = useAppSelector((state) => state.user)
@@ -22,6 +23,7 @@ const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
   const [employee, setEmployee] = useState(emptyEmployee)
   const [showDelete, setShowDelete] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     //Redirect if user is not an admin, or shift does not belong to them
@@ -35,25 +37,34 @@ const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
           }
           setEmployee(foundEmployee)
         })
-        .catch(err => {
-          console.log(err)
+        .catch(_err => {
+          dispatch(alert_message('Something went wrong.'))
           navigate('/dashboard')
         })
     } else {
+      dispatch(alert_message('you are not permitted to view this page.'))
       navigate('/dashboard')
     }
   }, [])
 
   const handleClockIn = () => {
     shiftsAPI.clockIn(new Date(), shift.id as string)
-      .then(_res => navigate(`/dashboard/employee/${user.e_ID}`))
-      .catch(_err => {console.log(_err);navigate('/dashboard')})
+      .then(_res => {
+        dispatch(alert_message('Clocked in.'))
+        navigate(`/dashboard/employee/${user.e_ID}`)})
+      .catch(_err => {
+        dispatch(alert_message('Something went wrong.'))
+        navigate('/dashboard')})
   }
 
   const handleClockOut = () => {
     shiftsAPI.clockOut(new Date(), shift.id as string)
-    .then(_res => navigate(`/dashboard/employee/${user.e_ID}`))
-    .catch(_err => navigate('/dashboard'))
+    .then(_res => {
+      dispatch(alert_message('Clocked out.'))
+      navigate(`/dashboard/employee/${user.e_ID}`)})
+    .catch(_err => {
+      dispatch(alert_message('Clocked out.'))
+      navigate('/dashboard')})
   }
 
   //HIGHLIGHT SHIFT IF ITS IN PROGRESS search conditional css

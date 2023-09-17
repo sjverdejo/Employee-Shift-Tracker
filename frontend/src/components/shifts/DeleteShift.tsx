@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppSelector } from '../../hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import shiftsAPI from '../../services/shifts'
+import { alert_message } from '../../features/alertMsgSlice'
 
 const DeleteShift = ({id}:{id: string}) => {
   const user = useAppSelector((state) => state.user)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [confirm, setConfirm] = useState('')
 
   useEffect(() => {
     if (!user.is_admin) {
+      dispatch(alert_message('You are not permitted to view this page.'))
       navigate('/dashboard')
     }
   }, [])
@@ -18,8 +21,8 @@ const DeleteShift = ({id}:{id: string}) => {
   const handleDelete = () => {
     if (confirm === 'Confirm Remove') {
       shiftsAPI.deleteShift(id)
-        .then(_res => navigate('/dashboard/shifts'))
-        .catch(_err => navigate('/dashboard'))
+        .then(_res => {dispatch(alert_message('Deleted successfully.')); navigate('/dashboard/shifts')})
+        .catch(_err => {dispatch(alert_message('Something went wrong.'));navigate('/dashboard')})
     } else {
       return
     }
