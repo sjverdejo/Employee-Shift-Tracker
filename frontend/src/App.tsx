@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from 'react'
-import { Outlet, Navigate, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from './hooks/redux-hooks'
 import SignInPage from './pages/SignInPage'
 import auth from './services/authentication'
@@ -13,7 +13,6 @@ const App = () => {
   const alert = useAppSelector((state) => state.alertMsg)
   const user = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
 
   const logout = () => {
     if (!user.is_signed_in) {
@@ -22,8 +21,8 @@ const App = () => {
     }
 
     auth.sign_out()
-      .then(res => dispatch(user_sign_out()))
-      .catch(err => console.log(err))
+      .then(_res => dispatch(user_sign_out()))
+      .catch(_err => dispatch(alert_message('Unable to sign out.')))
   }
 
   useEffect(() => {
@@ -33,10 +32,10 @@ const App = () => {
           dispatch(user_sign_in(res))
         } else {
           dispatch(user_sign_out())
+          dispatch(alert_message('Please sign back in.'))
         }
       })
-      .catch(err => console.log(err))
-      console.log(user)
+      .catch(_err => dispatch(alert_message('Something went wrong.')))
   }, [])
 
   return (
