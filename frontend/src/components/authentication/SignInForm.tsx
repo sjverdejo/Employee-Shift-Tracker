@@ -15,7 +15,7 @@ const SignInForm = () => {
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (employeeId === '' || password === '') { 
-      dispatch(alert_message('Please full both fields.'))
+      dispatch(alert_message('Please fill both fields.'))
       return 
     }
 
@@ -41,14 +41,14 @@ const SignInForm = () => {
           <div className='mt-4 flex flex-col space-y-5'>
             <div>
               <label className='block'>Employee ID: </label>
-              <input className='w-full text-stone-950' type='text' value={employeeId} onChange={({target}) => setEmployeeId(target.value)}/>
+              <input className='w-full text-stone-950 p-1' type='text' value={employeeId} onChange={({target}) => setEmployeeId(target.value)}/>
             </div>
             <div>
               <label className='block'>Password</label>
-              <input className='w-full text-stone-950' type='password' value={password} onChange={({target}) => setPassword(target.value)}/>
+              <input className='w-full text-stone-950 p-1' type='password' value={password} onChange={({target}) => setPassword(target.value)}/>
             </div>
           </div>
-          <button type='submit' className='mt-5 bg-blue-200 text-stone-950 rounded-sm shadow-xl'>Sign In</button>
+          <button type='submit' className='p-1 mt-5 bg-blue-200 text-stone-950 rounded-sm shadow-xl'>Sign In</button>
         </div>
       </form>
       </div>

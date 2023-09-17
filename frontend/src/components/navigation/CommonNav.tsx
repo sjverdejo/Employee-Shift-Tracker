@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/redux-hooks'
+import NavLink from './NavLink'
 
 const CommonNav = () => {
   const user = useAppSelector((state) => state.user)
   return (
     <>
-      <Link to='/dashboard'>Home</Link>
-      <Link to={`/dashboard/employee/${user.e_ID}`}>My Profile</Link>
+      <NavLink page='/dashboard' text='Home'/>
+      <NavLink page={`/dashboard/employee/${user.e_ID}`} text='My Profile' />
     </>
   )
 }

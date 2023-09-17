@@ -9,7 +9,8 @@ const NavBar = () => {
   const isNotNull = user.is_admin !== null
 
   return (
-    <div className='bg-gradient-to-t from-stone-900 to-blue-950 h-24'>
+    <div className='bg-gradient-to-t from-stone-900 to-blue-950 h-24 flex justify-between p-8'>
+      <h1 className='text-stone-200 text-xl'>Company Name</h1>
       { isNotNull &&
         <nav>
           {user.is_admin ? <AdminNav /> : <EmployeeNav />}
