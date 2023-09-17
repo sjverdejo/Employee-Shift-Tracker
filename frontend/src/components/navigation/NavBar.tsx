@@ -9,13 +9,13 @@ const NavBar = () => {
   const isNotNull = user.is_admin !== null
 
   return (
-    <>
+    <div className='bg-gradient-to-t from-stone-900 to-blue-950 h-24'>
       { isNotNull &&
         <nav>
           {user.is_admin ? <AdminNav /> : <EmployeeNav />}
         </nav>
       }
-    </>
+    </div>
   )
 }
 

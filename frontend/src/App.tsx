@@ -32,20 +32,19 @@ const App = () => {
           dispatch(user_sign_in(res))
         } else {
           dispatch(user_sign_out())
-          dispatch(alert_message('Please sign back in.'))
         }
       })
       .catch(_err => dispatch(alert_message('Something went wrong.')))
   }, [])
 
   return (
-    <>
+    <div className='h-screen bg-gradient-to-t from-stone-200 to-stone-100'>
       <NavBar />
       {alert.show && <ShowAlert />}
       {user.is_signed_in ? <Outlet /> : <SignInPage />}
       <button onClick={() => console.log(user)}>test</button>
       <button onClick={logout}>Log out</button>
-    </>
+    </div>
   )
 }
 
