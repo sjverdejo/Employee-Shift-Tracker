@@ -23,7 +23,7 @@ const CreateEmployee = () => {
     usersAPI.createUser(employee)
       .then(_res => {
         dispatch(alert_message('Created successfully.'))
-        navigate('/dashboard/employees')}) 
+        navigate('/employees')}) 
       .catch(_err => {dispatch(alert_message('Something went wrong.')); navigate('/dashboard')})
   }
 

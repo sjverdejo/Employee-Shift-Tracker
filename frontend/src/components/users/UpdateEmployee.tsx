@@ -24,7 +24,7 @@ const UpdateEmployee = () => {
     usersAPI.updateUser(employee, id as string)
       .then(_res => {
         dispatch(alert_message('Updated successfully.'))
-        navigate('/dashboard/employees')}) 
+        navigate('/employees')}) 
       .catch(_err => { dispatch(alert_message('Something went wrong.')); navigate('/dashboard')})
   }
 

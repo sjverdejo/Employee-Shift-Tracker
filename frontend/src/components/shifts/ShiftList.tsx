@@ -7,7 +7,7 @@ const ShiftList = ({shifts}: {shifts: ShiftInterface[]}) => { //change type to i
 
   return (
     <>
-      {shifts.map((s) => <div key={s.id}><ShiftListItem shift={s}/></div> )}
+      {shifts.map((s) => <div className='odd:bg-stone-100 even:bg-blue-100 p-5' key={s.id}><ShiftListItem shift={s}/></div> )}
     </>
   )
 }

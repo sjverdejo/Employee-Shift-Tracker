@@ -48,7 +48,7 @@ const UpdateShift = () => {
     }
     
     shiftsAPI.updateShift(id as string, shift)
-      .then(_res => { dispatch(alert_message('Updated successfully.')); navigate(`/dashboard/shifts`)}) 
+      .then(_res => { dispatch(alert_message('Updated successfully.')); navigate(`/shifts`)}) 
       .catch(_err => {dispatch(alert_message('Something went wrong')); return})
   }
 
@@ -59,7 +59,7 @@ const UpdateShift = () => {
     }
 
     shiftsAPI.clockIn(clock_in, id as string)
-      .then(_res => { dispatch(alert_message('Updated clock in time.')); navigate(`/dashboard/shifts`)}) //add message about update
+      .then(_res => { dispatch(alert_message('Updated clock in time.')); navigate(`/shifts`)}) //add message about update
       .catch(_err => dispatch(alert_message('Something went wrong')))
   }
 
@@ -70,7 +70,7 @@ const UpdateShift = () => {
     }
 
     shiftsAPI.clockOut(clock_out, id as string)
-      .then(_res => { dispatch(alert_message('Updated clock out time.')); navigate(`/dashboard/shifts/${user.e_ID}`)}) //add message about update
+      .then(_res => { dispatch(alert_message('Updated clock out time.')); navigate(`/shifts/${user.e_ID}`)}) //add message about update
       .catch(_err => dispatch(alert_message('Something went wrong')))
   }
 

@@ -12,7 +12,7 @@ const DeleteEmployee = ({id}: {id: string}) => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (user.e_ID === id || !user.is_admin) {
+    if (!user.is_admin) {
       dispatch(alert_message('You are not permitted to view this page.'))
       navigate('/dashboard')
     }
@@ -22,7 +22,7 @@ const DeleteEmployee = ({id}: {id: string}) => {
     e.preventDefault()
     if (confirm === 'Confirm Remove') {
       usersAPI.deleteUser(id)
-        .then(_res => { dispatch(alert_message('Deleted successfully.')); navigate('/dashboard/employees')})
+        .then(_res => { dispatch(alert_message('Deleted successfully.')); navigate('/employees')})
         .catch(_err => dispatch(alert_message('Something went wrong.')))
     } else {
       return

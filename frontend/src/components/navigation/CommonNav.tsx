@@ -6,7 +6,7 @@ const CommonNav = () => {
   return (
     <>
       <NavLink page='/dashboard' text='Home'/>
-      <NavLink page={`/dashboard/employee/${user.e_ID}`} text='My Profile' />
+      <NavLink page={`/employee/${user.e_ID}`} text='My Profile' />
     </>
   )
 }

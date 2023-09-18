@@ -43,7 +43,7 @@ const CreateShift = () => {
     }
 
     shiftsAPI.createNewShift(employee, newShift)
-      .then(_res => {dispatch(alert_message('Created Sucessfully.')); navigate('/dashboard/shifts')})
+      .then(_res => {dispatch(alert_message('Created Sucessfully.')); navigate('/shifts')})
       .catch(_err => { dispatch(alert_message('Something went wrong.')); navigate('/dashboard')})
   }
 

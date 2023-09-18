@@ -34,10 +34,10 @@ const SignInForm = () => {
 
   return (
     <div className='flex justify-center'>
-      <div className='mt-10 w-1/3 h-full bg-gradient-to-b from-stone-950 to-blue-950 rounded-xl shadow-xl text-stone-200'>
+      <div className='mt-40 w-1/3 h-full bg-gradient-to-b from-blue-200 to-blue-950 rounded-xl shadow-xl text-stone-200'>
       <form onSubmit={submitForm}>
         <div className='p-2 m-10 flex flex-col h-96'>
-          <h1 className='text-3xl text-center m-8'>Company Name Here:</h1> 
+          <h1 className='text-3xl text-center m-8 text-blue-950'>Company Name</h1> 
           <div className='mt-4 flex flex-col space-y-5'>
             <div>
               <label className='block'>Employee ID: </label>

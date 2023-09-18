@@ -7,7 +7,7 @@ const EmployeeNav = () => {
   return (
     <div className='text-stone-200 flex space-x-10'>
       <CommonNav />
-      <NavLink page={`/dashboard/shifts/${user.e_ID}`} text='Shifts' />
+      <NavLink page={`/shifts/${user.e_ID}`} text='Shifts' />
     </div>
   )
 }

@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import App from './App'
 import { store } from './store'
-import Dashboard from './pages/Dashboard'
+import Dashboard from './components/home/Dashboard'
 import AllShifts from './components/shifts/AllShifts'
 import EmployeeShifts from './components/shifts/EmployeeShifts'
 import EmployeeProfile from './components/users/EmployeeProfile'
@@ -22,42 +22,40 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'dashboard',
-        element: <Dashboard />,
-        children: [
-          {
-            path: 'employees', //All employees - Admin only
-            element: <EmployeeList />
-          },
-          {
-            path: 'employee/:id', //Specific employee profile - Employee can only view own
-            element: <EmployeeProfile />
-          },
-          {
-            path: 'employee/new', //Create new employee login - Admin Only
-            element: <CreateEmployee />
-          },
-          {
-            path: 'employee/:id/update', //Update employee - Admin only
-            element: <UpdateEmployee />
-          },
-          {
-            path: 'shifts', //All employees shifts - Admin only
-            element: <AllShifts />
-          },
-          {
-            path: 'shifts/:id', //All shifts for certain employee - Admin and Employee
-            element: <EmployeeShifts />
-          },
-          {
-            path: 'shifts/new', //Create shift - Admin only
-            element: <CreateShift />
-          },
-          {
-            path: 'shifts/:id/update',
-            element: <UpdateShift />
-          }
-        ]
+        element: <Dashboard />
       },
+      {
+        path: 'employees', //All employees - Admin only
+        element: <EmployeeList />
+      },
+      {
+        path: 'employee/:id', //Specific employee profile - Employee can only view own
+        element: <EmployeeProfile />
+      },
+      {
+        path: 'employee/new', //Create new employee login - Admin Only
+        element: <CreateEmployee />
+      },
+      {
+        path: 'employee/:id/update', //Update employee - Admin only
+        element: <UpdateEmployee />
+      },
+      {
+        path: 'shifts', //All employees shifts - Admin only
+        element: <AllShifts />
+      },
+      {
+        path: 'shifts/:id', //All shifts for certain employee - Admin and Employee
+        element: <EmployeeShifts />
+      },
+      {
+        path: 'shifts/new', //Create shift - Admin only
+        element: <CreateShift />
+      },
+      {
+        path: 'shifts/:id/update',
+        element: <UpdateShift />
+      }
     ]
   },
 ])

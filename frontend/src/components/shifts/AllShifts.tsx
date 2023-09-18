@@ -26,8 +26,10 @@ const AllShifts = () => {
 
   return (
     <>
-      <Link to={`/dashboard/shifts/new`}><button>Post New Shift</button></Link>
-      <ShiftList shifts={shifts}/>
+      <Link to={`/shifts/new`}><button>Post New Shift</button></Link>
+      <div className=''>
+        <ShiftList shifts={shifts}/>
+      </div>
     </>
   )
 }

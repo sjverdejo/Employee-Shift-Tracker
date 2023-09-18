@@ -31,7 +31,7 @@ const EmployeeList = () => {
 
   return (
     <>
-      <Link to='/dashboard/employee/new'><button>Create New Employee</button></Link>
+      <Link to='/employee/new'><button>Create New Employee</button></Link>
       { allUsers && 
         allUsers.map((u) => <div key={u.id}><EmployeeListItem {...u} /></div>)
       }

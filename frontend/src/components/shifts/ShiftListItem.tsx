@@ -51,7 +51,7 @@ const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
     shiftsAPI.clockIn(new Date(), shift.id as string)
       .then(_res => {
         dispatch(alert_message('Clocked in.'))
-        navigate(`/dashboard/employee/${user.e_ID}`)})
+        navigate(`/employee/${user.e_ID}`)})
       .catch(_err => {
         dispatch(alert_message('Something went wrong.'))
         navigate('/dashboard')})
@@ -61,7 +61,7 @@ const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
     shiftsAPI.clockOut(new Date(), shift.id as string)
     .then(_res => {
       dispatch(alert_message('Clocked out.'))
-      navigate(`/dashboard/employee/${user.e_ID}`)})
+      navigate(`/employee/${user.e_ID}`)})
     .catch(_err => {
       dispatch(alert_message('Clocked out.'))
       navigate('/dashboard')})
@@ -69,37 +69,45 @@ const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
 
   //HIGHLIGHT SHIFT IF ITS IN PROGRESS search conditional css
   return (
-    <>
-      { (shift.id && employee.id) &&
-        <>
-          <p>{`Shift: ${ShiftHelper.toYMD(shift.scheduled_start)} Hours: ${shift.scheduled_hours}`}</p>
-          <p>{`${shift.id} = Employee: ${employee.fname} ${employee.lname} Employee ID: ${employee.id}`}</p>
+    <div>
+      {(shift.id && employee.id) &&
+        <div className=' h-20 relative flex flex-col'>
+          <div className='flex flex-col'>
+            <p><b>Shift: </b> {ShiftHelper.toYMD(shift.scheduled_start)} <b>Hours: </b> {shift.scheduled_hours}</p>
+            <p><b>Employee: </b>{employee.lname}, {employee.fname}, <b>ID:</b>{employee.id}</p>
+          </div>
           {(user.e_ID === shift.employee && ShiftHelper.isShiftAvailable(shift.scheduled_start)) &&
-            <>
+            <div className='absolute right-5 top-0 bottom-0 flex items-center space-x-2 '>
               {shift.clock_in === null 
-                ? <button onClick={handleClockIn}>Clock In</button>
-                : <button>Clocked In</button>
+                ? <button className='bg-blue-950 hover:bg-stone-400 rounded-md text-white w-24 p-1' onClick={handleClockIn}>Clock In</button>
+                : <button className='bg-stone-400'>Clocked In</button>
               }
               {shift.clock_out === null 
-                ? <button onClick={handleClockOut}>Clock Out</button>
+                ? <button className='bg-blue-950 rounded-md text-white w-24 p-1' onClick={handleClockOut}>Clock Out</button>
                 : <button>Clocked Out</button>
 
               }
-            </>
+            </div>
           }
           {user.is_admin && 
-            <>
-            {/* pass id and in pages and get shift */}
-              <Link to={`/dashboard/shifts/${shift.id}/update`}><button>Update Shift</button></Link>
-              <button onClick={() => setShowDelete(!showDelete)}>Delete Shift</button>
-              {showDelete && 
-                <DeleteShift id={shift.id} />
+            <div className='flex'>
+              {!showDelete &&
+                <div className='text-blue-400 mt-2 space-x-2'>
+                  <Link to={`/shifts/${shift.id}/update`}><button className='hover:text-stone-400'>Update Shift</button></Link>
+                  <button className='hover:text-stone-400' onClick={() => setShowDelete(!showDelete)}>Delete Shift</button>
+                </div>
               }
-            </>
+              {showDelete && 
+              <div className='flex'>
+                <DeleteShift id={shift.id} />
+                <button className='text-blue-400 hover:text-stone-400'onClick={()=> setShowDelete(false)}>Cancel</button>
+                </div>
+              }
+            </div>
           }
-        </>
+        </div>
       }
-    </>
+    </div>
   )
 }
 

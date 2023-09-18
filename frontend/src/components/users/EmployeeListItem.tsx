@@ -5,7 +5,7 @@ const EmployeeListItem = (employee: FullEmployeeInterface) => {
   return (
     <>
       <h1>{employee.fname}</h1>
-      <button><Link to={`/dashboard/employee/${employee.id}`}>View Profile</Link></button>
+      <button><Link to={`/employee/${employee.id}`}>View Profile</Link></button>
     </>
   )
 }
