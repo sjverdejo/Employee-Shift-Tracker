@@ -74,17 +74,17 @@ const ShiftListItem = ({shift}:{shift: ShiftInterface}) => {
         <div className=' h-20 relative flex flex-col'>
           <div className='flex flex-col'>
             <p><b>Shift: </b> {ShiftHelper.toYMD(shift.scheduled_start)} <b>Hours: </b> {shift.scheduled_hours}</p>
-            <p><b>Employee: </b>{employee.lname}, {employee.fname}, <b>ID:</b>{employee.id}</p>
+            <p><b>Employee: </b>{employee.lname}, {employee.fname} <b>ID: </b>{employee.id}</p>
           </div>
           {(user.e_ID === shift.employee && ShiftHelper.isShiftAvailable(shift.scheduled_start)) &&
             <div className='absolute right-5 top-0 bottom-0 flex items-center space-x-2 '>
               {shift.clock_in === null 
                 ? <button className='bg-blue-950 hover:bg-stone-400 rounded-md text-white w-24 p-1' onClick={handleClockIn}>Clock In</button>
-                : <button className='bg-stone-400'>Clocked In</button>
+                : <button className='bg-stone-400 rounded-md text-white w-24 p-1'>Clocked In</button>
               }
               {shift.clock_out === null 
                 ? <button className='bg-blue-950 rounded-md text-white w-24 p-1' onClick={handleClockOut}>Clock Out</button>
-                : <button>Clocked Out</button>
+                : <button className='bg-stone-400 rounded-md text-white w-24 p-1'>Clocked Out</button>
 
               }
             </div>

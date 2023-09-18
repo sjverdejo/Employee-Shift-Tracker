@@ -26,9 +26,12 @@ const AllShifts = () => {
 
   return (
     <>
-      <Link to={`/shifts/new`}><button>Post New Shift</button></Link>
-      <div className=''>
-        <ShiftList shifts={shifts}/>
+      <div className='pt-20 h-screen w-screen flex flex-col items-center justify-center'>
+        <h1 className='text-3xl mb-5'>All Employee Shifts</h1>
+        <div className='bg-slate-200 overflow-y-auto h-2/4 w-1/2 rounded-xl shadow-xl'>
+          <ShiftList shifts={shifts}/>
+        </div>
+        <Link to={`/shifts/new`}><button className='text-stone-200 bg-blue-950 p-2 px-20 mt-2 rounded-md shadow-xl'>Post New Shift</button></Link>
       </div>
     </>
   )

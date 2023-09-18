@@ -29,7 +29,7 @@ const DeleteShift = ({id}:{id: string}) => {
   }
   return (
     <>
-      <div className=''>
+      <div>
         <form onSubmit={handleDelete} className='text-stone-950'>
           Type 'Delete' to confirm: 
           <input type='text' className='rounded-md border-2 p-1 text-sm' value={confirm} onChange={({target}) => setConfirm(target.value)}/>

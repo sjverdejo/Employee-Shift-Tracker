@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../hooks/redux-hooks"
 import { alert_message } from "../../features/alertMsgSlice"
 
 const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void}) => {//({parentHandler}: {parentHandler: () => void}, {employeeSet}: {employeeSet: }) => {
-  const [isAdmin, setIsAdmin] = useState('')
+  const [isAdmin, setIsAdmin] = useState('No')
   const [password, setPassword] = useState('')
   const [fname, setFname] = useState('')
   const [lname, setLname] = useState('')
@@ -25,7 +25,7 @@ const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void})
 
     const newEmployee: NewEmployee = {
       //Create validation for ALL inputs
-      is_admin: isAdmin === 'yes',
+      is_admin: isAdmin === 'Yes',
       password: password,
       fname: fname,
       lname: lname,
@@ -40,18 +40,27 @@ const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void})
     }
   }
   return (
-    <form onSubmit={handler}>
-      Admin: <input type='text' value={isAdmin} onChange={({target}) => setIsAdmin(target.value)} required/>
-      Password: <input type='text' value={password} onChange={({target}) => setPassword(target.value)} required/>
-      First Name: <input type='text' value={fname} onChange={({target}) => setFname(target.value)} required/>
-      Last Name: <input type='text' value={lname} onChange={({target}) => setLname(target.value)} required/>
-      Date of Birth: <input type='date' onChange={({target}) => setDob(new Date(target.value))} required/>
-      Date Employed: <input type='date' onChange={({target}) => setDateEmployed(new Date(target.value))} required/>
-      Email: <input type='email' value={email} onChange={({target}) => setEmail(target.value)} required/>
-      Phone: <input type='number' value={phone} onChange={({target}) => setPhone(Number(target.value))} required/>
+    <div className='w-1/3'>
+        <form onSubmit={handler}>
+          <div className='flex flex-col p-12 bg-gradient-to-b to-stone-200 from-blue-200 rounded-xl shadow-xl text-blue-950 border-1 border-stone-400'>
+            {/* <label className='font-bold'>Admin: </label><input className='p-1 rounded-md shadow-md' type='text' value={isAdmin} onChange={({target}) => setIsAdmin(target.value)} required/> */}
+            <label className='font-bold'>Admin: </label>
+            <select className='p-2 rounded-md shadow-md' value={isAdmin} onChange={({target}) => setIsAdmin(target.value)} required>
+              <option value='No'>No</option>
+              <option value='Yes'>Yes</option>
+            </select>
+            <label className='font-bold'>Password: </label><input className='p-1 rounded-md shadow-md' type='text' value={password} onChange={({target}) => setPassword(target.value)} required/>
+            <label className='font-bold'>First Name: </label><input className='p-1 rounded-md shadow-md' type='text' value={fname} onChange={({target}) => setFname(target.value)} required/>
+            <label className='font-bold'>Last Name: </label><input className='p-1 rounded-md shadow-md' type='text' value={lname} onChange={({target}) => setLname(target.value)} required/>
+            <label className='font-bold'>Date of Birth: </label><input className='p-1 rounded-md shadow-md' type='date' onChange={({target}) => setDob(new Date(target.value))} required/>
+            <label className='font-bold'>Date Employed: </label><input className='p-1 rounded-md shadow-md' type='date' onChange={({target}) => setDateEmployed(new Date(target.value))} required/>
+            <label className='font-bold'>Email: </label><input className='p-1 rounded-md shadow-md' type='email' value={email} onChange={({target}) => setEmail(target.value)} required/>
+            <label className='font-bold'>Phone: </label><input className='p-1 rounded-md shadow-md' type='number' value={phone === 0 ? '' : phone} onChange={({target}) => setPhone(Number(target.value))} required/>
 
-      <input type='submit' value='Submit' />
-  </form>
+            <input className='bg-blue-950 mt-5 p-2 rounded-lg shadow-xl text-stone-200' type='submit' value='Submit' />
+          </div>
+        </form>
+    </div>
   )
 }
 

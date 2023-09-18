@@ -29,9 +29,10 @@ const UpdateEmployee = () => {
   }
 
   return (
-    <>
+    <div className='h-screen flex flex-col justify-center items-center pt-20'>
+      <h1 className='text-3xl font-bold mb-5'>Update Employee</h1>
       <EmployeeForm parentHandler={updateHandler} />
-    </>
+    </div>
   )
 }
 

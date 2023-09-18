@@ -33,8 +33,8 @@ const SignInForm = () => {
   }
 
   return (
-    <div className='flex justify-center'>
-      <div className='mt-40 w-1/3 h-full bg-gradient-to-b from-blue-200 to-blue-950 rounded-xl shadow-xl text-stone-200'>
+    <div className='flex justify-center items-center'>
+      <div className='mt-60 w-1/3 h-full bg-gradient-to-b to-stone-200 from-blue-200 rounded-xl shadow-xl text-blue-950 border-1 border-stone-400'>
       <form onSubmit={submitForm}>
         <div className='p-2 m-10 flex flex-col h-96'>
           <h1 className='text-3xl text-center m-8 text-blue-950'>Company Name</h1> 
@@ -48,7 +48,7 @@ const SignInForm = () => {
               <input className='w-full text-stone-950 p-1' type='password' value={password} onChange={({target}) => setPassword(target.value)}/>
             </div>
           </div>
-          <button type='submit' className='p-1 mt-5 bg-blue-200 text-stone-950 rounded-sm shadow-xl'>Sign In</button>
+          <button type='submit' className='p-1 mt-5 bg-blue-950 text-stone-200 rounded-sm shadow-xl'>Sign In</button>
         </div>
       </form>
       </div>

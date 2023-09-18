@@ -57,7 +57,7 @@ const EmployeeProfile = () => {
   return (
     <div className='pt-64 flex items-center justify-center'>
       { employee.id &&
-        <div className='text-blue-950 flex items-center flex-col bg-gradient-to-b to-stone-200 from-blue-200 shadow-xl rounded-xl p-20 w-1/2 h-96 relative'>
+        <div className='text-blue-950 flex items-center flex-col bg-gradient-to-b to-stone-200 from-blue-200 shadow-xl rounded-xl p-20 w-1/2 h-96 relative border-1 border-stone-400'>
           <h1 className='text-3xl font-bold'>Employee Information</h1>
           <div className='flex flex-col'>
             <div className='flex space-x-5'>
@@ -69,7 +69,7 @@ const EmployeeProfile = () => {
             <h1 className='text-3xl font-bold'>Contact Information</h1>
             <h2><b>Email: </b>{employee.email}</h2>
             <h2><b>Phone: </b>{employee.phone}</h2>
-            <Link to={`/shifts/${employee.id}`}><button>View Employee's Shifts</button></Link>
+            <Link to={`/shifts/${employee.id}`}><button className='mt-5 bg-blue-950 w-full text-stone-200'>View {employee.fname}'s Shifts</button></Link>
           </div>
           
           <div>
@@ -79,17 +79,18 @@ const EmployeeProfile = () => {
           <>
             {user.is_admin &&
               <div className='absolute bottom-0'>
-                <div className='space-x-2 text-blue-400'>
-                  <button className='shadow-xl hover:text-blue-200'><Link to={`/employee/${employee.id}/update`}>Edit Employee</Link></button>
-                  <button className='shadow-xl hover:text-blue-200' onClick={() => setShowDelete(!showDelete)}>Remove Employee</button>
-                  {showDelete &&
-                  <>
+                {!showDelete &&
+                  <div className='space-x-2 text-blue-400 text-center'>
+                    <button className='shadow-xl hover:text-blue-200'><Link to={`/employee/${employee.id}/update`}>Edit Employee</Link></button>
+                    <button className='shadow-xl hover:text-blue-200' onClick={() => setShowDelete(!showDelete)}>Remove Employee</button>
+                  </div>
+                }
+                {showDelete &&
+                  <div className='flex mt-2'>
                     <DeleteEmployee id={employee.id}/>
                     <button onClick={() => setShowDelete(false)}>Cancel</button>
-                  </>
+                  </div>
                   }
-                </div>
-                
               </div>
             }
           </>

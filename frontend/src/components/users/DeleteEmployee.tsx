@@ -20,7 +20,7 @@ const DeleteEmployee = ({id}: {id: string}) => {
 
   const deleteHandler = (e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault()
-    if (confirm === 'Confirm Remove') {
+    if (confirm === 'Delete') {
       usersAPI.deleteUser(id)
         .then(_res => { dispatch(alert_message('Deleted successfully.')); navigate('/employees')})
         .catch(_err => dispatch(alert_message('Something went wrong.')))
@@ -32,9 +32,9 @@ const DeleteEmployee = ({id}: {id: string}) => {
   return (
     <>
       <form onSubmit={deleteHandler}>
-        Type 'Confirm Remove' to remove employee:
-        <input type='text' value={confirm} onChange={({target}) => setConfirm(target.value)}/>
-        <input type='submit' value='Submit' />
+        Type 'Delete' to confirm:
+        <input type='text' className='rounded-md border-2 p-1 text-sm' value={confirm} onChange={({target}) => setConfirm(target.value)}/>
+        <input className='shadow-xl rounded-lg bg-blue-950 p-1 m-1 text-white' type='submit' value='Submit' />
       </form>
     </>
   )
