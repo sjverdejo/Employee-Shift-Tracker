@@ -14,6 +14,7 @@ import EmployeeList from './components/users/EmployeeList'
 import UpdateEmployee from './components/users/UpdateEmployee'
 import CreateShift from './components/shifts/CreateShift'
 import UpdateShift from './components/shifts/UpdateShift'
+import ErrorPage from './components/alerts/ErrorPage'
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'dashboard',
-        element: <Dashboard />
+        element: <Dashboard />,
+        errorElement: <ErrorPage />,
       },
       {
         path: 'employees', //All employees - Admin only
@@ -58,6 +60,10 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: '*',
+    element: <ErrorPage />
+  }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
