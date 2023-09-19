@@ -46,8 +46,13 @@ const validShift = (dateStart: Date, dateEnd: Date, employee: string) => {
 
   const start = new Date(dateStart)
   const end = new Date(dateEnd)
+
+  if (start === new Date('1950-01-01') || end === new Date('1950-01-01')) {
+    return false
+  }
+
   const current = new Date()
-  if (start > end || end < current) {
+  if (start.getTime() > end.getTime() || end.getTime() < current.getTime()) {
     return false
   } else {
     return true

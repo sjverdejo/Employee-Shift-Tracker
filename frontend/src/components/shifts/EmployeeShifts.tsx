@@ -34,7 +34,7 @@ const EmployeeShifts = () => {
     <div className='pt-20 h-screen w-screen flex flex-col items-center justify-center'>
       <h1 className='text-3xl mb-5'>Employee {id}'s Shifts</h1>
       <div className='bg-slate-200 overflow-y-auto h-2/4 w-1/2 rounded-xl shadow-xl'>
-        <ShiftList shifts={shifts}/>
+        {shifts.length === 0 ? <h1 className='text-6xl flex flex-col h-full justify-center items-center'>No Shifts Available</h1> : <ShiftList shifts={shifts}/>}
       </div>
     </div>
   )

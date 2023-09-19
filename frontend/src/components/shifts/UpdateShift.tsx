@@ -75,27 +75,46 @@ const UpdateShift = () => {
   }
 
   return (
-    <>
-      <form onSubmit={updateShiftHandler}>
-        <input type='datetime-local' onChange={({target}) => setScheduled_start(new Date(target.value))} />
-        <input type='datetime-local' onChange={({target}) => setScheduled_end(new Date(target.value))} />
-        <input type='submit' value='Update Shift Times'/>
-      </form>
-      <button onClick={() => { setShowIn(!showIn); setShowOut(false)}}>Update Clock In</button>
-      <button onClick={() => { setShowOut(!showOut); setShowIn(false)}}>Update Clock Out</button>
-        {showIn &&
-          <form onSubmit={updateClockIn}>
-            <input type='datetime-local' onChange={({target}) => setClock_in(new Date(target.value))} />
-            <input type='submit' value='Update Clock In'/>
-          </form>
-        }
-        {showOut &&
-          <form onSubmit={updateClockOut}>
-            <input type='datetime-local' onChange={({target}) => setClock_out(new Date(target.value))} />
-            <input type='submit' value='Update Clock Out'/>
-          </form>
-        }
-    </>
+    <div className='flex flex-col justify-center items-center h-screen'>
+      <h1 className='text-3xl font-bold mb-5'>Update Items</h1>
+      <div className='flex flex-col items-center justify-center bg-gradient-to-b to-stone-200 from-blue-200 h-1/3 w-1/2 relative rounded-xl shadow-xl border'>
+
+        <form onSubmit={updateShiftHandler}>
+          <div className='flex-col flex'>
+          <label><b>Update Start Time:</b></label><input type='datetime-local' onChange={({target}) => setScheduled_start(new Date(target.value))} />
+          <label><b>Update End Time:</b></label><input type='datetime-local' onChange={({target}) => setScheduled_end(new Date(target.value))} />
+          <input className='bg-blue-950 text-stone-200 mt-2 rounded-md shadow-xl' type='submit' value='Update Shift Times'/>
+          </div>
+        </form>
+    
+        <div className='absolute bottom-0'>
+          {(!showIn && !showOut) && 
+          <div className='space-x-2 text-blue-400'>
+            <button className='hover:text-blue-200' onClick={() => { setShowIn(!showIn); setShowOut(false)}}>Update Clock In</button>
+            <button className='hover:text-blue-200' onClick={() => { setShowOut(!showOut); setShowIn(false)}}>Update Clock Out</button>
+          </div>
+          }
+          {showIn &&
+            <div className='flex space-x-2 p-2'>
+              <form onSubmit={updateClockIn}>
+                <input className='p-2 rounded-md shadow-xl' type='datetime-local' onChange={({target}) => setClock_in(new Date(target.value))} />
+                <input className='shadow-xl rounded-md bg-blue-950 p-2 m-1 text-white' type='submit' value='Update Clock In'/>
+              </form>
+              <button className='text-blue-400 hover:text-blue-200' onClick={() => setShowIn(false)}>Cancel</button>
+            </div>
+          }
+          {showOut &&
+            <div className='flex space-x-2 p-2'>
+              <form onSubmit={updateClockOut}>
+                <input className='p-2 rounded-md shadow-xl' type='datetime-local' onChange={({target}) => setClock_out(new Date(target.value))} />
+                <input className='shadow-xl rounded-md bg-blue-950 p-2 m-1 text-white' type='submit' value='Update Clock Out'/>
+              </form>
+              <button className='text-blue-400 hover:text-blue-200' onClick={() => setShowOut(false)}>Cancel</button>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
   )
 }
 

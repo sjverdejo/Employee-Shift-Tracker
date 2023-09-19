@@ -3,6 +3,7 @@ import { NewEmployee } from "../../interfaces/users"
 import { validEmployee } from "../../utils/EmployeeHelper"
 import { useAppDispatch } from "../../hooks/redux-hooks"
 import { alert_message } from "../../features/alertMsgSlice"
+import { Link } from "react-router-dom"
 
 const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void}) => {//({parentHandler}: {parentHandler: () => void}, {employeeSet}: {employeeSet: }) => {
   const [isAdmin, setIsAdmin] = useState('No')
@@ -18,8 +19,8 @@ const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void})
   const handler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (!validEmployee(isAdmin, password, fname, lname, dob, dateEmployed, email, phone)) {
-      dispatch(alert_message('Invalid input, try again.'))
+    if (validEmployee(isAdmin, password, fname, lname, dob, dateEmployed, email, phone) !== '') {
+      dispatch(alert_message(validEmployee(isAdmin, password, fname, lname, dob, dateEmployed, email, phone)))
       return
     }
 
@@ -58,6 +59,7 @@ const EmployeeForm = ({parentHandler}: {parentHandler:(e: NewEmployee) => void})
             <label className='font-bold'>Phone: </label><input className='p-1 rounded-md shadow-md' type='number' value={phone === 0 ? '' : phone} onChange={({target}) => setPhone(Number(target.value))} required/>
 
             <input className='bg-blue-950 mt-5 p-2 rounded-lg shadow-xl text-stone-200' type='submit' value='Submit' />
+            <button><Link to={'/dashboard'}>Cancel</Link></button>
           </div>
         </form>
     </div>

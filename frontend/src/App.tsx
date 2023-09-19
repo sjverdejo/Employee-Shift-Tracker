@@ -39,6 +39,7 @@ const App = () => {
       .catch(_err => dispatch(alert_message('You have been automatically timed out. Refresh to sign in again.')))
   }, [])
 
+
   return (
     <>
     <div className='h-screen bg-gradient-to-t from-stone-200 to-stone-100 bg-center' style={{backgroundImage: `url(${HomeImg})`}} >

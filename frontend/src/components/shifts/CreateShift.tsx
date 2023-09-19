@@ -7,10 +7,11 @@ import shiftsAPI from '../../services/shifts'
 import { NewShift } from '../../interfaces/shifts'
 import ShiftHelper from '../../utils/ShiftHelper'
 import { alert_message } from '../../features/alertMsgSlice'
+import { FullEmployeeInterface } from '../../interfaces/users'
 
 const CreateShift = () => {
   const user = useAppSelector((state) => state.user)
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState<FullEmployeeInterface[]>([])
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const [employee, setEmployee] = useState('')
@@ -48,15 +49,24 @@ const CreateShift = () => {
   }
 
   return (
-    <>
-      <form onSubmit={handleCreate}>
+    <div className='flex flex-col justify-center items-center h-screen'>
+
+      <h1 className='text-3xl'>Create Shift</h1>
+      <div className='bg-gradient-to-b to-stone-200 from-blue-200 relative rounded-xl shadow-xl border'>
+        <form onSubmit={handleCreate}>
         {/* make a drop down list for employee */}
-        Employee: <input type='text' value={employee} onChange={({target}) => setEmployee(target.value)}/>
-        Date: <input type='datetime-local' onChange={({target}) => setScheduled_start(new Date(target.value))} />
-        Start: <input type='datetime-local' onChange={({target}) => setScheduled_end(new Date(target.value))}/>
-        <input type='submit' value='Create'/>
-      </form>
-    </>
+          <div className='flex flex-col p-10'>
+            <label><b>Employee: </b></label>
+            <select value={employee} onChange={({target}) => setEmployee(target.value)}>
+              {users.map(u => <option value={u.id as string}>Employee {u.id}: {u.lname}, {u.fname}</option>)}
+            </select>
+            <label><b>Start: </b></label><input type='datetime-local' onChange={({target}) => setScheduled_start(new Date(target.value))} />
+            <label><b>End: </b></label><input type='datetime-local' onChange={({target}) => setScheduled_end(new Date(target.value))}/>
+            <input className='mt-2 p-1 bg-blue-950 text-stone-200 mt-2 rounded-md shadow-xl' type='submit' value='Create'/>
+          </div>
+        </form>
+      </div>
+    </div>
   )
 }
 

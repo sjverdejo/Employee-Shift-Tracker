@@ -18,6 +18,7 @@ const EmployeeList = () => {
       navigate('/dashboard')
     }
 
+    if (allUsers.length === 0) {
     usersAPI.getUsers()
       .then(res => {
         setAllUsers(allUsers.concat(res))
@@ -27,15 +28,19 @@ const EmployeeList = () => {
         dispatch(alert_message('Something went wrong.'))
         navigate('/dashboard')
       })
+    }
   }, [])
 
   return (
-    <>
-      <Link to='/employee/new'><button>Create New Employee</button></Link>
+    <div className='h-screen flex flex-col justify-center items-center'>
+      <h1 className='text-3xl mb-5'>Employees</h1>
+      <div className='w-1/2 shadow-xl rounded-xl border overflow-y-auto h-1/2'>
       { allUsers && 
-        allUsers.map((u) => <div key={u.id}><EmployeeListItem {...u} /></div>)
+        allUsers.map((u) => <div className='odd:bg-stone-100 even:bg-blue-100 p-5' key={u.id}><EmployeeListItem {...u} /></div>)
       }
-    </>
+      </div>
+      <Link to='/employee/new'><button className='text-stone-200 bg-blue-950 p-2 px-20 mt-2 rounded-md shadow-xl'>Create New Employee</button></Link>
+    </div>
   )
 }
 

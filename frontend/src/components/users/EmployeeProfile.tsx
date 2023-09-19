@@ -57,7 +57,7 @@ const EmployeeProfile = () => {
   return (
     <div className='pt-64 flex items-center justify-center'>
       { employee.id &&
-        <div className='text-blue-950 flex items-center flex-col bg-gradient-to-b to-stone-200 from-blue-200 shadow-xl rounded-xl p-20 w-1/2 h-96 relative border-1 border-stone-400'>
+        <div className='text-blue-950 flex items-center border flex-col bg-gradient-to-b to-stone-200 from-blue-200 shadow-xl rounded-xl p-20 w-1/2 h-96 relative border-1 border-stone-400'>
           <h1 className='text-3xl font-bold'>Employee Information</h1>
           <div className='flex flex-col'>
             <div className='flex space-x-5'>
@@ -70,10 +70,6 @@ const EmployeeProfile = () => {
             <h2><b>Email: </b>{employee.email}</h2>
             <h2><b>Phone: </b>{employee.phone}</h2>
             <Link to={`/shifts/${employee.id}`}><button className='mt-5 bg-blue-950 w-full text-stone-200'>View {employee.fname}'s Shifts</button></Link>
-          </div>
-          
-          <div>
-
           </div>
           
           <>
